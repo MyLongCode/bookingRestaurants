@@ -1,0 +1,16 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.active {
+  color: $text-color-accent;
+}
