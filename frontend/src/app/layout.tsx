@@ -29,6 +29,7 @@ export default function RootLayout({
           <Avatar />
         </Header>
         {children}
+        <div id={"portal"} />
       </body>
     </html>
   );

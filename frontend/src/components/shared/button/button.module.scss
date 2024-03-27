@@ -6,6 +6,10 @@
   border-radius: 50px;
   padding: 20px 110px;
   color: $text-color-accent;
+  
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .comfortaa {
@@ -16,15 +20,28 @@
 .filled {
   color: black;
   background-color: $btn-main-color;
+
+  &:disabled {
+    background-color: $btn-disabled-color;
+  }
 }
 
 .outlined {
   background: none;
   border: 2px solid $btn-main-color;
+
+  &:disabled {
+    color: $btn-disabled-color;
+    border-color: $btn-disabled-color;
+  }
 }
 
 .flat {
   padding: 0;
   border-radius: 0;
   background: none;
+
+  &:disabled {
+    color: $btn-disabled-color;
+  }
 }

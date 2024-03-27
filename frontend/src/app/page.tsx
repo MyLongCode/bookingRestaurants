@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "./page.module.scss";
-import Button from "@/components/shared/button/Button";
+import HomeModalButtons from "@/components/screens/home/modalButtons/HomeModalButtons";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className={styles.wrapper}>
       <div className={styles.mainContainer}>
@@ -16,12 +16,7 @@ export default function Home() {
           </p>
         </div>
         <div className={styles.btns}>
-          <Button font={"comfortaa"} style={"outlined"}>
-            Войти
-          </Button>
-          <Button font={"default"} style={"flat"}>
-            Зарегистрироваться
-          </Button>
+          <HomeModalButtons />
         </div>
       </div>
       <div className={styles.imgContainer}>
