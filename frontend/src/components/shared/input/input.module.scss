@@ -1,10 +1,22 @@
 @import "@/styles/variables/variables";
 
 .wrapper {
+  position: relative;
+}
+
+.input {
   font-size: 1.25rem;
   background: none;
   padding: 24px 30px;
   border: 2px solid $input-border-color;
   border-radius: 50px;
   color: $text-color-main;
+  min-width: 320px;
+}
+
+.eye {
+  position: absolute;
+  top: calc(25% + 2px);
+  right: 10%;
+  cursor: pointer;
 }
