@@ -1,3 +1,8 @@
+@import "@/styles/variables/variables";
+
 .text {
   font-size: 1.75rem;
+  text-align: center;
+  vertical-align: center;
+  color: $text-color-accent;
 }

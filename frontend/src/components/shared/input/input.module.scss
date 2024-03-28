@@ -1,0 +1,10 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  font-size: 1.25rem;
+  background: none;
+  padding: 24px 30px;
+  border: 2px solid $input-border-color;
+  border-radius: 50px;
+  color: $text-color-main;
+}

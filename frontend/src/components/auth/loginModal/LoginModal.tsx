@@ -9,33 +9,36 @@ import Input from "@/components/shared/input/Input";
 import Button from "@/components/shared/button/Button";
 import styles from "./loginModal.module.scss";
 
-type LoginModalProps = { onClose: () => void };
+type LoginModalProps = {};
 
 const loginSchema = z.object({
-  email: z.string().email().min(1, "Необходимо ввести почту"),
+  email: z
+    .string()
+    .email("Необходимо ввести почту")
+    .min(1, "Необходимо ввести почту"),
   password: z.string().min(8, "Пароль должен быть больше 8 символов"),
 });
 
 type LoginSchema = z.infer<typeof loginSchema>;
 
-const LoginModal = ({ onClose }: LoginModalProps) => {
+const LoginModal = (props: LoginModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { isValid, errors, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
+    mode: "onTouched",
   });
-
 
   const onSubmit = (data: LoginSchema) => {
     console.log(data);
   };
 
   return (
-    <Modal onDarkerClick={onClose}>
+    <Modal state={"login"}>
       <Modal.Window>
-        <Modal.Title>Логин</Modal.Title>
+        <Modal.Title>Вход в аккаунт</Modal.Title>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputs}>
             <Input
@@ -43,20 +46,39 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
               placeholder={"Введите email"}
               {...register("email")}
             />
+            {!!errors.email && (
+              <p className={styles.error}>{errors.email.message}</p>
+            )}
             <Input
               type={"password"}
               placeholder={"Введите пароль"}
               {...register("password")}
             />
+            {!!errors.password && (
+              <p className={styles.error}>{errors.password.message}</p>
+            )}
           </div>
 
-          <Button
-            font="comfortaa"
-            style="outlined"
-            disabled={!isValid || isSubmitting}
-          >
-            Войти
-          </Button>
+          <div className={styles.btns}>
+            <Button
+              btnType={"button"}
+              fontSize={"small"}
+              font="comfortaa"
+              style="filled"
+              disabled={!isValid || isSubmitting}
+            >
+              Войти
+            </Button>
+            <Button
+              btnType={"link"}
+              fontSize={"small"}
+              href={"?state=register"}
+              font="comfortaa"
+              style="flat"
+            >
+              Зарегистрироваться
+            </Button>
+          </div>
         </form>
       </Modal.Window>
     </Modal>

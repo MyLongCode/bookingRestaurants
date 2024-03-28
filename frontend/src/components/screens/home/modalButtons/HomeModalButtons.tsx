@@ -1,31 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Button from "@/components/shared/button/Button";
 import LoginModal from "@/components/auth/loginModal/LoginModal";
+import RegisterModal from "@/components/auth/registerModal/RegisterModal";
 
 const HomeModalButtons = () => {
-  const [isLoginVisible, setIsLoginVisible] = useState(false);
-
-  const handleLoginModalClose = () => {
-    setIsLoginVisible(false);
-  };
-
   return (
     <>
       <Button
-        font={"comfortaa"}
+        btnType={"link"}
+        font={"default"}
         style={"outlined"}
-        onClick={() => {
-          setIsLoginVisible(true);
-        }}
+        href={"?state=login"}
       >
         Войти
       </Button>
-      <Button font={"default"} style={"flat"}>
+      <Button
+        btnType={"link"}
+        font={"default"}
+        style={"flat"}
+        href={"?state=register"}
+      >
         Зарегистрироваться
       </Button>
-      {isLoginVisible && <LoginModal onClose={handleLoginModalClose} />}
+      <LoginModal />
+      <RegisterModal />
     </>
   );
 };

@@ -1,11 +1,12 @@
 import React, { forwardRef } from "react";
+import styles from "./input.module.scss";
 
 type InputProps = React.ComponentProps<"input"> & {};
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ children, ...props }: InputProps, ref) => {
     return (
-      <input ref={ref} {...props}>
+      <input className={styles.wrapper} ref={ref} {...props}>
         {children}
       </input>
     );

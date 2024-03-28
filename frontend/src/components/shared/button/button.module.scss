@@ -1,12 +1,15 @@
 @import "@/styles/variables/variables";
 
 .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.75rem;
   font-family: var(--font-montserrat);
   border-radius: 50px;
   padding: 20px 110px;
   color: $text-color-accent;
-  
+
   &:disabled {
     cursor: default;
   }
@@ -15,6 +18,10 @@
 .comfortaa {
   font-family: var(--font-comfortaa);
   font-weight: 700;
+}
+
+.small {
+  font-size: 1.25rem;
 }
 
 .filled {
