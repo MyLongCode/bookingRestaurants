@@ -5,8 +5,8 @@ import Modal from "@/components/shared/modal/Modal";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "@/components/shared/input/Input";
-import Button from "@/components/shared/button/Button";
+import Input from "@/components/shared/controls/input/Input";
+import Button from "@/components/shared/controls/button/Button";
 import styles from "./loginModal.module.scss";
 
 type LoginModalProps = {};

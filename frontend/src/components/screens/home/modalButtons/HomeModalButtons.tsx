@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Button from "@/components/shared/button/Button";
+import Button from "@/components/shared/controls/button/Button";
 import LoginModal from "@/components/auth/loginModal/LoginModal";
 import RegisterModal from "@/components/auth/registerModal/RegisterModal";
 
