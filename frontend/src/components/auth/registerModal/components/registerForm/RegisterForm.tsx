@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/shared/controls/input/Input";
 import Button from "@/components/shared/controls/button/Button";
 import styles from "./registerForm.module.scss";
+import Checkbox from "@/components/shared/controls/checkbox/Checkbox";
 
 const registerSchema = z
   .object({
@@ -14,6 +15,7 @@ const registerSchema = z
       .min(1, "Необходимо ввести почту"),
     password: z.string().min(8, "Пароль должен быть больше 8 символов"),
     confirmPassword: z.string().min(1, "Необходимо повторить пароль"),
+    isManager: z.boolean(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Пароли должны совпадать",
@@ -40,6 +42,7 @@ const RegisterForm = () => {
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputs}>
         <Input
+          className={styles.input}
           type={"email"}
           placeholder={"Введите email"}
           {...register("email")}
@@ -48,6 +51,7 @@ const RegisterForm = () => {
           <p className={styles.error}>{errors.email.message}</p>
         )}
         <Input
+          className={styles.input}
           type={"password"}
           placeholder={"Введите пароль"}
           {...register("password")}
@@ -56,6 +60,7 @@ const RegisterForm = () => {
           <p className={styles.error}>{errors.password.message}</p>
         )}
         <Input
+          className={styles.input}
           type={"password"}
           placeholder={"Повторите пароль"}
           {...register("confirmPassword")}
@@ -63,6 +68,7 @@ const RegisterForm = () => {
         {!!errors.confirmPassword && (
           <p className={styles.error}>{errors.confirmPassword.message}</p>
         )}
+        <Checkbox {...register("isManager")}>Являюсь администратором</Checkbox>
       </div>
 
       <div className={styles.btns}>
