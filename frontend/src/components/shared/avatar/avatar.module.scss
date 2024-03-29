@@ -5,9 +5,12 @@
   height: 50px;
   border: 1px solid white;
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 }
 
 .img {
   object-fit: contain;
   padding: 10px;
+  aspect-ratio: 1 / 1;
+
 }
