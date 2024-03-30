@@ -1,0 +1,22 @@
+.wrapper {
+  position: absolute;
+  margin-inline: 100px;
+  z-index: 1;
+
+  &:before {
+    color: #00F100;
+    font-size: 5rem;
+    opacity: 0.7;
+    font-family: var(--font-comfortaa), sans-serif;
+    content: ">";
+  }
+}
+
+
+.left {
+  &:before {
+    content: "<";
+  }
+}
+
+
