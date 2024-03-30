@@ -15,6 +15,10 @@
 
   input {
     margin-bottom: 20px;
+
+    &:nth-last-child(2) {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -32,4 +36,8 @@
   margin-inline: auto;
   margin-bottom: 30px;
   color: $text-color-error;
+
+  &:nth-last-child(1) {
+    margin-bottom: 0;
+  }
 }

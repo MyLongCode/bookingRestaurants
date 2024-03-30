@@ -68,7 +68,7 @@ const RegisterForm = () => {
         {!!errors.confirmPassword && (
           <p className={styles.error}>{errors.confirmPassword.message}</p>
         )}
-        <Checkbox {...register("isManager")}>Являюсь администратором</Checkbox>
+        <Checkbox className={styles.checkbox} {...register("isManager")}>Являюсь администратором</Checkbox>
       </div>
 
       <div className={styles.btns}>

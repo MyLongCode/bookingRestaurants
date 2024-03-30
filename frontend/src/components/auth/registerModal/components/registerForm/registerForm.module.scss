@@ -17,6 +17,10 @@
   margin-bottom: 20px;
 }
 
+.checkbox {
+  margin-bottom: 10px;
+}
+
 .btns {
   display: flex;
   flex-direction: column;
@@ -29,6 +33,6 @@
   max-width: 17rem;
   text-align: center;
   margin-inline: auto;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   color: $text-color-error;
 }

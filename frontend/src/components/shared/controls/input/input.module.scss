@@ -2,6 +2,9 @@
 
 .wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .input {
@@ -16,7 +19,6 @@
 
 .eye {
   position: absolute;
-  top: calc(35%);
-  right: 10%;
   cursor: pointer;
+  right: 20px;
 }
