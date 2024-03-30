@@ -52,3 +52,13 @@
     color: $btn-disabled-color;
   }
 }
+
+.icon {
+  margin-right: 15px;
+
+  &_right {
+    order: 1;
+    margin-right: 0;
+    margin-left: 15px;
+  }
+}

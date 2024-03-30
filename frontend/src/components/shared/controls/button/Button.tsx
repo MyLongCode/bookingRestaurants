@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 import { clsx } from "clsx";
 import styles from "./button.module.scss";
 import Link from "next/link";
+import Image from "next/image";
 
 type ButtonStyle = "filled" | "outlined" | "flat";
 type ButtonFont = "default" | "comfortaa";
@@ -13,6 +14,8 @@ type ButtonProps = Partial<React.ComponentProps<"button">> &
   Partial<React.ComponentProps<typeof Link>> & {
     btnType: "link" | "button";
     style: ButtonStyle;
+    iconSrc?: string;
+    iconPosition?: "left" | "right";
     font?: ButtonFont;
     fontSize?: ButtonFontSize;
     children?: ReactNode;
@@ -25,6 +28,8 @@ const Button = ({
   btnType,
   href,
   fontSize,
+  iconSrc,
+  iconPosition,
   ...props
 }: ButtonProps) => {
   const cls = clsx(styles.wrapper, {
@@ -39,6 +44,18 @@ const Button = ({
     <>
       {btnType === "button" || !href ? (
         <button className={cls} {...props}>
+          {iconSrc && (
+            <Image
+              className={clsx(
+                styles.icon,
+                iconPosition === "right" && styles.icon_right,
+              )}
+              src={iconSrc}
+              alt={"Иконка"}
+              width={22}
+              height={22}
+            />
+          )}
           {children}
         </button>
       ) : (
