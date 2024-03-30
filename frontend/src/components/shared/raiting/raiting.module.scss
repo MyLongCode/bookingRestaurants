@@ -1,0 +1,38 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.875rem;
+  margin-top: 15px;
+}
+
+.fill {
+  mask-image: url("/StarUnfilled.svg");
+  mask-size: 25px;
+  mask-repeat: repeat-x;
+  width: 150px;
+  height: 30px;
+
+  &::-webkit-meter-bar {
+    height: 40px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    background: #535353;
+  }
+
+  &::-webkit-meter-optimum-value {
+    background-color: $rating-color-good;
+  }
+
+  &::-webkit-meter-suboptimum-value {
+    background-color: $rating-color-ok;
+  }
+
+  &::-webkit-meter-even-less-good-value {
+    background-color: $rating-color-bad;
+  }
+}
