@@ -1,15 +1,40 @@
-from restaraunts.models import Restaurant
-from restaraunts.models import Photo
+from restaraunts.models import Restaurant, Photo, Menu, TagGroup, Tag
 from rest_framework import serializers
 
+from restaraunts.models import RestaurantTags
 
-class RestaurantSerializer(serializers.Serializer):
+
+class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['name', 'address', 'owner', 'description', 'schedule']
+        fields = ['id', 'name', 'address', 'owner', 'description', 'schedule']
 
 
 class PhotoSerializer(serializers.Serializer):
     class Meta:
         model = Photo
-        fields = ['image', 'title', 'restaurant']
+        fields = ['id', 'image', 'title', 'restaurant']
+
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = ['id', 'name', 'restaurant']
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name', 'group']
+
+
+class TagGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TagGroup
+        fields = ['id', 'name']
+
+
+class RestaurantTagsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RestaurantTags
+        fields = ['id', 'restaurant', 'tag']
