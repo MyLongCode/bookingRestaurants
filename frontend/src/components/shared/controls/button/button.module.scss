@@ -1,0 +1,64 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-family: var(--font-montserrat);
+  border-radius: 50px;
+  padding: 20px 110px;
+  color: $text-color-accent;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.comfortaa {
+  font-family: var(--font-comfortaa);
+  font-weight: 700;
+}
+
+.small {
+  font-size: 1.25rem;
+}
+
+.filled {
+  color: black;
+  background-color: $btn-main-color;
+
+  &:disabled {
+    background-color: $btn-disabled-color;
+  }
+}
+
+.outlined {
+  background: none;
+  border: 2px solid $btn-main-color;
+
+  &:disabled {
+    color: $btn-disabled-color;
+    border-color: $btn-disabled-color;
+  }
+}
+
+.flat {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+
+  &:disabled {
+    color: $btn-disabled-color;
+  }
+}
+
+.icon {
+  margin-right: 15px;
+
+  &_right {
+    order: 1;
+    margin-right: 0;
+    margin-left: 15px;
+  }
+}

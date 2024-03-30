@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(montserrat.className, comfortaa.variable)}>
+      <body className={clsx(comfortaa.className, montserrat.variable)}>
         <Header>
           <Header.Nav>
             <Header.NavLink href={"/"} text={"Главная"} />
@@ -29,6 +29,7 @@ export default function RootLayout({
           <Avatar />
         </Header>
         {children}
+        <div id={"portal"} />
       </body>
     </html>
   );
