@@ -9,9 +9,9 @@ type CheckboxProps = React.ComponentProps<"input"> & {
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ children, className, ...props }: CheckboxProps, ref) => {
     return (
-      <label className={styles.wrapper}>
+      <label className={clsx(styles.wrapper, className)}>
         <input
-          className={clsx(styles.input, className)}
+          className={styles.input}
           type={"checkbox"}
           ref={ref}
           {...props}

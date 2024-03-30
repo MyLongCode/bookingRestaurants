@@ -34,6 +34,7 @@ const LoginForm = () => {
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputs}>
         <Input
+          className={styles.input}
           type={"email"}
           placeholder={"Введите email"}
           {...register("email")}
@@ -42,6 +43,7 @@ const LoginForm = () => {
           <p className={styles.error}>{errors.email.message}</p>
         )}
         <Input
+          className={styles.input}
           type={"password"}
           placeholder={"Введите пароль"}
           {...register("password")}
