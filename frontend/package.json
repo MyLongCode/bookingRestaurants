@@ -24,6 +24,7 @@
     "react-use-websocket": "^4.8.1",
     "sass": "^1.72.0",
     "slick-carousel": "^1.8.1",
+    "yandex-maps": "^0.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {

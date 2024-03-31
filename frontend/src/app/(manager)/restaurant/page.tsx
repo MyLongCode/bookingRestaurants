@@ -16,7 +16,7 @@ const RestaurantPage = () => {
           " — это дух Италии, эклектика и эстетика, как пицца и паста."
         }
       />
-      <section className={styles.carousel1}>
+      <section className={styles.carousel}>
         <Button
           btnType={"button"}
           color={"gray"}
@@ -26,11 +26,22 @@ const RestaurantPage = () => {
         >
           Добавить все фото сразу
         </Button>
-        <InfiniteCarousel />
+        <InfiniteCarousel
+          images={[
+            "/carousel/1.png",
+            "/carousel/2.png",
+            "/carousel/3.png",
+            "/carousel/4.png",
+            "/carousel/5.png",
+            "/carousel/6.png",
+            "/carousel/7.png",
+            "/carousel/8.png",
+          ]}
+        />
       </section>
       <section>
         <RestaurantInfo
-          address={"г. Екатеринбург, ул. Малышева 56А "}
+          address={"г. Екатеринбург ул. Малышева д. 56А"}
           cuisine={["итальянская", "европейская"]}
           mealTime={["завтрак", "бранч", "обед", "ужин"]}
           phoneNumber={"+7(343)364-42-40"}
@@ -47,7 +58,27 @@ const RestaurantPage = () => {
           ]}
         />
       </section>
-      <section></section>
+      <section className={styles.carousel}>
+        <Button
+          btnType={"button"}
+          color={"gray"}
+          fontSize={"small"}
+          iconSrc={"/icons/AddImage.svg"}
+          style={"flat"}
+        >
+          Добавить все фото сразу
+        </Button>
+        <InfiniteCarousel
+          images={[
+            "/carousel/9.png",
+            "/carousel/10.png",
+            "/carousel/11.png",
+            "/carousel/12.png",
+            "/carousel/13.png",
+            "/carousel/14.png",
+          ]}
+        />
+      </section>
       <section></section>
       <section></section>
     </main>

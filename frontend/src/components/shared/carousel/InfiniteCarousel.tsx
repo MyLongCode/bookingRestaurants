@@ -9,7 +9,11 @@ import NavArrow from "@/components/shared/carousel/navArrow/NavArrow";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const InfiniteCarousel = () => {
+type InfiniteCarouselProps = {
+  images: string[];
+};
+
+const InfiniteCarousel = ({ images }: InfiniteCarouselProps) => {
   return (
     <div className={styles.wrapper}>
       <Slider
@@ -36,12 +40,12 @@ const InfiniteCarousel = () => {
           },
         ]}
       >
-        {data.map((item) => {
+        {images.map((item) => {
           return (
             <div key={item} className={styles.item}>
               <Image
                 className={styles.image}
-                src={`/carousel/${item}.png`}
+                src={item}
                 alt={""}
                 fill
                 sizes={
