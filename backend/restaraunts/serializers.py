@@ -38,7 +38,7 @@ class DishItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'weight', 'compound', 'category']
 
 
-class CategorySerializer(WritableNestedModelSerializer):
+class NestedCategorySerializer(WritableNestedModelSerializer):
     dish_item = DishItemSerializer(many=True)
 
     class Meta:
@@ -46,12 +46,24 @@ class CategorySerializer(WritableNestedModelSerializer):
         fields = ['id', 'name', 'photo', 'menu', 'dish_item']
 
 
-class MenuSerializer(WritableNestedModelSerializer):
-    category = CategorySerializer(many=True)
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'photo', 'menu']
+
+
+class MenuListSerializer(WritableNestedModelSerializer):
+    category = NestedCategorySerializer(many=True)
 
     class Meta:
         model = Menu
         fields = ['id', 'name', 'category']
+
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = ['id', 'name', 'restaurant']
 
 
 class TagSerializer(serializers.ModelSerializer):

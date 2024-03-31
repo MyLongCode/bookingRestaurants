@@ -1,9 +1,12 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.viewsets import GenericViewSet
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
-    CategorySerializer, DishItemSerializer
+    NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
+    CategorySerializer
 )
+from rest_framework import status, mixins, generics
 from restaraunts.models import Restaurant, Photo, Menu, TagGroup, Category, DishItem
 from rest_framework import viewsets
 from restaraunts.models import RestaurantTags, Tag
@@ -23,7 +26,8 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
         if tags is not None:
             tags_ids = Tag.objects.filter(name__in=tags.split(';')).values_list('id', flat=True)
-            self.queryset = self.queryset.filter(id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
+            self.queryset = self.queryset.filter(
+                id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
         if orderby is not None:
             print(orderby)
             # НАДО ПОДУМАТЬ НАД СОРТИРОВКОЙ
@@ -42,11 +46,11 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
 
 class MenuListViewSet(viewsets.ViewSet):
-    serializer_class = MenuSerializer
+    serializer_class = MenuListSerializer
 
     def list(self, request, restaurant_pk=None):
         queryset = Menu.objects.filter(restaurant=restaurant_pk)
-        serializer = MenuSerializer(queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -55,38 +59,14 @@ class PhotoListViewSet(viewsets.ViewSet):
 
     def list(self, request, restaurant_pk=None):
         queryset = Photo.objects.filter(restaurant=restaurant_pk)
-        serializer = PhotoSerializer(queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
 
-class MenuViewSet(viewsets.ViewSet):
+class MenuViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
     permission_classes = []
-
-    def retrieve(self, request, pk):
-        menu = get_object_or_404(self.queryset, pk=pk)
-        serializer = MenuSerializer(menu)
-        return Response(serializer.data)
-
-    def create(self, request):
-        post_data = request.data
-        name = post_data['name']
-        restaurant = post_data['restaurant']
-        if not isinstance(name, str):
-            return Response(data="write correct name")
-        if not str(restaurant).isdigit():
-            return Response(data="write correct restaurant")
-        restaurant = Restaurant.objects.get(id=int(restaurant))
-        menu = Menu.objects.create(name=name, restaurant=restaurant)
-        menu.save()
-        return Response(data={"name": name, "restaurant": int(post_data['restaurant'])})
-
-    def delete(self, request, pk):
-        menu = get_object_or_404(self.queryset, pk=pk)
-        serializer = MenuSerializer(menu)
-        menu.delete()
-        return Response(serializer.data)
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -107,19 +87,27 @@ class RestaurantTagsViewSet(viewsets.ModelViewSet):
     permission_classes = []
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class NestedCategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = NestedCategorySerializer
     permission_classes = []
 
 
-class DishItemViewSet(viewsets.ModelViewSet):
+class DishItemViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = DishItem.objects.all()
     serializer_class = DishItemSerializer
     permission_classes = []
 
 
-class PhotoViewSet(viewsets.ModelViewSet):
+class PhotoViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = []
+
+
+class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = []
+
+#class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
