@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/react-slick": "^1.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@tanstack/react-query": "^5.28.8",
     "axios": "^1.6.8",
@@ -21,6 +22,7 @@
     "react-hook-form": "^7.51.1",
     "react-use-websocket": "^4.8.1",
     "sass": "^1.72.0",
+    "slick-carousel": "^1.8.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
