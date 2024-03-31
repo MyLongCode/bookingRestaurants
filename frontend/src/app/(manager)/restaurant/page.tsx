@@ -30,6 +30,12 @@ const RestaurantPage = () => {
       </section>
       <section>
         <RestaurantInfo
+          address={"г. Екатеринбург, ул. Малышева 56А "}
+          cuisine={["итальянская", "европейская"]}
+          mealTime={["завтрак", "бранч", "обед", "ужин"]}
+          phoneNumber={"+7(343)364-42-40"}
+          website={"https://italians-ekb.ru/"}
+          parking={["есть", "бесплатная"]}
           workingHours={[
             "8:00-00:00",
             "8:00-00:00",

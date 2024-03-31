@@ -2,6 +2,7 @@ import React from "react";
 import RestaurantWorkingHours from "./components/restaurantWorkingHours/RestaurantWorkingHours";
 import styles from "./restaurantInfo.module.scss";
 import Button from "@/components/shared/controls/button/Button";
+import { clsx } from "clsx";
 
 type RestaurantInfoProps = {
   cuisine?: string[];
@@ -61,13 +62,18 @@ const RestaurantInfo = ({
               "нет"
             )}
           </li>
-          <li>
+          <li className={styles.contacts}>
             <h4>Контакты</h4>
-            <address className={styles.text}>{address || "не указан"}</address>
-            <a className={styles.text} href={`tel: ${phoneNumber}`}>
+            <address className={clsx(styles.text, styles.address)}>
+              {address || "не указан"}
+            </address>
+            <a
+              className={clsx(styles.text, styles.phone)}
+              href={`tel: ${phoneNumber}`}
+            >
               {phoneNumber || "не указан"}
             </a>
-            <a className={styles.text} href={website}>
+            <a className={clsx(styles.text, styles.website)} href={website}>
               {website || "не указан"}
             </a>
           </li>
