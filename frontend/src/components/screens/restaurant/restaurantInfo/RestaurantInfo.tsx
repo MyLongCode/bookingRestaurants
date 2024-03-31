@@ -4,6 +4,7 @@ import styles from "./restaurantInfo.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
 import YandexMap from "@/components/shared/map/YandexMap";
+import axios from "axios";
 
 type RestaurantInfoProps = {
   cuisine?: string[];
@@ -16,7 +17,7 @@ type RestaurantInfoProps = {
   website?: string;
 };
 
-const RestaurantInfo = ({
+const RestaurantInfo = async ({
   address,
   cuisine,
   parking,
@@ -26,6 +27,19 @@ const RestaurantInfo = ({
   restrictions,
   mealTime,
 }: RestaurantInfoProps) => {
+  const response = await axios.get("https://geocode-maps.yandex.ru/1.x", {
+    params: {
+      apikey: process.env.YANDEX_API,
+      geocode: address,
+      format: "json",
+    },
+  });
+
+  const pos =
+    response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
+      " ",
+    ).reverse();
+
   return (
     <section className={styles.wrapper}>
       <section className={styles.info}>
@@ -92,12 +106,7 @@ const RestaurantInfo = ({
       </section>
       <section className={styles.mapContainer}>
         <h3>Карта</h3>
-        <YandexMap
-          state={{ center: [55.75, 37.57], zoom: 15 }}
-          width={550}
-          height={400}
-          iconHref={"/ItaliansLogo.svg"}
-        />
+        <YandexMap state={{ center: pos, zoom: 15 }} width={550} height={400} />
         <Button
           className={clsx(styles.btn, styles.mapBtn)}
           btnType={"button"}

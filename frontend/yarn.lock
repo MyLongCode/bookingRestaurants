@@ -2706,6 +2706,11 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
+yandex-maps@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/yandex-maps/-/yandex-maps-0.0.1.tgz#aeea2ebcc32a700c06fc3193e36e886f92e7cdd0"
+  integrity sha512-7gW254ut4HEpSyQEaztSB4lZiuIz/DtS4jvfbJJWHxpuztMNZtYmSVBqhGRSaBgESe8f6T7/fAtEO/FkRHzdXQ==
+
 yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
