@@ -41,7 +41,7 @@ const RestaurantPage = () => {
       </section>
       <section>
         <RestaurantInfo
-          address={"г. Екатеринбург ул. Малышева д. 56А"}
+          address={"г. Екатеринбург ул. Малышева 56А"}
           cuisine={["итальянская", "европейская"]}
           mealTime={["завтрак", "бранч", "обед", "ужин"]}
           phoneNumber={"+7(343)364-42-40"}
