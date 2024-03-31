@@ -3,6 +3,7 @@ import RestaurantWorkingHours from "./components/restaurantWorkingHours/Restaura
 import styles from "./restaurantInfo.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
+import YandexMap from "@/components/shared/map/YandexMap";
 
 type RestaurantInfoProps = {
   cuisine?: string[];
@@ -91,7 +92,22 @@ const RestaurantInfo = ({
       </section>
       <section className={styles.mapContainer}>
         <h3>Карта</h3>
-        <div className={styles.map}></div>
+        <YandexMap
+          state={{ center: [55.75, 37.57], zoom: 15 }}
+          width={550}
+          height={400}
+          iconHref={"/ItaliansLogo.svg"}
+        />
+        <Button
+          className={clsx(styles.btn, styles.mapBtn)}
+          btnType={"button"}
+          style={"filled"}
+          color={"gray"}
+          iconSrc={"/icons/Edit.svg"}
+          fontSize={"small"}
+        >
+          Изменить местоположение
+        </Button>
       </section>
     </section>
   );
