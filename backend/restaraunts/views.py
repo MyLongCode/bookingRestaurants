@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from restaraunts.serializers import RestaurantSerializer, PhotoSerializer, MenuSerializer, TagSerializer, TagGroupSerializer, RestaurantTagsSerializer
-from restaraunts.models import Restaurant, Photo, Menu, TagGroup
+from restaraunts.serializers import (
+    RestaurantSerializer, PhotoSerializer, MenuSerializer,
+    TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
+    CategorySerializer, DishItemSerializer
+)
+from restaraunts.models import Restaurant, Photo, Menu, TagGroup, Category, DishItem
 from rest_framework import viewsets
-
 from restaraunts.models import RestaurantTags, Tag
+from rest_framework.response import Response
 
 
 class RestaurantViewSet(viewsets.ModelViewSet):
@@ -16,6 +19,7 @@ class RestaurantViewSet(viewsets.ModelViewSet):
         tags = self.request.query_params.get('tag')
         orderby = self.request.query_params.get('orderby')
         limit = self.request.query_params.get('limit')
+        skip = self.request.query_params.get('skip')
 
         if tags is not None:
             tags_ids = Tag.objects.filter(name__in=tags.split(';')).values_list('id', flat=True)
@@ -23,9 +27,18 @@ class RestaurantViewSet(viewsets.ModelViewSet):
         if orderby is not None:
             print(orderby)
             # НАДО ПОДУМАТЬ НАД СОРТИРОВКОЙ
+        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
+            return self.queryset[skip:limit]
+        if skip is not None and str(skip).isdigit():
+            return self.queryset[skip:]
         if limit is not None and str(limit).isdigit():
             return self.queryset[:int(limit)]
         return self.queryset
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class MenuListViewSet(viewsets.ViewSet):
@@ -34,6 +47,15 @@ class MenuListViewSet(viewsets.ViewSet):
     def list(self, request, restaurant_pk=None):
         queryset = Menu.objects.filter(restaurant=restaurant_pk)
         serializer = MenuSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class PhotoListViewSet(viewsets.ViewSet):
+    serializer_class = PhotoSerializer
+
+    def list(self, request, restaurant_pk=None):
+        queryset = Photo.objects.filter(restaurant=restaurant_pk)
+        serializer = PhotoSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -82,4 +104,22 @@ class TagGroupViewSet(viewsets.ModelViewSet):
 class RestaurantTagsViewSet(viewsets.ModelViewSet):
     queryset = RestaurantTags.objects.all()
     serializer_class = RestaurantTagsSerializer
+    permission_classes = []
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = []
+
+
+class DishItemViewSet(viewsets.ModelViewSet):
+    queryset = DishItem.objects.all()
+    serializer_class = DishItemSerializer
+    permission_classes = []
+
+
+class PhotoViewSet(viewsets.ModelViewSet):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
     permission_classes = []
