@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./restaurantHero.module.scss";
 import Rating from "@/components/shared/raiting/Rating";
+import Button from "@/components/shared/controls/button/Button";
 
 type RestaurantHeroProps = {
   imgSrc: string;
@@ -45,6 +46,20 @@ const RestaurantHero = ({
             <p>{description}</p>
           </div>
         </div>
+      </div>
+      <div className={styles.btns}>
+        <Button btnType={"button"} style={"filled"} fontSize={"small"}>
+          Забронировать столик
+        </Button>
+        <Button
+          btnType={"button"}
+          color={"gray"}
+          fontSize={"small"}
+          style={"filled"}
+          iconSrc={"/icons/Edit.svg"}
+        >
+          Редактировать профиль ресторана
+        </Button>
       </div>
     </section>
   );

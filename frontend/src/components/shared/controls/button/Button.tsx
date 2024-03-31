@@ -7,12 +7,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 type ButtonStyle = "filled" | "outlined" | "flat";
+type ButtonColor = "default" | "gray";
 type ButtonFont = "default" | "comfortaa";
 type ButtonFontSize = "default" | "small";
 
 type ButtonProps = Partial<React.ComponentProps<"button">> &
   Partial<React.ComponentProps<typeof Link>> & {
     btnType: "link" | "button";
+    color?: ButtonColor;
     style: ButtonStyle;
     iconSrc?: string;
     iconPosition?: "left" | "right";
@@ -30,15 +32,22 @@ const Button = ({
   fontSize,
   iconSrc,
   iconPosition,
+  color,
+  className,
   ...props
 }: ButtonProps) => {
-  const cls = clsx(styles.wrapper, {
-    [styles.comfortaa]: font === "comfortaa",
-    [styles.filled]: style === "filled",
-    [styles.outlined]: style === "outlined",
-    [styles.flat]: style === "flat",
-    [styles.small]: fontSize === "small",
-  });
+  const cls = clsx(
+    styles.wrapper,
+    {
+      [styles.comfortaa]: font === "comfortaa",
+      [styles.filled]: style === "filled",
+      [styles.outlined]: style === "outlined",
+      [styles.flat]: style === "flat",
+      [styles.small]: fontSize === "small",
+      [styles.gray]: color === "gray",
+    },
+    className,
+  );
 
   return (
     <>
