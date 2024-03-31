@@ -90,6 +90,7 @@ const RestaurantInfo = ({
         </Button>
       </section>
       <section className={styles.mapContainer}>
+        <h3>Карта</h3>
         <div className={styles.map}></div>
       </section>
     </section>
