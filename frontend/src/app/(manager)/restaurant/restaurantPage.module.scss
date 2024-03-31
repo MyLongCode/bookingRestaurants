@@ -1,5 +1,19 @@
+@import "@/styles/variables/variables";
+
 .wrapper {
   margin-top: 40px;
+  background: url("/Background.png");
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    box-shadow: 0 0 150px 75px $red-glow-color;
+    right: 35%;
+    top: 50%;
+  }
 }
 
 .carousel1 {
