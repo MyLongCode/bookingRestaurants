@@ -4,12 +4,13 @@
 
 .info {
   display: flex;
+  position: relative;
 
   &__text {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-left: 40px;
+    margin-left: 440px;
 
     h2 {
       font-size: 5rem;
@@ -42,7 +43,7 @@
 }
 
 .logoContainer {
-  position: relative;
+  position: absolute;
   width: 300px;
   top: -150px;
   margin-left: 100px;
@@ -53,4 +54,11 @@
   object-fit: contain;
   aspect-ratio: 1 / 1;
   min-width: 120px;
+}
+
+.btns {
+  margin-top: 60px;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
 }

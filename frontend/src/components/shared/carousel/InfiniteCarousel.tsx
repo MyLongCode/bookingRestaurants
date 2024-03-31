@@ -15,6 +15,7 @@ const InfiniteCarousel = () => {
       <Slider
         infinite={true}
         slidesToShow={5}
+        swipeToSlide={true}
         slidesToScroll={1}
         centerMode={true}
         speed={500}

@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { comfortaa, montserrat } from "@/styles/fonts";
 import Header from "@/components/shared/header/Header";
 import Avatar from "@/components/shared/avatar/Avatar";
+import {YMaps} from "@pbe/react-yandex-maps";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
