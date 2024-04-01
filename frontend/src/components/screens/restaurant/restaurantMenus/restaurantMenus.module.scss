@@ -1,0 +1,19 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  padding-inline: 195px;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    margin-bottom: 140px;
+  }
+}
+
+.title {
+  font-family: var(--font-gotham-pro);
+  font-size: 12.5rem;
+  color: $text-color-accent;
+  opacity: 0.15;
+  font-weight: 600;
+}

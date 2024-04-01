@@ -5,12 +5,17 @@ import { clsx } from "clsx";
 import { comfortaa, montserrat } from "@/styles/fonts";
 import Header from "@/components/shared/header/Header";
 import Avatar from "@/components/shared/avatar/Avatar";
-import {YMaps} from "@pbe/react-yandex-maps";
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
   description: "Service for booking restaurants",
 };
+
+const gothamPro = localFont({
+  src: "./gothamPro.ttf",
+  variable: "--font-gotham-pro",
+});
 
 export default function RootLayout({
   children,
@@ -19,7 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(comfortaa.className, montserrat.variable)}>
+      <body
+        className={clsx(
+          comfortaa.className,
+          montserrat.variable,
+          gothamPro.variable,
+        )}
+      >
         <Header>
           <Header.Nav>
             <Header.NavLink href={"/"} text={"Главная"} />
