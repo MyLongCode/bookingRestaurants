@@ -6,8 +6,18 @@ import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
 import RestaurantInfo from "@/screens/restaurant/restaurantInfo/RestaurantInfo";
 import RestaurantMenus from "@/screens/restaurant/restaurantMenus/RestaurantMenus";
+import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 
-const RestaurantPage = () => {
+type RestaurantPageSearchParaps = {
+  categoryId?: string;
+  menuId?: string;
+};
+
+type RestaurantPageProps = {
+  searchParams: RestaurantPageSearchParaps;
+};
+
+const RestaurantPage = ({ searchParams }: RestaurantPageProps) => {
   return (
     <main className={clsx(styles.wrapper)}>
       <RestaurantHero
@@ -105,10 +115,23 @@ const RestaurantPage = () => {
                 },
               ],
             },
+            {
+              id: 2,
+              name: "Барное меню",
+              category: [
+                {
+                  id: 2,
+                  name: "Коктейли",
+                  photo: "/dishes/category-2.png",
+                  dish_item: [],
+                },
+              ],
+            },
           ]}
         />
       </section>
       <section></section>
+      <RestaurantCategoryModal searchParams={searchParams} />
     </main>
   );
 };

@@ -23,6 +23,7 @@ const HomeModalButtons = () => {
         font={"default"}
         style={"flat"}
         href={"?state=register"}
+        scroll={false}
       >
         Зарегистрироваться
       </Button>

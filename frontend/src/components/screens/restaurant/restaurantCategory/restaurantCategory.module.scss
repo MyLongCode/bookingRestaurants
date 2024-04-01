@@ -1,3 +1,5 @@
+@import "@/styles/variables/variables";
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -6,12 +8,15 @@
   background-repeat: no-repeat;
   background-size: 400px;
   background-position: center;
-  min-height: 260px;
   border-radius: 30px;
-  overflow: hidden;
   width: fit-content;
   padding: 20px;
-  max-width: 360px;
+  outline: 3px solid transparent;
+  transition-duration: 0.2s;
+
+  &:has(> .title:hover) {
+    outline: 3px solid $modal-border-color;
+  }
 }
 
 .title {
@@ -20,6 +25,7 @@
   font-family: var(--font-gotham-pro);
   font-size: 2.5rem;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .upperContainer {
@@ -37,21 +43,5 @@
 
 .btn {
   font-weight: bold;
-  margin-top: 5px;
-}
-
-.arrowBtn {
   margin-top: auto;
-  transform: rotate(180deg);
-
-  img {
-    width: 50px;
-    margin: 0;
-    padding: 0;
-    opacity: 0.8;
-  }
-
-  &Active {
-    transform: rotate(0);
-  }
 }

@@ -15,6 +15,7 @@ const RestaurantMenus = ({ menus }: RestaurantMenusProps) => {
         return (
           <RestaurantMenu
             key={menu.id}
+            id={menu.id}
             name={menu.name}
             category={menu.category}
           />

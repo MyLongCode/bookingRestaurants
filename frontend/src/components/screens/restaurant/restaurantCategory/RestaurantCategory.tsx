@@ -6,21 +6,24 @@ import RestaurantDish from "../restaurantDish/RestaurantDish";
 import styles from "./restaurantCategory.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
+import { useRouter } from "next/navigation";
+import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 
-type RestaurantCategoryProps = Omit<Category, "id"> & {
-  showDishes?: boolean;
-  onArrowClick: (index: number) => void;
-  index: number;
-};
+type RestaurantCategoryProps = Category & {};
 
 const RestaurantCategory = ({
   name,
   photo,
-  showDishes,
-  onArrowClick,
-  index,
+  id,
   dish_item: dishes,
 }: RestaurantCategoryProps) => {
+  const router = useRouter();
+  const categoryClickHandler = () => {
+    router.push(`?state=category&categoryId=${id}`, {
+      scroll: false,
+    });
+  };
+
   return (
     <li className={styles.wrapper} style={{ backgroundImage: `url(${photo})` }}>
       <div className={styles.upperContainer}>
@@ -31,14 +34,9 @@ const RestaurantCategory = ({
         />
         <Button btnType={"button"} style={"flat"} iconSrc={"/icons/Exit.svg"} />
       </div>
-      <h5 className={styles.title}>{name}</h5>
-      <Button
-        className={clsx(styles.arrowBtn, showDishes && styles.arrowBtnActive)}
-        btnType={"button"}
-        style={"flat"}
-        iconSrc={"/icons/Arrow.svg"}
-        onClick={() => onArrowClick(index)}
-      />
+      <h5 className={styles.title} onClick={categoryClickHandler}>
+        {name}
+      </h5>
       <Button
         btnType={"button"}
         style={"outlined"}
@@ -49,21 +47,6 @@ const RestaurantCategory = ({
       >
         Изменить категорию
       </Button>
-      <ul>
-        {showDishes &&
-          dishes.map((dish) => {
-            return (
-              <RestaurantDish
-                key={dish.id}
-                name={dish.name}
-                price={dish.price}
-                weight={dish.weight}
-                compound={dish.compound}
-                photo={dish.photo}
-              />
-            );
-          })}
-      </ul>
     </li>
   );
 };

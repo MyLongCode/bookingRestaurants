@@ -6,32 +6,24 @@ import RestaurantCategory from "../restaurantCategory/RestaurantCategory";
 import styles from "./restaurantMenu.module.scss";
 import RestaurantNewCategory from "@/screens/restaurant/restaurantNewCatergory/RestaurantNewCategory";
 
-type RestaurantMenuProps = Omit<Menu, "id"> & {};
+type RestaurantMenuProps = Menu & {};
 
 const RestaurantMenu = ({
   category: categories,
   name,
 }: RestaurantMenuProps) => {
-  const [activeCategory, setActiveCategory] = useState<number | undefined>();
-
-  const categoryClickHandler = (index: number) => {
-    setActiveCategory((prev) => (prev === index ? undefined : index));
-  };
-
   return (
     <div>
       <h4 className={styles.title}>{name}</h4>
       <ul className={styles.categories}>
-        {categories.map((category, index) => {
+        {categories.map((category) => {
           return (
             <RestaurantCategory
               key={category.id}
-              index={index}
+              id={category.id}
               name={category.name}
               photo={category.photo}
               dish_item={category.dish_item}
-              onArrowClick={categoryClickHandler}
-              showDishes={activeCategory === index}
             />
           );
         })}
