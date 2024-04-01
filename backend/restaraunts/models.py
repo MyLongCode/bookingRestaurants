@@ -69,6 +69,7 @@ class DishItem(models.Model):
     weight = models.IntegerField()
     compound = models.CharField(max_length=400)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='dish_item')
+    photo = models.ImageField(upload_to='images/dish_photos/', null=True, blank=True)
 
 
 class TagGroup(models.Model):
