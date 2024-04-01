@@ -5,6 +5,7 @@ import Button from "@/components/shared/controls/button/Button";
 import LoginModal from "@/components/auth/loginModal/LoginModal";
 import RegisterModal from "@/components/auth/registerModal/RegisterModal";
 import styles from "./homeModalButtons.module.scss";
+import { useSession } from "next-auth/react";
 
 const HomeModalButtons = () => {
   return (

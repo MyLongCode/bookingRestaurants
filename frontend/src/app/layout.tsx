@@ -8,6 +8,7 @@ import Avatar from "@/components/shared/avatar/Avatar";
 import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
 import { SessionProvider } from "next-auth/react";
+import { NextAuthProvider } from "@/app/providers";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
@@ -22,16 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(comfortaa.className, montserrat.variable)}>
-        <Header>
-          <Header.Nav>
-            <Header.NavLink href={"/"} text={"Главная"} />
-            <Header.NavLink href={"/restaurants"} text={"Рестораны"} />
-            <Header.NavLink href={"/favourites"} text={"Избранное"} />
-          </Header.Nav>
-          <Header.Notifications />
-          <Avatar />
-        </Header>
-        {children}
+        <Header />
+        <NextAuthProvider>{children}</NextAuthProvider>
         <div id={"portal"} />
         <Footer />
       </body>
