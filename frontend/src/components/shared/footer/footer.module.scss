@@ -1,0 +1,15 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  padding-block: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 320px;
+  border-top: 1px solid $footer-border-color;
+}
+
+.copyright {
+  font-size: 1.25rem;
+  color: $text-color-accent;
+}
