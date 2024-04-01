@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/shared/controls/input/Input";
 import Button from "@/components/shared/controls/button/Button";
 import styles from "./loginForm.module.scss";
+import { signIn } from "next-auth/react";
 
 const loginSchema = z.object({
   email: z
@@ -26,8 +27,16 @@ const LoginForm = () => {
     mode: "onTouched",
   });
 
-  const onSubmit = (data: LoginSchema) => {
+  const onSubmit = async (data: LoginSchema) => {
     console.log(data);
+    await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: true,
+      callbackUrl: "/",
+    }).then((res) => {
+      console.log(res);
+    });
   };
 
   return (

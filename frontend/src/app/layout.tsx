@@ -7,6 +7,7 @@ import Header from "@/components/shared/header/Header";
 import Avatar from "@/components/shared/avatar/Avatar";
 import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
