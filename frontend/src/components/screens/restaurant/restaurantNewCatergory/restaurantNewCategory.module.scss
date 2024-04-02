@@ -1,0 +1,39 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  min-height: 260px;
+  border-radius: 30px;
+  overflow: hidden;
+  width: fit-content;
+  padding: 20px;
+  max-width: 360px;
+}
+
+.title {
+  display: block;
+  text-align: center;
+  font-family: var(--font-gotham-pro);
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.upperContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: auto;
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+  }
+}
+
+.btn {
+  margin-top: auto;
+  font-weight: bold;
+}

@@ -1,13 +1,25 @@
 import React from "react";
-import RestaurantHero from "@/components/screens/restaurant/restaurantHero/RestaurantHero";
+import RestaurantHero from "@/screens/restaurant/restaurantHero/RestaurantHero";
 import InfiniteCarousel from "@/components/shared/carousel/InfiniteCarousel";
 import styles from "./restaurantPage.module.scss";
 import Button from "@/components/shared/controls/button/Button";
-import RestaurantInfo from "@/components/screens/restaurant/restaurantInfo/RestaurantInfo";
+import { clsx } from "clsx";
+import RestaurantInfo from "@/screens/restaurant/restaurantInfo/RestaurantInfo";
+import RestaurantMenus from "@/screens/restaurant/restaurantMenus/RestaurantMenus";
+import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 
-const RestaurantPage = () => {
+type RestaurantPageSearchParaps = {
+  categoryId?: string;
+  menuId?: string;
+};
+
+type RestaurantPageProps = {
+  searchParams: RestaurantPageSearchParaps;
+};
+
+const RestaurantPage = ({ searchParams }: RestaurantPageProps) => {
   return (
-    <main className={styles.wrapper}>
+    <main className={clsx(styles.wrapper)}>
       <RestaurantHero
         imgSrc={"/italiansBG.jpg"}
         logoSrc={"/italiansLogo.png"}
@@ -79,8 +91,47 @@ const RestaurantPage = () => {
           ]}
         />
       </section>
+      <section>
+        <RestaurantMenus
+          menus={[
+            {
+              id: 1,
+              name: "Основное меню",
+              category: [
+                {
+                  id: 1,
+                  name: "Горячие блюда",
+                  photo: "/dishes/category-1.png",
+                  dish_item: [
+                    {
+                      id: 1,
+                      name: "Тальята из вырезки говядины с броколли и кремом тартуфа",
+                      compound: "",
+                      price: 100,
+                      weight: 10,
+                      photo: "/dishes/dish-1.png",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 2,
+              name: "Барное меню",
+              category: [
+                {
+                  id: 2,
+                  name: "Коктейли",
+                  photo: "/dishes/category-2.png",
+                  dish_item: [],
+                },
+              ],
+            },
+          ]}
+        />
+      </section>
       <section></section>
-      <section></section>
+      <RestaurantCategoryModal searchParams={searchParams} />
     </main>
   );
 };
