@@ -35,7 +35,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class DishItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = DishItem
-        fields = ['id', 'name', 'price', 'weight', 'compound', 'category']
+        fields = ['id', 'name', 'price', 'weight', 'compound', 'category', 'photo']
 
 
 class NestedCategorySerializer(WritableNestedModelSerializer):
