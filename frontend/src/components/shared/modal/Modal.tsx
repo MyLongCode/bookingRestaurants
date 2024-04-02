@@ -5,7 +5,7 @@ import ModalTitle from "@/components/shared/modal/components/modalTitle/ModalTit
 import styles from "./modal.module.scss";
 import Portal from "@/hoc/Portal";
 import ModalWindow from "@/components/shared/modal/components/modalWindow/ModalWindow";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type ModalProps = {
   children?: ReactNode;
@@ -13,30 +13,34 @@ type ModalProps = {
 };
 
 const Modal = ({ children, state }: ModalProps) => {
-  const params = useSearchParams();
+  const paramsState = useSearchParams().get("state");
+  const path = usePathname();
   const router = useRouter();
 
   useEffect(() => {
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        router.push("/");
+        router.push(path, { scroll: false });
       }
     };
 
-    if (params.get("state") === state) {
+    if (paramsState === state) {
       document.addEventListener("keydown", handleEscKey);
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, [params, router, state]);
+  }, [paramsState, router, state]);
 
   return (
-    params.get("state") === state && (
+    paramsState === state && (
       <>
         <Portal>
-          <div className={styles.wrapper} onClick={() => router.push("/")}>
+          <div
+            className={styles.wrapper}
+            onClick={() => router.push(path, { scroll: false })}
+          >
             <div
               className={styles.content}
               onClick={(e) => e.stopPropagation()}

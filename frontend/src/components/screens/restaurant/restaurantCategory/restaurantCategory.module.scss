@@ -1,0 +1,47 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 400px;
+  background-position: center;
+  border-radius: 30px;
+  width: fit-content;
+  padding: 20px;
+  outline: 3px solid transparent;
+  transition-duration: 0.2s;
+
+  &:has(> .title:hover) {
+    outline: 3px solid $modal-border-color;
+  }
+}
+
+.title {
+  display: block;
+  text-align: center;
+  font-family: var(--font-gotham-pro);
+  font-size: 2.5rem;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.upperContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: auto;
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+  }
+}
+
+.btn {
+  font-weight: bold;
+  margin-top: auto;
+}

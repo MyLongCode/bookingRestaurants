@@ -9,11 +9,17 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
 import { SessionProvider } from "next-auth/react";
 import { NextAuthProvider } from "@/app/providers";
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
   description: "Service for booking restaurants",
 };
+
+const gothamPro = localFont({
+  src: "./gothamPro.ttf",
+  variable: "--font-gotham-pro",
+});
 
 export default function RootLayout({
   children,
