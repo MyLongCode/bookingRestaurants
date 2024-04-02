@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView, TokenVerifyView,
 )
-from accounts.views import UserList, UserViewSet
+from accounts.views import UserViewSet
 from restaraunts.views import (
     RestaurantViewSet, MenuViewSet, MenuListViewSet,
     TagViewSet, TagGroupViewSet, RestaurantTagsViewSet,
