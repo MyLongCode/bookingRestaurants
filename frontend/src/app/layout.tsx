@@ -5,6 +5,8 @@ import { clsx } from "clsx";
 import { comfortaa, montserrat } from "@/styles/fonts";
 import Header from "@/components/shared/header/Header";
 import Avatar from "@/components/shared/avatar/Avatar";
+import { YMaps } from "@pbe/react-yandex-maps";
+import Footer from "@/components/shared/footer/Footer";
 import localFont from "next/font/local";
 
 export const metadata: Metadata = {
@@ -42,6 +44,7 @@ export default function RootLayout({
         </Header>
         {children}
         <div id={"portal"} />
+        <Footer />
       </body>
     </html>
   );
