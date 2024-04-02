@@ -3,9 +3,10 @@
 import React from "react";
 import Modal from "@/components/shared/modal/Modal";
 import RestaurantDishes from "@/screens/restaurant/restaurantDishes/RestaurantDishes";
+import { RestaurantPageSearchParams } from "@/app/(manager)/restaurant/page";
 
 type RestaurantCategoryModalProps = {
-  searchParams: { [key: string]: string };
+  searchParams: RestaurantPageSearchParams;
 };
 
 const RestaurantCategoryModal = ({

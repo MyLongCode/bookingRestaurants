@@ -5,13 +5,14 @@ import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
 import YandexMap from "@/components/shared/map/YandexMap";
 import axios from "axios";
+import { ScheduleDay } from "@/models/restaurant/scheduleDay.type";
 
 type RestaurantInfoProps = {
   cuisine?: string[];
   mealTime?: string[];
   restrictions?: string[];
   parking?: string[];
-  workingHours?: string[];
+  schedule?: ScheduleDay[];
   address?: string;
   phoneNumber?: string;
   website?: string;
@@ -23,7 +24,7 @@ const RestaurantInfo = async ({
   parking,
   phoneNumber,
   website,
-  workingHours,
+  schedule,
   restrictions,
   mealTime,
 }: RestaurantInfoProps) => {
@@ -36,9 +37,9 @@ const RestaurantInfo = async ({
   });
 
   const pos =
-    response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
-      " ",
-    ).reverse();
+    response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+      .split(" ")
+      .reverse();
 
   return (
     <section className={styles.wrapper}>
@@ -71,8 +72,8 @@ const RestaurantInfo = async ({
           </li>
           <li>
             <h4>Часы работы</h4>
-            {workingHours ? (
-              <RestaurantWorkingHours hours={workingHours} />
+            {schedule ? (
+              <RestaurantWorkingHours days={schedule} />
             ) : (
               "нет"
             )}

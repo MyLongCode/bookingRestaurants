@@ -1,20 +1,19 @@
 import React from "react";
 import styles from "./restaurantWorkingHours.module.scss";
-
-const days = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
+import { ScheduleDay } from "@/models/restaurant/scheduleDay.type";
 
 type RestaurantWorkingHoursProps = {
-  hours: string[];
+  days: ScheduleDay[];
 };
 
-const RestaurantWorkingHours = ({ hours }: RestaurantWorkingHoursProps) => {
+const RestaurantWorkingHours = ({ days }: RestaurantWorkingHoursProps) => {
   return (
     <ul className={styles.list}>
-      {hours.map((time, index) => {
+      {days.map((day) => {
         return (
-          <li key={index}>
-            <p className={styles.day}>{days[index]}</p>
-            <p className={styles.time}>{time}</p>
+          <li key={day.dayName}>
+            <p className={styles.day}>{day.dayName}</p>
+            <p className={styles.time}>{`${day.timeStart}-${day.timeEnd}`}</p>
           </li>
         );
       })}

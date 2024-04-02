@@ -12,13 +12,22 @@ const Header = async ({}: HeaderProps) => {
   const session = await getServerSession();
   return (
     <header className={styles.wrapper}>
-      <HeaderNav>
-        <HeaderNavLink href={"/"} text={"Главная"} />
-        <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
-        {session?.user && (
-          <HeaderNavLink href={"/favourites"} text={"Избранное"} />
-        )}
-      </HeaderNav>
+      {session?.user.isManager ? (
+        <HeaderNav>
+          <HeaderNavLink href={"/"} text={"Главная"} />
+          <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
+          {session?.user && (
+            <HeaderNavLink href={"/favourites"} text={"Избранное"} />
+          )}
+        </HeaderNav>
+      ) : (
+        <HeaderNav>
+          <HeaderNavLink href={"/restaurant"} text={"Заведение"} />
+          <HeaderNavLink href={"/bookings"} text={"Брони"} />
+          <HeaderNavLink href={"/employees"} text={"Сотрудники"} />
+          <HeaderNavLink href={"/statistics"} text={"Статистика"} />
+        </HeaderNav>
+      )}
       {session?.user && (
         <>
           <HeaderNotifications />

@@ -9,13 +9,12 @@ import { clsx } from "clsx";
 import { useRouter } from "next/navigation";
 import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 
-type RestaurantCategoryProps = Category & {};
+type RestaurantCategoryProps = Omit<Category, "dish_item"> & {};
 
 const RestaurantCategory = ({
   name,
   photo,
   id,
-  dish_item: dishes,
 }: RestaurantCategoryProps) => {
   const router = useRouter();
   const categoryClickHandler = () => {
@@ -25,7 +24,10 @@ const RestaurantCategory = ({
   };
 
   return (
-    <li className={styles.wrapper} style={{ backgroundImage: `url(${photo})` }}>
+    <li
+      className={styles.wrapper}
+      style={{ backgroundImage: `url("${photo}")` }}
+    >
       <div className={styles.upperContainer}>
         <Button
           btnType={"button"}
