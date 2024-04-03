@@ -28,20 +28,20 @@ router.register(r'category', CategoryViewSet, basename='category')
 router.register(r'dish-item', DishItemViewSet, basename='dishItem')
 router.register(r'photo', PhotoViewSet, basename='photo')
 
-domains_router = routers.NestedSimpleRouter(router, r'restaurant', lookup='restaurant')
-domains_router.register(r'menu', MenuListViewSet, basename='menu')
-domains_router.register(r'photo', PhotoListViewSet, basename='photo')
-domains_router.register(r'tag', RestaurantTagListViewSet, basename='tag')
+restaurant_router = routers.NestedSimpleRouter(router, r'restaurant', lookup='restaurant')
+restaurant_router.register(r'menu', MenuListViewSet, basename='menu')
+restaurant_router.register(r'photo', PhotoListViewSet, basename='photo')
+restaurant_router.register(r'tag', RestaurantTagListViewSet, basename='tag')
 
-domains_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
-domains_router.register(r'dishes', DishListViewSet, basename='dishes')
+dishes_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
+dishes_router.register(r'dishes', DishListViewSet, basename='dishes')
 
-domains_router = routers.NestedSimpleRouter(router, r'users', lookup='users')
-domains_router.register(r'restaurant', RestaurantListViewSet, basename='restaurant')
+restaurant_users_router = routers.NestedSimpleRouter(router, r'users', lookup='users')
+restaurant_users_router.register(r'restaurant', RestaurantListViewSet, basename='restaurant')
 
 urlpatterns = [
                   path(r'', include(router.urls)),
-                  path(r'', include(domains_router.urls)),
+                  path(r'', include(restaurant_router.urls)),
                   path('admin/', admin.site.urls),
                   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
                   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
