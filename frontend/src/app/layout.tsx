@@ -7,6 +7,8 @@ import Header from "@/components/shared/header/Header";
 import Avatar from "@/components/shared/avatar/Avatar";
 import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
+import { SessionProvider } from "next-auth/react";
+import { NextAuthProvider } from "@/app/providers";
 import localFont from "next/font/local";
 
 export const metadata: Metadata = {
@@ -26,23 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={clsx(
-          comfortaa.className,
-          montserrat.variable,
-          gothamPro.variable,
-        )}
-      >
-        <Header>
-          <Header.Nav>
-            <Header.NavLink href={"/"} text={"Главная"} />
-            <Header.NavLink href={"/restaurants"} text={"Рестораны"} />
-            <Header.NavLink href={"/favourites"} text={"Избранное"} />
-          </Header.Nav>
-          <Header.Notifications />
-          <Avatar />
-        </Header>
-        {children}
+      <body className={clsx(comfortaa.className, montserrat.variable)}>
+        <Header />
+        <NextAuthProvider>{children}</NextAuthProvider>
         <div id={"portal"} />
         <Footer />
       </body>

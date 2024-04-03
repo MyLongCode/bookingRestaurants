@@ -7,26 +7,30 @@ import { clsx } from "clsx";
 import RestaurantInfo from "@/screens/restaurant/restaurantInfo/RestaurantInfo";
 import RestaurantMenus from "@/screens/restaurant/restaurantMenus/RestaurantMenus";
 import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
+import RestaurantService from "@/services/restaurant/RestaurantService";
 
-type RestaurantPageSearchParaps = {
+export type RestaurantPageSearchParams = {
   categoryId?: string;
-  menuId?: string;
 };
 
 type RestaurantPageProps = {
-  searchParams: RestaurantPageSearchParaps;
+  searchParams: RestaurantPageSearchParams;
 };
 
-const RestaurantPage = ({ searchParams }: RestaurantPageProps) => {
+const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
+  const restaurant = await RestaurantService.getById(1);
+  const photos = await RestaurantService.getPhotos(1).then((data) =>
+    data.map((photo) => `${process.env.API_URL}${photo.image}`),
+  );
+  const menus = await RestaurantService.getMenus(1);
+
   return (
     <main className={clsx(styles.wrapper)}>
       <RestaurantHero
         imgSrc={"/italiansBG.jpg"}
         logoSrc={"/italiansLogo.png"}
-        title={"Ресторан Итальянцы"}
-        description={
-          " — это дух Италии, эклектика и эстетика, как пицца и паста."
-        }
+        title={restaurant.name}
+        description={restaurant.description}
       />
       <section className={styles.carousel}>
         <Button
@@ -38,36 +42,17 @@ const RestaurantPage = ({ searchParams }: RestaurantPageProps) => {
         >
           Добавить все фото сразу
         </Button>
-        <InfiniteCarousel
-          images={[
-            "/carousel/1.png",
-            "/carousel/2.png",
-            "/carousel/3.png",
-            "/carousel/4.png",
-            "/carousel/5.png",
-            "/carousel/6.png",
-            "/carousel/7.png",
-            "/carousel/8.png",
-          ]}
-        />
+        <InfiniteCarousel images={photos.slice(0, photos.length / 2)} />
       </section>
       <section>
         <RestaurantInfo
-          address={"г. Екатеринбург ул. Малышева 56А"}
+          address={restaurant.address}
           cuisine={["итальянская", "европейская"]}
           mealTime={["завтрак", "бранч", "обед", "ужин"]}
           phoneNumber={"+7(343)364-42-40"}
           website={"https://italians-ekb.ru/"}
           parking={["есть", "бесплатная"]}
-          workingHours={[
-            "8:00-00:00",
-            "8:00-00:00",
-            "8:00-00:00",
-            "8:00-00:00",
-            "8:00-23:00",
-            "10:00-23:00",
-            "10:00-23:00",
-          ]}
+          schedule={restaurant.schedule}
         />
       </section>
       <section className={styles.carousel}>
@@ -80,55 +65,10 @@ const RestaurantPage = ({ searchParams }: RestaurantPageProps) => {
         >
           Добавить все фото сразу
         </Button>
-        <InfiniteCarousel
-          images={[
-            "/carousel/9.png",
-            "/carousel/10.png",
-            "/carousel/11.png",
-            "/carousel/12.png",
-            "/carousel/13.png",
-            "/carousel/14.png",
-          ]}
-        />
+        <InfiniteCarousel images={photos.slice(photos.length / 2)} />
       </section>
       <section>
-        <RestaurantMenus
-          menus={[
-            {
-              id: 1,
-              name: "Основное меню",
-              category: [
-                {
-                  id: 1,
-                  name: "Горячие блюда",
-                  photo: "/dishes/category-1.png",
-                  dish_item: [
-                    {
-                      id: 1,
-                      name: "Тальята из вырезки говядины с броколли и кремом тартуфа",
-                      compound: "",
-                      price: 100,
-                      weight: 10,
-                      photo: "/dishes/dish-1.png",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 2,
-              name: "Барное меню",
-              category: [
-                {
-                  id: 2,
-                  name: "Коктейли",
-                  photo: "/dishes/category-2.png",
-                  dish_item: [],
-                },
-              ],
-            },
-          ]}
-        />
+        <RestaurantMenus menus={menus} />
       </section>
       <section></section>
       <RestaurantCategoryModal searchParams={searchParams} />
