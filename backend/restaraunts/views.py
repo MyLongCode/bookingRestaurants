@@ -6,10 +6,11 @@ from restaraunts.serializers import (
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
     CategorySerializer
 )
+from django.db.models import Count
 from rest_framework import status, mixins, generics
-from restaraunts.models import Restaurant, Photo, Menu, TagGroup, Category, DishItem
+from restaraunts.models import (
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag)
 from rest_framework import viewsets
-from restaraunts.models import RestaurantTags, Tag
 from rest_framework.response import Response
 
 
@@ -69,10 +70,22 @@ class MenuViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.Upd
     permission_classes = []
 
 
-class TagViewSet(viewsets.ModelViewSet):
+class TagViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = []
+
+    def list(self, request):
+        tags = Tag.objects.all()
+        data = dict()
+        for i in tags:
+            group = i.group.name
+            if group not in data:
+                data[group] = [{'id': i.id, 'name': i.name}]
+            else:
+                data[group].append({'id': i.id, 'name': i.name})
+
+        return Response(data)
 
 
 class TagGroupViewSet(viewsets.ModelViewSet):
@@ -109,5 +122,42 @@ class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
+
+
+class RestaurantTagListViewSet(viewsets.ViewSet):
+    permission_classes = []
+
+    def list(self, request, restaurant_pk=None):
+        pk = self.kwargs['restaurant_pk']
+        restaurant_tags = RestaurantTags.objects.filter(restaurant=pk).values_list('tag', flat=True)
+        tags = Tag.objects.filter(id__in=restaurant_tags)
+        data = dict()
+        for i in tags:
+            group = i.group.name
+            if group not in data:
+                data[group] = [{'id': i.id, 'name': i.name}]
+            else:
+                data[group].append({'id': i.id, 'name': i.name})
+
+        return Response(data)
+
+
+class DishListViewSet(viewsets.ViewSet):
+    serializer_class = DishItemSerializer
+
+    def list(self, request, category_pk=None):
+        queryset = DishItem.objects.filter(category=category_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class RestaurantListViewSet(viewsets.ViewSet):
+    serializer_class = RestaurantSerializer
+
+    def list(self, request, users_pk=None):
+        queryset = Restaurant.objects.filter(owner=users_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 
 #class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)

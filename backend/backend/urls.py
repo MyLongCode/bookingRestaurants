@@ -11,7 +11,9 @@ from restaraunts.views import (
     RestaurantViewSet, MenuViewSet, MenuListViewSet,
     TagViewSet, TagGroupViewSet, RestaurantTagsViewSet,
     NestedCategoryViewSet, DishItemViewSet, PhotoViewSet,
-    PhotoListViewSet, CategoryViewSet)
+    PhotoListViewSet, CategoryViewSet, RestaurantTagListViewSet,
+    DishListViewSet, RestaurantListViewSet
+)
 from rest_framework_nested import routers
 
 
@@ -29,6 +31,13 @@ router.register(r'photo', PhotoViewSet, basename='photo')
 domains_router = routers.NestedSimpleRouter(router, r'restaurant', lookup='restaurant')
 domains_router.register(r'menu', MenuListViewSet, basename='menu')
 domains_router.register(r'photo', PhotoListViewSet, basename='photo')
+domains_router.register(r'tag', RestaurantTagListViewSet, basename='tag')
+
+domains_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
+domains_router.register(r'dishes', DishListViewSet, basename='dishes')
+
+domains_router = routers.NestedSimpleRouter(router, r'users', lookup='users')
+domains_router.register(r'restaurant', RestaurantListViewSet, basename='restaurant')
 
 urlpatterns = [
                   path(r'', include(router.urls)),

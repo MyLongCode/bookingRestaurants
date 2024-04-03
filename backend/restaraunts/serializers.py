@@ -23,7 +23,8 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'address', 'owner', 'description', 'schedule']
+        fields = ['id', 'name', 'address', 'owner', 'description', 'site',
+                  'schedule', 'capacityOnTable', 'logo', 'preview']
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -82,3 +83,10 @@ class RestaurantTagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestaurantTags
         fields = ['id', 'restaurant', 'tag']
+
+
+class NestedTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
+
