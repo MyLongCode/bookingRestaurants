@@ -40,6 +40,7 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=255)
+    site = models.CharField(max_length=255)
     schedule = JSONField(schema=ITEMS_SCHEMA)
     capacityOnTable = models.IntegerField(default=10)
     logo = models.ImageField(upload_to='images/logo/', null=True, blank=True)
@@ -78,7 +79,7 @@ class TagGroup(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
-    group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
+    group = models.ForeignKey(TagGroup, on_delete=models.CASCADE, related_name='tag')
 
 
 class RestaurantTags(models.Model):
