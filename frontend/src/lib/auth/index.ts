@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
 
         const data = await axios
           .post<AuthResponse>("/api/token/", {
-            username: "admin",
+            email: credentials?.email,
             password: credentials?.password,
           })
           .then((res) => {

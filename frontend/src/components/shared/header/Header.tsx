@@ -10,9 +10,13 @@ type HeaderProps = {};
 
 const Header = async ({}: HeaderProps) => {
   const session = await getServerSession();
+  if (session?.user) {
+    session.user.isManager = true;
+  }
+
   return (
     <header className={styles.wrapper}>
-      {session?.user.isManager ? (
+      {!session?.user.isManager ? (
         <HeaderNav>
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />

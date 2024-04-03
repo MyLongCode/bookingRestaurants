@@ -1,8 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.scss";
 import HomeModalButtons from "@/components/screens/home/modalButtons/HomeModalButtons";
+import { getServerSession } from "next-auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await getServerSession();
+
   return (
     <main className={styles.wrapper}>
       <div className={styles.mainContainer}>
@@ -15,9 +18,11 @@ export default function HomePage() {
             Найди заведение и забронируй в нем столик!
           </p>
         </div>
-        <div className={styles.btns}>
-          <HomeModalButtons />
-        </div>
+        {!session?.user && (
+          <div className={styles.btns}>
+            <HomeModalButtons />
+          </div>
+        )}
       </div>
       <div className={styles.imgContainer}>
         <Image
