@@ -5,5 +5,8 @@ export type Restaurant = {
   name: string;
   address: string;
   description: string;
+  logo: string;
+  preview: string;
+  site: string;
   schedule: ScheduleDay[];
 };

@@ -1,0 +1,8 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(360px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+  max-height: 70dvh;
+  overflow-y: auto;
+}

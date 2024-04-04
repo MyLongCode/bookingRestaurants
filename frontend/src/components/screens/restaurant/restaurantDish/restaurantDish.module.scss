@@ -1,9 +1,42 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  border: 2px solid $modal-border-color;
+  overflow: hidden;
+  padding-bottom: 40px;
+  color: $text-color-accent;
+}
+
 .imgContainer {
   position: relative;
+  height: 230px;
   width: 100%;
-  height: 50%;
 
   > img {
-    object-fit: contain;
+    object-fit: cover;
   }
+}
+
+.title {
+  font-size: 1.25rem;
+  max-width: 250px;
+  margin-top: 25px;
+}
+
+.weight {
+  font-size: 0.875rem;
+  margin-top: 5px;
+  color: $text-color-transparent;
+}
+
+.price {
+  font-size: 1.25rem;
+  margin-top: 20px;
 }

@@ -10,6 +10,7 @@ const RestaurantWorkingHours = ({ days }: RestaurantWorkingHoursProps) => {
   return (
     <ul className={styles.list}>
       {days.map((day) => {
+        if (!day.isActive) return null;
         return (
           <li key={day.dayName}>
             <p className={styles.day}>{day.dayName}</p>

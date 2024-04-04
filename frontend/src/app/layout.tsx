@@ -8,7 +8,7 @@ import Avatar from "@/components/shared/avatar/Avatar";
 import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
 import { SessionProvider } from "next-auth/react";
-import { NextAuthProvider } from "@/app/providers";
+import { CustomProviders } from "@/app/providers";
 import localFont from "next/font/local";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={clsx(comfortaa.className, montserrat.variable)}>
         <Header />
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <CustomProviders>{children}</CustomProviders>
         <div id={"portal"} />
         <Footer />
       </body>

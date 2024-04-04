@@ -5,7 +5,7 @@ import styles from "./carousel.module.scss";
 import Slider from "@ant-design/react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import NavArrow from "@/components/shared/carousel/navArrow/NavArrow";
+import NavArrow from "./components/navArrow/NavArrow";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -14,6 +14,10 @@ type InfiniteCarouselProps = {
 };
 
 const InfiniteCarousel = ({ images }: InfiniteCarouselProps) => {
+  if (images.length === 0) {
+    return null;
+  }
+
   return (
     <div className={styles.wrapper}>
       <Slider

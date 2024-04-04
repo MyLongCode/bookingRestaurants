@@ -1,7 +1,8 @@
 import { axiosAuth } from "@/lib/axios";
 import { Restaurant } from "@/models/restaurant/restaurant.type";
 import { Menu } from "@/models/restaurant/menu.type";
-import {Photo} from "@/models/restaurant/photo.type";
+import { Photo } from "@/models/restaurant/photo.type";
+import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
 
 export default class RestaurantService {
   public static async getById(id: string | number): Promise<Restaurant> {
@@ -19,6 +20,12 @@ export default class RestaurantService {
   public static async getPhotos(id: string | number): Promise<Photo[]> {
     return await axiosAuth
       .get<Photo[]>(`/restaurant/${id}/photo/`)
+      .then((res) => res.data);
+  }
+
+  public static async getTags(id: string | number): Promise<RestaurantTags> {
+    return await axiosAuth
+      .get<RestaurantTags>(`/restaurant/${id}/tag/`)
       .then((res) => res.data);
   }
 }
