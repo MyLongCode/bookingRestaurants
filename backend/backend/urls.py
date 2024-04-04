@@ -42,6 +42,7 @@ restaurant_users_router.register(r'restaurant', RestaurantListViewSet, basename=
 urlpatterns = [
                   path(r'', include(router.urls)),
                   path(r'', include(restaurant_router.urls)),
+                  path(r'', include(dishes_router.urls)),
                   path('admin/', admin.site.urls),
                   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
                   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
