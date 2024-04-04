@@ -23,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     class Meta:
+
         model = User
         fields = ['id', 'email', 'password', 'role', 'username', 'avatar']
         write_only_fields = ('password',)
