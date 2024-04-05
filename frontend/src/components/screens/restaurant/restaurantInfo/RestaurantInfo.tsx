@@ -6,12 +6,13 @@ import { clsx } from "clsx";
 import YandexMap from "@/components/shared/map/YandexMap";
 import axios from "axios";
 import { ScheduleDay } from "@/models/restaurant/scheduleDay.type";
+import { RestaurantTag } from "@/models/restaurant/restaurantTag.type";
 
 type RestaurantInfoProps = {
-  cuisine?: string[];
-  mealTime?: string[];
-  restrictions?: string[];
-  parking?: string[];
+  cuisine?: RestaurantTag[];
+  mealTime?: RestaurantTag[];
+  restrictions?: RestaurantTag[];
+  parking?: RestaurantTag[];
   schedule?: ScheduleDay[];
   address?: string;
   phoneNumber?: string;
@@ -49,34 +50,32 @@ const RestaurantInfo = async ({
           <li>
             <h4>Тип кухни</h4>
             <p className={styles.text}>
-              {cuisine ? cuisine.join(", ") : "нет"}
+              {cuisine ? cuisine.map((c) => c.name).join(", ") : "нет"}
             </p>
           </li>
           <li>
             <h4>Время приема пищи</h4>
             <p className={styles.text}>
-              {mealTime ? mealTime.join(", ") : "нет"}
+              {mealTime ? mealTime.map((c) => c.name).join(", ") : "нет"}
             </p>
           </li>
           <li>
             <h4>Пищевые ограничения</h4>
             <p className={styles.text}>
-              {restrictions ? restrictions.join(", ") : "нет"}
+              {restrictions
+                ? restrictions.map((c) => c.name).join(", ")
+                : "нет"}
             </p>
           </li>
           <li>
             <h4>Парковка</h4>
             <p className={styles.text}>
-              {parking ? parking.join(", ") : "нет"}
+              {parking ? parking.map((c) => c.name).join(", ") : "нет"}
             </p>
           </li>
           <li>
             <h4>Часы работы</h4>
-            {schedule ? (
-              <RestaurantWorkingHours days={schedule} />
-            ) : (
-              "нет"
-            )}
+            {schedule ? <RestaurantWorkingHours days={schedule} /> : "нет"}
           </li>
           <li className={styles.contacts}>
             <h4>Контакты</h4>

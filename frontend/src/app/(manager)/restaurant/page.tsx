@@ -23,12 +23,13 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
     data.map((photo) => `${process.env.API_URL}${photo.image}`),
   );
   const menus = await RestaurantService.getMenus(1);
+  const tags = await RestaurantService.getTags(1);
 
   return (
     <main className={clsx(styles.wrapper)}>
       <RestaurantHero
-        imgSrc={"/italiansBG.jpg"}
-        logoSrc={"/italiansLogo.png"}
+        imgSrc={restaurant.preview}
+        logoSrc={restaurant.logo}
         title={restaurant.name}
         description={restaurant.description}
       />
@@ -47,11 +48,11 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       <section>
         <RestaurantInfo
           address={restaurant.address}
-          cuisine={["итальянская", "европейская"]}
-          mealTime={["завтрак", "бранч", "обед", "ужин"]}
+          cuisine={tags["Тип кухни"]}
+          mealTime={tags["Время приема пищи"]}
           phoneNumber={"+7(343)364-42-40"}
-          website={"https://italians-ekb.ru/"}
-          parking={["есть", "бесплатная"]}
+          website={restaurant.site}
+          parking={tags["Парковка"]}
           schedule={restaurant.schedule}
         />
       </section>
