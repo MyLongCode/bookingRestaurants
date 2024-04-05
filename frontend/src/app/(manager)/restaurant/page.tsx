@@ -51,7 +51,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
           address={restaurant.address}
           cuisine={tags["Тип кухни"]}
           mealTime={tags["Время приема пищи"]}
-          phoneNumber={"+7(343)364-42-40"}
+          phoneNumber={restaurant.phone}
           website={restaurant.site}
           parking={tags["Парковка"]}
           schedule={restaurant.schedule}

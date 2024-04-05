@@ -6,6 +6,7 @@ export type Restaurant = {
   address: string;
   description: string;
   logo: string;
+  phone: string;
   preview: string;
   site: string;
   schedule: ScheduleDay[];
