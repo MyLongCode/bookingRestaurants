@@ -15,10 +15,19 @@
   border-radius: 50px;
   color: $text-color-main;
   min-width: 320px;
+  resize: vertical;
+  min-height: 75px;
+  max-height: 200px;
 }
 
 .eye {
   position: absolute;
   cursor: pointer;
   right: 20px;
+}
+
+.alternative {
+  .input {
+    border-radius: 8px;
+  }
 }

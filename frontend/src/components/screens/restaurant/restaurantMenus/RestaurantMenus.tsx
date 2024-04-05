@@ -21,6 +21,7 @@ const RestaurantMenus = ({ menus }: RestaurantMenusProps) => {
           />
         );
       })}
+      <RestaurantMenu id={-1} name={"Новое меню"} category={[]} />
     </div>
   );
 };

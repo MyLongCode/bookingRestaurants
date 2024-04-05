@@ -5,21 +5,41 @@ import styles from "./input.module.scss";
 import Image from "next/image";
 import { clsx } from "clsx";
 
-type InputProps = React.ComponentProps<"input"> & {};
+type InputProps = React.ComponentProps<"input"> & React.ComponentProps<"textarea"> & {
+  style?: "default" | "alternative";
+  inputType?: "default" | "textarea";
+};
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, type, className, ...props }: InputProps, ref) => {
+  ({ children, type, className, style, inputType, ...props }: InputProps, ref) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     return (
-      <div className={clsx(styles.wrapper, className)}>
-        <input
-          className={styles.input}
-          maxLength={type === "password" ? 22 : 30}
-          type={type === "password" && !passwordVisible ? "password" : "text"}
-          ref={ref}
-          {...props}
-        />
+      <div
+        className={clsx(
+          styles.wrapper,
+          {
+            [styles.alternative]: style === "alternative",
+          },
+          className,
+        )}
+      >
+        {inputType !== "textarea" ? (
+          <input
+            className={styles.input}
+            maxLength={type === "password" ? 22 : 30}
+            type={type === "password" && !passwordVisible ? "password" : "text"}
+            ref={ref}
+            {...props}
+          />
+        ) : (
+          <textarea
+            className={styles.input}
+            maxLength={135}
+            inputMode={"text"}
+            {...props}
+          />
+        )}
         {type === "password" && (
           <Image
             className={styles.eye}
