@@ -11,8 +11,9 @@ from restaraunts.views import (
     RestaurantViewSet, MenuViewSet, MenuListViewSet,
     TagViewSet, TagGroupViewSet, RestaurantTagsViewSet,
     NestedCategoryViewSet, DishItemViewSet, PhotoViewSet,
-    PhotoListViewSet, CategoryViewSet, RestaurantTagListViewSet,
-    DishListViewSet, RestaurantListViewSet
+    PhotoListViewSet, CategoryViewSet, DishListViewSet,
+    RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
+    RestaurantTagsPATCHViewSet
 )
 from rest_framework_nested import routers
 
@@ -31,7 +32,9 @@ router.register(r'photo', PhotoViewSet, basename='photo')
 restaurant_router = routers.NestedSimpleRouter(router, r'restaurant', lookup='restaurant')
 restaurant_router.register(r'menu', MenuListViewSet, basename='menu')
 restaurant_router.register(r'photo', PhotoListViewSet, basename='photo')
-restaurant_router.register(r'tag', RestaurantTagListViewSet, basename='tag')
+restaurant_router.register(r'tag', RestaurantTagsListViewSet, basename='tag')
+restaurant_router.register(r'tag-put', RestaurantTagsPUTViewSet, basename='tagPUT')
+restaurant_router.register(r'tag-patch', RestaurantTagsPATCHViewSet, basename='tagPATCH')
 
 dishes_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
 dishes_router.register(r'dishes', DishListViewSet, basename='dishes')

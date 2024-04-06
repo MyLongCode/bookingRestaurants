@@ -124,12 +124,11 @@ class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
     permission_classes = []
 
 
-class RestaurantTagListViewSet(viewsets.ViewSet):
+class RestaurantTagsListViewSet(viewsets.ViewSet):
     permission_classes = []
 
     def list(self, request, restaurant_pk=None):
-        pk = self.kwargs['restaurant_pk']
-        restaurant_tags = RestaurantTags.objects.filter(restaurant=pk).values_list('tag', flat=True)
+        restaurant_tags = RestaurantTags.objects.filter(restaurant=restaurant_pk).values_list('tag', flat=True)
         tags = Tag.objects.filter(id__in=restaurant_tags)
         data = dict()
         for i in tags:
@@ -139,6 +138,52 @@ class RestaurantTagListViewSet(viewsets.ViewSet):
             else:
                 data[group].append({'id': i.id, 'name': i.name})
 
+        return Response(data)
+
+
+class RestaurantTagsPUTViewSet(viewsets.ViewSet):
+    permission_classes = []
+
+    def create(self, request, restaurant_pk=None):
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        r_tags = RestaurantTags.objects.filter(restaurant=restaurant_pk)
+        restaurant_tags = Tag.objects.filter(id__in=r_tags.values_list('tag', flat=True))
+        tags = Tag.objects.all()
+        data = {"tags": []}
+        for tag in r_tags:
+            tag.delete()
+        for i in request.data['tags']:
+            tag = Tag.objects.get(pk=int(i))
+            if tag in tags and tag not in restaurant_tags:
+                data['tags'].append(int(i))
+                RestaurantTags.objects.create(restaurant=restaurant, tag=tag)
+        return Response(data)
+
+
+class RestaurantTagsPATCHViewSet(viewsets.ViewSet):
+    permission_classes = []
+
+    def create(self, request, restaurant_pk=None):
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        r_tags = RestaurantTags.objects.filter(restaurant=restaurant_pk)
+        restaurant_tags = Tag.objects.filter(id__in=r_tags.values_list('tag', flat=True))
+        tags = Tag.objects.all()
+        data = {"tags-add": [], "tags-remove": []}
+        if 'tags-add' in request.data:
+            for i in request.data['tags-add']:
+                tag = Tag.objects.get(pk=int(i))
+                if tag in tags and tag not in restaurant_tags:
+                    data['tags-add'].append(int(i))
+                    RestaurantTags.objects.create(restaurant=restaurant, tag=tag)
+                if tag in tags and tag in restaurant_tags:
+                    data['tags-add'].append(int(i))
+                    RestaurantTags.objects.update(restaurant=restaurant, tag=tag)
+        if 'tags-remove' not in request.data:
+            for i in request.data['tags-remove']:
+                tag = Tag.objects.get(pk=int(i))
+                if tag in tags and tag not in restaurant_tags:
+                    data['tags-remove'].append(int(i))
+                    tag.delete()
         return Response(data)
 
 
