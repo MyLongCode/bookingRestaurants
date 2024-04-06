@@ -6,6 +6,7 @@ import styles from "./modal.module.scss";
 import Portal from "@/hoc/Portal";
 import ModalWindow from "@/components/shared/modal/components/modalWindow/ModalWindow";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { revalidatePhotos } from "@/lib/actions";
 
 type ModalProps = {
   children?: ReactNode;
@@ -30,11 +31,12 @@ const Modal = ({ children, state }: ModalProps) => {
     } else {
       document.body.style.overflow = "auto";
     }
+    console.log(paramsState, state);
 
     return () => {
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, [paramsState, router, state]);
+  }, [paramsState, path, state, router]);
 
   return (
     paramsState === state && (

@@ -21,23 +21,17 @@ const InfiniteCarousel = ({ images }: InfiniteCarouselProps) => {
   return (
     <div className={styles.wrapper}>
       <Slider
-        infinite={true}
-        slidesToShow={4}
+        infinite={images.length >= 2}
+        slidesToShow={images.length > 3 ? 4 : images.length > 2 ? 3 : 2}
         autoplay={true}
         autoplaySpeed={4000}
         swipeToSlide={true}
+        swipe={images.length > 2}
         slidesToScroll={1}
-        centerMode={true}
         speed={2000}
         nextArrow={<NavArrow />}
         prevArrow={<NavArrow isLeft />}
         responsive={[
-          {
-            breakpoint: 1440,
-            settings: {
-              slidesToShow: 3,
-            },
-          },
           {
             breakpoint: 1200,
             settings: {

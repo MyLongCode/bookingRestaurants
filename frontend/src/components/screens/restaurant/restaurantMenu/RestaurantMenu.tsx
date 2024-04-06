@@ -23,7 +23,6 @@ const RestaurantMenu = ({
               id={category.id}
               name={category.name}
               photo={`${process.env.API_URL}${category.photo}`}
-              dish_item={category.dish_item}
             />
           );
         })}

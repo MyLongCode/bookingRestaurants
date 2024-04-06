@@ -39,7 +39,7 @@ export default class RestaurantService {
       });
   }
 
-  public static async patchTags(
+  public static async patchTags (
     id: string | number,
     data: Partial<Restaurant>,
   ): Promise<Restaurant> {

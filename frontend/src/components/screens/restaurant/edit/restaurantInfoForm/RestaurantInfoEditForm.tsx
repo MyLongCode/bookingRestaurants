@@ -2,10 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  restaurantInfoEditSchema,
-  RestaurantProfileInfoSchema,
-} from "@/restaurant/edit/restaurantInfoEditModal/restaurantInfoEditForm.schema";
 import useTags from "@/hooks/restaurant/useTags";
 import Select from "@/components/shared/controls/select/Select";
 import styles from "./restaurantInfoEditForm.module.scss";
@@ -14,6 +10,10 @@ import InputError from "@/components/shared/inputError/InputError";
 import Button from "@/components/shared/controls/button/Button";
 import RestaurantService from "@/services/restaurant/RestaurantService";
 import { useRouter } from "next/navigation";
+import {
+  restaurantInfoEditSchema,
+  RestaurantProfileInfoSchema,
+} from "./restaurantInfoEditForm.schema";
 
 const RestaurantInfoEditForm = () => {
   const { data: tags, isSuccess } = useTags();
