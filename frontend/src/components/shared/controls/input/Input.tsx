@@ -5,13 +5,17 @@ import styles from "./input.module.scss";
 import Image from "next/image";
 import { clsx } from "clsx";
 
-type InputProps = React.ComponentProps<"input"> & React.ComponentProps<"textarea"> & {
-  style?: "default" | "alternative";
-  inputType?: "default" | "textarea";
-};
+type InputProps = React.ComponentProps<"input"> &
+  React.ComponentProps<"textarea"> & {
+    style?: "default" | "alternative";
+    inputType?: "default" | "textarea";
+  };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, type, className, style, inputType, ...props }: InputProps, ref) => {
+const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
+  (
+    { children, type, className, style, inputType, ...props }: InputProps,
+    ref,
+  ) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     return (
@@ -37,6 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={styles.input}
             maxLength={135}
             inputMode={"text"}
+            ref={ref}
             {...props}
           />
         )}

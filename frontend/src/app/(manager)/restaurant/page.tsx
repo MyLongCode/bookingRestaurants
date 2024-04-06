@@ -1,14 +1,14 @@
 import React from "react";
-import RestaurantHero from "@/screens/restaurant/restaurantHero/RestaurantHero";
+import RestaurantHero from "@/restaurant/restaurantHero/RestaurantHero";
 import InfiniteCarousel from "@/components/shared/carousel/InfiniteCarousel";
 import styles from "./restaurantPage.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
-import RestaurantInfo from "@/screens/restaurant/restaurantInfo/RestaurantInfo";
-import RestaurantMenus from "@/screens/restaurant/restaurantMenus/RestaurantMenus";
-import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
+import RestaurantInfo from "@/restaurant/restaurantInfo/RestaurantInfo";
+import RestaurantMenus from "@/restaurant/restaurantMenus/RestaurantMenus";
+import RestaurantCategoryModal from "@/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 import RestaurantService from "@/services/restaurant/RestaurantService";
-import RestaurantProfileEditModal from "@/screens/restaurant/edit/RestaurantProfileEditModal";
+import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditModal/RestaurantProfileEditModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;

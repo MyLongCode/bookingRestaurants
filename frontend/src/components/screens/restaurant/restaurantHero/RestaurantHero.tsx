@@ -52,11 +52,12 @@ const RestaurantHero = ({
           Забронировать столик
         </Button>
         <Button
-          btnType={"button"}
+          btnType={"link"}
           color={"gray"}
           fontSize={"small"}
           style={"filled"}
           iconSrc={"/icons/Edit.svg"}
+          href={"?state=restaurantProfileEdit"}
         >
           Редактировать профиль ресторана
         </Button>

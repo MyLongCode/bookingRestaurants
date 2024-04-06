@@ -1,0 +1,10 @@
+@import "@/styles/variables/variables";
+
+.error {
+  font-size: 0.75rem;
+  max-width: 17rem;
+  text-align: center;
+  margin-inline: auto;
+  margin-bottom: 25px;
+  color: $text-color-error;
+}

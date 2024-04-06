@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/screens/*": ["./src/components/screens/*"]
+      "@/screens/*": ["./src/components/screens/*"],
+      "@/restaurant/*": ["./src/components/screens/restaurant/*"]
     },
     "typeRoots": ["./src/types"]
   },

@@ -68,7 +68,19 @@ const Button = ({
           {children}
         </button>
       ) : (
-        <Link href={href} className={cls} {...props}>
+        <Link href={href} className={cls} scroll={false} {...props}>
+          {iconSrc && (
+            <Image
+              className={clsx(
+                styles.icon,
+                iconPosition === "right" && styles.icon_right,
+              )}
+              src={iconSrc}
+              alt={"Иконка"}
+              width={22}
+              height={22}
+            />
+          )}
           {children}
         </Link>
       )}
