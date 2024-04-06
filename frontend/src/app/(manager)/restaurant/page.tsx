@@ -9,6 +9,7 @@ import RestaurantMenus from "@/restaurant/restaurantMenus/RestaurantMenus";
 import RestaurantCategoryModal from "@/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 import RestaurantService from "@/services/restaurant/RestaurantService";
 import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditModal/RestaurantProfileEditModal";
+import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/RestaurantInfoEditModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -75,6 +76,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       <section></section>
       <RestaurantCategoryModal searchParams={searchParams} />
       <RestaurantProfileEditModal />
+      <RestaurantInfoEditModal />
     </main>
   );
 };

@@ -38,4 +38,20 @@ export default class RestaurantService {
         return res.data;
       });
   }
+
+  public static async patchTags(
+    id: string | number,
+    data: Partial<Restaurant>,
+  ): Promise<Restaurant> {
+    return await axiosAuth
+    .patch<Restaurant>(`/restaurant/${id}/`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(async (res) => {
+      await revalidateRestaurant();
+      return res.data;
+    });
+  }
 }

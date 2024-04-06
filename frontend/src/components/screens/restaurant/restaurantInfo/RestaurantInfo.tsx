@@ -95,28 +95,19 @@ const RestaurantInfo = async ({
         </ul>
         <Button
           className={styles.btn}
-          btnType={"button"}
+          btnType={"link"}
           style={"filled"}
           color={"gray"}
           iconSrc={"/icons/Edit.svg"}
           fontSize={"small"}
+          href={"?state=restaurantInfoEdit"}
         >
           Изменить информацию
         </Button>
       </section>
       <section className={styles.mapContainer}>
         <h3>Карта</h3>
-        <YandexMap state={{ center: pos, zoom: 15 }} width={550} height={400} />
-        <Button
-          className={clsx(styles.btn, styles.mapBtn)}
-          btnType={"button"}
-          style={"filled"}
-          color={"gray"}
-          iconSrc={"/icons/Edit.svg"}
-          fontSize={"small"}
-        >
-          Изменить местоположение
-        </Button>
+        <YandexMap state={{ center: pos, zoom: 15 }} width={500} height={500} />
       </section>
     </section>
   );
