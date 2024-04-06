@@ -26,6 +26,7 @@
 }
 
 .rating {
+  margin-left: 440px;
   justify-content: flex-end;
 }
 
@@ -38,7 +39,7 @@
   filter: blur(2px);
 }
 
-.img {
+.preview {
   object-fit: cover;
 }
 

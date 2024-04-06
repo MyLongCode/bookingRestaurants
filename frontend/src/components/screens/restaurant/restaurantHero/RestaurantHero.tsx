@@ -21,7 +21,7 @@ const RestaurantHero = ({
     <section className={styles.wrapper}>
       <div className={styles.imgContainer}>
         <Image
-          className={styles.img}
+          className={styles.preview}
           src={imgSrc}
           alt={"Фон ресторана"}
           fill

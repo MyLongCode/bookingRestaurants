@@ -7,12 +7,12 @@ import Button from "@/components/shared/controls/button/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputError from "@/components/shared/inputError/InputError";
-import RestaurantService from "@/services/restaurant/RestaurantService";
 import { useRouter } from "next/navigation";
 import {
   restaurantProfileEditSchema,
   RestaurantProfileEditSchema,
 } from "./restaurantProfileEditForm.schema";
+import RestaurantService from "@/services/restaurant/RestaurantService";
 
 const RestaurantProfileEditForm = () => {
   const router = useRouter();
@@ -27,10 +27,8 @@ const RestaurantProfileEditForm = () => {
   });
 
   const handleSave = async (data: RestaurantProfileEditSchema) => {
-    await RestaurantService.patchProfile(1, data).then((data) => {
-      router.push("restaurant");
-      return data;
-    });
+    await RestaurantService.patchProfile(1, data);
+    router.push("restaurant", { scroll: false });
   };
 
   return (
