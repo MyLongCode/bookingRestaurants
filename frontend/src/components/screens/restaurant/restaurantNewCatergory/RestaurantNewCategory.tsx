@@ -1,9 +1,12 @@
 import React from "react";
 import Button from "@/components/shared/controls/button/Button";
-import RestaurantDish from "@/screens/restaurant/restaurantDish/RestaurantDish";
 import styles from "./restaurantNewCategory.module.scss";
 
-const RestaurantNewCategory = () => {
+type RestaurantNewCategoryProps = {
+  menuId: string | number;
+};
+
+const RestaurantNewCategory = ({ menuId }: RestaurantNewCategoryProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.upperContainer}>
@@ -13,13 +16,13 @@ const RestaurantNewCategory = () => {
           iconSrc={"/icons/AddImage.svg"}
         />
       </div>
-      <h5 className={styles.title}>Добавить название</h5>
       <Button
-        btnType={"button"}
+        btnType={"link"}
         style={"outlined"}
         color={"gray"}
         iconSrc={"/icons/Edit.svg"}
         fontSize={"small"}
+        href={`?state=categoryEdit&type=create&menuId=${menuId}`}
         className={styles.btn}
       >
         Добавить категорию

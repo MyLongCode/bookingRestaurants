@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import type { Menu } from "@/models/restaurant/menu.type";
 import RestaurantCategory from "../restaurantCategory/RestaurantCategory";
 import styles from "./restaurantMenu.module.scss";
 import RestaurantNewCategory from "@/screens/restaurant/restaurantNewCatergory/RestaurantNewCategory";
-import Image from "next/image";
 import Button from "@/components/shared/controls/button/Button";
 
 type RestaurantMenuProps = Menu & {};
@@ -13,12 +12,18 @@ type RestaurantMenuProps = Menu & {};
 const RestaurantMenu = ({
   category: categories,
   name,
+  id
 }: RestaurantMenuProps) => {
   return (
     <div>
       <div className={styles.titleContainer}>
         <h4 className={styles.title}>{name}</h4>
-        <Button btnType={"link"} style={"flat"} iconSrc={"/icons/Edit.svg"} href={"?state=menuEdit&type=edit"} />
+        <Button
+          btnType={"link"}
+          style={"flat"}
+          iconSrc={"/icons/Edit.svg"}
+          href={"?state=menuEdit&type=edit"}
+        />
       </div>
       <ul className={styles.categories}>
         {categories.map((category) => {
@@ -31,7 +36,7 @@ const RestaurantMenu = ({
             />
           );
         })}
-        <RestaurantNewCategory />
+        <RestaurantNewCategory menuId={id} />
       </ul>
     </div>
   );

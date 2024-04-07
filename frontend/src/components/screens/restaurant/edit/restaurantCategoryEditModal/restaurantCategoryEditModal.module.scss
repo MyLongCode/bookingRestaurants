@@ -1,0 +1,64 @@
+@import "@/styles/variables/variables";
+
+.imageInputWrapper {
+  position: relative;
+  text-align: center;
+  margin-top: 15px;
+  padding-left: 20px;
+  margin-bottom: 25px;
+  width: fit-content;
+}
+
+.imageInput {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.selectedImage {
+  position: relative;
+  min-height: 260px;
+  width: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid $input-border-color;
+}
+
+.imageInputBtn {
+  width: 100%;
+  color: $text-color-main;
+  font-family: var(--font-comfortaa);
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding-inline: 25px;
+}
+
+.input {
+  width: 100%;
+}
+
+.submitBtn {
+  margin-top: 20px;
+  width: 70%;
+}
