@@ -100,7 +100,7 @@ const RestaurantInfo = async ({
           color={"gray"}
           iconSrc={"/icons/Edit.svg"}
           fontSize={"small"}
-          href={"?state=restaurantInfoEdit"}
+          href={"?state=infoEdit"}
         >
           Изменить информацию
         </Button>

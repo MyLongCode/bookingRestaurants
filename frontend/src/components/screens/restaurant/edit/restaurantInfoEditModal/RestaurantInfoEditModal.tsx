@@ -15,7 +15,7 @@ const RestaurantProfileEditModal = () => {
   }, []);
 
   return (
-    <Modal state={"restaurantInfoEdit"}>
+    <Modal state={"infoEdit"}>
       <Modal.Window opacityType={"transparent"}>
         <Modal.Title>Профиль заведения</Modal.Title>
         <RestaurantInfoEditForm />

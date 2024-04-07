@@ -10,14 +10,13 @@ import RestaurantCategoryModal from "@/restaurant/restaurantCategoryModal/Restau
 import RestaurantService from "@/services/restaurant/RestaurantService";
 import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditModal/RestaurantProfileEditModal";
 import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/RestaurantInfoEditModal";
-import { MultiSelect } from "react-multi-select-component";
-import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
 import RestaurantMenuEditModal from "@/restaurant/edit/restaurantMenuEditModal/RestaurantMenuEditModal";
 import RestaurantCategoryEditModal from "@/restaurant/edit/restaurantCategoryEditModal/RestaurantCategoryEditModal";
 import DeleteModal from "@/restaurant/edit/approveModal/DeleteModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
+  state?: string;
 };
 
 type RestaurantPageProps = {
@@ -66,15 +65,19 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       <section className={styles.menus}>
         <RestaurantMenus menus={menus} />
       </section>
-      <section>
-
-      </section>
-      <RestaurantCategoryModal searchParams={searchParams} />
-      <RestaurantProfileEditModal />
-      <RestaurantInfoEditModal />
-      <RestaurantMenuEditModal />
-      <RestaurantCategoryEditModal />
-      <DeleteModal />
+      <section></section>
+      {searchParams.state === "category" && (
+        <RestaurantCategoryModal searchParams={searchParams} />
+      )}
+      {searchParams.state === "profileEdit" && (
+        <RestaurantProfileEditModal />
+      )}
+      {searchParams.state === "infoEdit" && (
+        <RestaurantInfoEditModal />
+      )}
+      {searchParams.state === "menuEdit" && <RestaurantMenuEditModal />}
+      {searchParams.state === "categoryEdit" && <RestaurantCategoryEditModal />}
+      {searchParams.state === "delete" && <DeleteModal />}
     </main>
   );
 };

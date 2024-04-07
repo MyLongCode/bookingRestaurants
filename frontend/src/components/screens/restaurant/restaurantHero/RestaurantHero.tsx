@@ -57,7 +57,7 @@ const RestaurantHero = ({
           fontSize={"small"}
           style={"filled"}
           iconSrc={"/icons/Edit.svg"}
-          href={"?state=restaurantProfileEdit"}
+          href={"?state=profileEdit"}
         >
           Редактировать профиль ресторана
         </Button>
