@@ -39,19 +39,15 @@ export default class RestaurantService {
       });
   }
 
-  public static async patchTags (
+  public static async patchTags(
     id: string | number,
-    data: Partial<Restaurant>,
-  ): Promise<Restaurant> {
+    data: Partial<RestaurantTags>,
+  ): Promise<RestaurantTags> {
     return await axiosAuth
-    .patch<Restaurant>(`/restaurant/${id}/`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(async (res) => {
-      await revalidateRestaurant();
-      return res.data;
-    });
+      .post<RestaurantTags>(`/restaurant/${id}/tag-put/`, data)
+      .then(async (res) => {
+        await revalidateRestaurant();
+        return res.data;
+      });
   }
 }

@@ -10,6 +10,8 @@ import RestaurantCategoryModal from "@/restaurant/restaurantCategoryModal/Restau
 import RestaurantService from "@/services/restaurant/RestaurantService";
 import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditModal/RestaurantProfileEditModal";
 import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/RestaurantInfoEditModal";
+import { MultiSelect } from "react-multi-select-component";
+import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -45,7 +47,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
         >
           Добавить все фото сразу
         </Button>
-        <InfiniteCarousel images={photos.slice(0, photos.length / 2)} />
+        <InfiniteCarousel images={photos} />
       </section>
       <section>
         <RestaurantInfo
@@ -58,22 +60,12 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
           schedule={restaurant.schedule}
         />
       </section>
-      <section className={styles.carousel}>
-        <Button
-          btnType={"button"}
-          color={"gray"}
-          fontSize={"small"}
-          iconSrc={"/icons/AddImage.svg"}
-          style={"flat"}
-        >
-          Добавить все фото сразу
-        </Button>
-        <InfiniteCarousel images={photos.slice(photos.length / 2)} />
-      </section>
-      <section>
+      <section className={styles.menus}>
         <RestaurantMenus menus={menus} />
       </section>
-      <section></section>
+      <section>
+
+      </section>
       <RestaurantCategoryModal searchParams={searchParams} />
       <RestaurantProfileEditModal />
       <RestaurantInfoEditModal />

@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useTags from "@/hooks/restaurant/useTags";
-import Select from "@/components/shared/controls/select/Select";
 import styles from "./restaurantInfoEditForm.module.scss";
 import Input from "@/components/shared/controls/input/Input";
 import InputError from "@/components/shared/inputError/InputError";
@@ -14,8 +13,35 @@ import {
   restaurantInfoEditSchema,
   RestaurantProfileInfoSchema,
 } from "./restaurantInfoEditForm.schema";
+import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
+import React, { useState } from "react";
+import { RestaurantTag } from "@/models/restaurant/restaurantTag.type";
+import { Option } from "react-multi-select-component";
+
+const makeOptionsFromTags = (tags?: RestaurantTag[]) => {
+  return (
+    tags?.map((tag) => ({
+      label: tag.name,
+      value: tag.id,
+    })) || []
+  );
+};
+
+const makeTagsFromOptions = (options?: Option[]) => {
+  return (
+    options?.map((option) => ({
+      id: option.value,
+      name: option.label,
+    })) || []
+  );
+};
 
 const RestaurantInfoEditForm = () => {
+  const [cuisineTags, setCuisineTags] = useState<RestaurantTag[]>([]);
+  const [mealTimeTags, setMealTimeTags] = useState<RestaurantTag[]>([]);
+  const [parkingTags, setParkingTags] = useState<RestaurantTag[]>([]);
+  const [restrictionTag, setRestrictionTags] = useState<RestaurantTag[]>([]);
+
   const { data: tags, isSuccess } = useTags();
   const router = useRouter();
 
@@ -41,41 +67,51 @@ const RestaurantInfoEditForm = () => {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit(handleSave)}>
-      <Select {...register("cuisine")}>
-        <option value={undefined}>Тип кухни</option>
-        {tags?.["Тип кухни"]?.map((tag) => {
-          return <option key={tag.id}>{tag.name}</option>;
-        })}
-      </Select>
-      <Select {...register("mealTime")}>
-        <option value={undefined}>Время приема пищи</option>
-        {tags?.["Время приема пищи"]?.map((tag) => {
-          return <option key={tag.id}>{tag.name}</option>;
-        })}
-      </Select>
-      <Select {...register("restrictions")}>
-        <option value={undefined}>Пищевые ограничения</option>
-        {tags?.["Пищевые ограничения"]?.map((tag) => {
-          return <option key={tag.id}>{tag.name}</option>;
-        })}
-      </Select>
-      <Select {...register("parking")}>
-        <option value={undefined}>Парковка</option>
-        {tags?.["Парковка"]?.map((tag) => {
-          return <option key={tag.id}>{tag.name}</option>;
-        })}
-      </Select>
+      <MultipleSelect
+        {...register("cuisine")}
+        handleChange={(value) => {
+          setCuisineTags(makeTagsFromOptions(value));
+        }}
+        label={"Тип кухни"}
+        options={makeOptionsFromTags(tags?.["Тип кухни"])}
+      />
+      <MultipleSelect
+        {...register("mealTime")}
+        handleChange={(value) => {
+          setMealTimeTags(makeTagsFromOptions(value));
+        }}
+        label={"Время приема пищи"}
+        options={makeOptionsFromTags(tags?.["Время приема пищи"])}
+      />
+      <MultipleSelect
+        {...register("parking")}
+        handleChange={(value) => {
+          setParkingTags(makeTagsFromOptions(value));
+        }}
+        label={"Парковка"}
+        options={makeOptionsFromTags(tags?.["Парковка"])}
+      />
+      <MultipleSelect
+        {...register("restrictions")}
+        handleChange={(value) => {
+          setRestrictionTags(makeTagsFromOptions(value));
+        }}
+        label={"Пищевые ограничения"}
+        options={makeOptionsFromTags(tags?.["Пищевые ограничения"])}
+      />
       <Input
         type={"text"}
         style={"alternative"}
         placeholder={"Адрес"}
         {...register("address")}
+        className={styles.input}
       />
       <Input
         type={"text"}
         style={"alternative"}
         placeholder={"Телефон"}
         {...register("phone")}
+        className={styles.input}
       />
       <InputError error={errors.phone?.message} />
       <Input
@@ -83,6 +119,7 @@ const RestaurantInfoEditForm = () => {
         style={"alternative"}
         placeholder={"Сайт"}
         {...register("site")}
+        className={styles.input}
       />
 
       <Button

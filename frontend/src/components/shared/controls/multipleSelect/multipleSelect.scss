@@ -1,0 +1,26 @@
+@import "@/styles/variables/variables";
+
+div.multi-select {
+  --rmsc-bg: none;
+  --rmsc-hover: #676767;
+  --rmsc-active: #676767;
+  --rmsc-border: #00F100;
+  --rmsc-radius: 8px;
+  --rmsc-main: #00F100;
+  --rmsc-selected: #61a447;
+  --rmsc-h: fit-content;
+  --rmsc-gray: #00F100;
+  span.gray {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  > div > div > div {
+    padding: 10px;
+    font-family: var(--font-montserrat);
+    font-size: 1.25rem;
+  }
+}
+
+.dropdown-content {
+  background-color: rgba(0, 0, 0, 0.5);
+}
