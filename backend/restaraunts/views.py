@@ -64,13 +64,15 @@ class PhotoListViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class MenuViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class MenuViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                  GenericViewSet):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
     permission_classes = []
 
 
-class TagViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class TagViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                 GenericViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = []
@@ -106,19 +108,22 @@ class NestedCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = []
 
 
-class DishItemViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class DishItemViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin, GenericViewSet):
     queryset = DishItem.objects.all()
     serializer_class = DishItemSerializer
     permission_classes = []
 
 
-class PhotoViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class PhotoViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, GenericViewSet):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = []
 
 
-class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
@@ -148,13 +153,15 @@ class RestaurantTagsPUTViewSet(viewsets.ViewSet):
         restaurant = Restaurant.objects.get(pk=restaurant_pk)
         r_tags = RestaurantTags.objects.filter(restaurant=restaurant_pk)
         restaurant_tags = Tag.objects.filter(id__in=r_tags.values_list('tag', flat=True))
-        tags = Tag.objects.all()
         data = {"tags": []}
         for tag in r_tags:
             tag.delete()
         for i in request.data['tags']:
-            tag = Tag.objects.get(pk=int(i))
-            if tag in tags and tag not in restaurant_tags:
+            try:
+                tag = Tag.objects.get(pk=int(i))
+            except Tag.DoesNotExist:
+                return Response({'message': f'Tag: {i} not found'})
+            if tag not in restaurant_tags:
                 data['tags'].append(int(i))
                 RestaurantTags.objects.create(restaurant=restaurant, tag=tag)
         return Response(data)
@@ -167,23 +174,25 @@ class RestaurantTagsPATCHViewSet(viewsets.ViewSet):
         restaurant = Restaurant.objects.get(pk=restaurant_pk)
         r_tags = RestaurantTags.objects.filter(restaurant=restaurant_pk)
         restaurant_tags = Tag.objects.filter(id__in=r_tags.values_list('tag', flat=True))
-        tags = Tag.objects.all()
         data = {"tags-add": [], "tags-remove": []}
         if 'tags-add' in request.data:
             for i in request.data['tags-add']:
-                tag = Tag.objects.get(pk=int(i))
-                if tag in tags and tag not in restaurant_tags:
+                try:
+                    tag = Tag.objects.get(pk=int(i))
+                except Tag.DoesNotExist:
+                    return Response({'message': f'Tag: {i} not found'})
+                if tag not in restaurant_tags:
                     data['tags-add'].append(int(i))
                     RestaurantTags.objects.create(restaurant=restaurant, tag=tag)
-                if tag in tags and tag in restaurant_tags:
-                    data['tags-add'].append(int(i))
-                    RestaurantTags.objects.update(restaurant=restaurant, tag=tag)
-        if 'tags-remove' not in request.data:
+        if 'tags-remove' in request.data:
             for i in request.data['tags-remove']:
-                tag = Tag.objects.get(pk=int(i))
-                if tag in tags and tag not in restaurant_tags:
+                try:
+                    tag = Tag.objects.get(pk=int(i))
+                except Tag.DoesNotExist:
+                    return Response({'message': f'Tag: {i} not found'})
+                if tag in restaurant_tags:
                     data['tags-remove'].append(int(i))
-                    tag.delete()
+                    RestaurantTags.objects.get(restaurant=restaurant, tag=tag).delete()
         return Response(data)
 
 
@@ -204,5 +213,4 @@ class RestaurantListViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
-
-#class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
+# class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
