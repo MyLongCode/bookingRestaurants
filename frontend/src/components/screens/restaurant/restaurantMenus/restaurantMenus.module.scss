@@ -17,3 +17,13 @@
   opacity: 0.15;
   font-weight: 600;
 }
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.newMenuBtn {
+  height: fit-content;
+}

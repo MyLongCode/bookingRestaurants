@@ -1,0 +1,92 @@
+"use client";
+
+import React, {useEffect} from "react";
+import Modal from "@/components/shared/modal/Modal";
+import Input from "@/components/shared/controls/input/Input";
+import { useRouter, useSearchParams } from "next/navigation";
+import Button from "@/components/shared/controls/button/Button";
+import { FieldValues, useForm } from "react-hook-form";
+import styles from "./restaurantMenuEditModal.module.scss";
+import MenuService from "@/services/restaurant/MenuService";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {revalidateMenus} from "@/lib/actions";
+
+const menuEditScheme = z.object({
+  name: z.string().optional(),
+});
+
+const menuCreateScheme = z.object({
+  name: z.string(),
+});
+
+type MenuEditScheme = z.infer<typeof menuEditScheme>;
+
+const RestaurantMenuEditModal = () => {
+  const params = useSearchParams();
+  const router = useRouter();
+  const type = params.get("type");
+
+  const {
+    register,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({
+    mode: "onTouched",
+    resolver: zodResolver(type === "edit" ? menuEditScheme : menuCreateScheme),
+  });
+
+  useEffect(() => {
+    revalidateMenus();
+  }, []);
+
+  const handleSave = async (data: MenuEditScheme) => {
+    if (type === "create") {
+      await MenuService.create(data.name!, 1);
+    } else {
+      await MenuService.patch(1, data.name);
+    }
+    await revalidateMenus();
+    router.push("restaurant", { scroll: false });
+  };
+
+  return (
+    <Modal state={"menuEdit"}>
+      <Modal.Window opacityType={"transparent"}>
+        <Modal.Title>
+          {type === "edit" ? "Редактирование меню" : "Создание нового меню"}
+        </Modal.Title>
+        <form className={styles.form} onSubmit={handleSubmit(handleSave)}>
+          <Input
+            style={"alternative"}
+            type={"text"}
+            placeholder={"Название"}
+            {...register("name", {
+              required: type === "create",
+            })}
+          />
+          <Button
+            btnType={"button"}
+            type={"submit"}
+            style={"filled"}
+            font={"comfortaa"}
+            disabled={type === "create" && !isValid}
+          >
+            Сохранить
+          </Button>
+          <Button
+            btnType={"link"}
+            style={"flat"}
+            fontSize={"small"}
+            font={"comfortaa"}
+            href={"restaurant"}
+          >
+            Отменить
+          </Button>
+        </form>
+      </Modal.Window>
+    </Modal>
+  );
+};
+
+export default RestaurantMenuEditModal;

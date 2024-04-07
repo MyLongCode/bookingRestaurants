@@ -29,6 +29,7 @@
   background-color: $btn-main-color;
 
   &:disabled {
+    color: $btn-text-disabled-color;
     background-color: $btn-disabled-color;
   }
 }
@@ -71,6 +72,7 @@
     border: 1px solid $btn-gray-outline-color;
 
     &:disabled {
+      color: $btn-text-disabled-color;
       background-color: $btn-disabled-color;
     }
   }
@@ -80,7 +82,7 @@
     border: 2px solid white;
 
     &:disabled {
-      color: $btn-disabled-color;
+      color: $btn-text-disabled-color;
       border-color: $btn-disabled-color;
     }
   }

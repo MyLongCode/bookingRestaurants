@@ -12,6 +12,7 @@ import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditM
 import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/RestaurantInfoEditModal";
 import { MultiSelect } from "react-multi-select-component";
 import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
+import RestaurantMenuEditModal from "@/restaurant/edit/restaurantMenuEditModal/RestaurantMenuEditModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -69,6 +70,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       <RestaurantCategoryModal searchParams={searchParams} />
       <RestaurantProfileEditModal />
       <RestaurantInfoEditModal />
+      <RestaurantMenuEditModal />
     </main>
   );
 };

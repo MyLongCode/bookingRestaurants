@@ -6,7 +6,6 @@ import styles from "./modal.module.scss";
 import Portal from "@/hoc/Portal";
 import ModalWindow from "@/components/shared/modal/components/modalWindow/ModalWindow";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { revalidatePhotos } from "@/lib/actions";
 
 type ModalProps = {
   children?: ReactNode;
@@ -18,9 +17,15 @@ const Modal = ({ children, state }: ModalProps) => {
   const path = usePathname();
   const router = useRouter();
 
+  const handleOuterClick = () => {
+    document.body.style.overflow = "auto";
+    router.push(path, { scroll: false });
+  };
+
   useEffect(() => {
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        document.body.style.overflow = "auto";
         router.push(path, { scroll: false });
       }
     };
@@ -28,13 +33,11 @@ const Modal = ({ children, state }: ModalProps) => {
     if (paramsState === state) {
       document.addEventListener("keydown", handleEscKey);
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
-    console.log(paramsState, state);
 
     return () => {
       document.removeEventListener("keydown", handleEscKey);
+      document.body.style.overflow = "auto";
     };
   }, [paramsState, path, state, router]);
 
@@ -42,10 +45,7 @@ const Modal = ({ children, state }: ModalProps) => {
     paramsState === state && (
       <>
         <Portal>
-          <div
-            className={styles.wrapper}
-            onClick={() => router.push(path, { scroll: false })}
-          >
+          <div className={styles.wrapper} onClick={handleOuterClick}>
             <div
               className={styles.content}
               onClick={(e) => e.stopPropagation()}

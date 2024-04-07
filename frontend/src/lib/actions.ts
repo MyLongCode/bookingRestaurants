@@ -9,3 +9,7 @@ export async function revalidateRestaurant() {
 export async function revalidatePhotos() {
   revalidateTag("restaurant photos");
 }
+
+export async function revalidateMenus() {
+  revalidateTag("restaurant menu");
+}
