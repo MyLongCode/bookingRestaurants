@@ -12,6 +12,7 @@
   width: fit-content;
   padding: 20px;
   outline: 3px solid transparent;
+  max-width: 360px;
   transition-duration: 0.2s;
 
   &:has(> .title:hover) {

@@ -1,0 +1,44 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  border: 2px solid $modal-border-color;
+  overflow: hidden;
+  color: $text-color-accent;
+}
+
+.form {
+}
+
+.title {
+  textarea {
+    min-height: 80px;
+  }
+}
+
+.submit {
+  margin-top: 10px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-inline: 20px;
+  padding-bottom: 20px;
+}
+
+.imgContainer {
+  margin-bottom: 20px;
+  position: relative;
+  height: 230px;
+  width: 100%;
+
+  > img {
+    object-fit: cover;
+  }
+}

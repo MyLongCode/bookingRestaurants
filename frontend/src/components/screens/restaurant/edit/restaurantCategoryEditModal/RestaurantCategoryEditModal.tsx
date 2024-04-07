@@ -14,6 +14,7 @@ import Button from "@/components/shared/controls/button/Button";
 import CategoryService from "@/services/restaurant/CategoryService";
 import InputError from "@/components/shared/inputError/InputError";
 import { revalidateMenus } from "@/lib/actions";
+import ImageInput from "@/components/shared/controls/imageInput/ImageInput";
 
 const categoryEditSchema = z.object({
   photo: fileType,
@@ -78,28 +79,12 @@ const RestaurantCategoryEditModal = () => {
           <div className={styles.selectedImage}>
             {selectedImage && <Image src={selectedImage} alt={""} fill />}
           </div>
-          <div className={styles.imageInputWrapper}>
-            <input
-              type="file"
-              id="input__file"
-              accept={"image/*"}
-              className={styles.imageInput}
-              {...register("photo", {
-                onChange: handleImageChange,
-              })}
-            />
-            <label htmlFor="input__file" className={styles.imageInputBtn}>
-              <Image
-                className={styles.imageInputIcon}
-                src="/icons/AddImageGreen.svg"
-                alt="Выбрать файл"
-                width={25}
-                height={25}
-              />
-              <span className={styles.imageInputBtnText}>Добавьте фото</span>
-            </label>
-            <InputError error={errors.photo?.message?.toString()} />
-          </div>
+          <ImageInput
+            {...register("photo", {
+              onChange: handleImageChange,
+            })}
+          />
+          <InputError error={errors.photo?.message?.toString()} />
 
           <div className={styles.inputs}>
             <Input

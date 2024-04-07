@@ -7,7 +7,14 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export const CustomProviders = ({ children }: Props) => {
   return (

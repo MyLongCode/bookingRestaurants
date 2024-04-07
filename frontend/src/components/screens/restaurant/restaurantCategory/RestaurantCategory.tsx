@@ -27,8 +27,9 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
     >
       <div className={styles.upperContainer}>
         <Button
-          btnType={"button"}
+          btnType={"link"}
           style={"flat"}
+          href={`?state=categoryEdit&type=edit&id=${id}`}
           iconSrc={"/icons/AddImage.svg"}
         />
         <Button
@@ -48,7 +49,7 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
         iconSrc={"/icons/Edit.svg"}
         fontSize={"small"}
         className={styles.btn}
-        href={`?state=categoryEdit&type=edit&id=${id}`}
+        href={`?state=dishesEdit&id=${id}`}
       >
         Изменить категорию
       </Button>

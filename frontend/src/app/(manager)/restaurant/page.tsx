@@ -13,6 +13,7 @@ import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/R
 import RestaurantMenuEditModal from "@/restaurant/edit/restaurantMenuEditModal/RestaurantMenuEditModal";
 import RestaurantCategoryEditModal from "@/restaurant/edit/restaurantCategoryEditModal/RestaurantCategoryEditModal";
 import DeleteModal from "@/restaurant/edit/approveModal/DeleteModal";
+import RestaurantDishesEditModal from "@/restaurant/edit/restaurantDishesEditModal/RestaurantDishesEditModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -78,6 +79,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       {searchParams.state === "menuEdit" && <RestaurantMenuEditModal />}
       {searchParams.state === "categoryEdit" && <RestaurantCategoryEditModal />}
       {searchParams.state === "delete" && <DeleteModal />}
+      {searchParams.state === "dishesEdit" && <RestaurantDishesEditModal />}
     </main>
   );
 };
