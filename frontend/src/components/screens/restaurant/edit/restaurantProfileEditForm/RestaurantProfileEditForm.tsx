@@ -20,7 +20,7 @@ const RestaurantProfileEditForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isLoading },
   } = useForm<RestaurantProfileEditSchema>({
     resolver: zodResolver(restaurantProfileEditSchema),
     mode: "onTouched",
@@ -75,7 +75,7 @@ const RestaurantProfileEditForm = () => {
           font={"comfortaa"}
           style={"filled"}
           type={"submit"}
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
         >
           Сохранить
         </Button>

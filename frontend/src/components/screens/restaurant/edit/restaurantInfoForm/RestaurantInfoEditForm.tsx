@@ -47,7 +47,7 @@ const RestaurantInfoEditForm = () => {
 
   const {
     register,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isLoading },
     handleSubmit,
   } = useForm<RestaurantProfileInfoSchema>({
     resolver: zodResolver(restaurantInfoEditSchema),
@@ -127,6 +127,7 @@ const RestaurantInfoEditForm = () => {
         style={"filled"}
         font={"comfortaa"}
         fontSize={"small"}
+        disabled={isLoading}
       >
         Сохранить
       </Button>

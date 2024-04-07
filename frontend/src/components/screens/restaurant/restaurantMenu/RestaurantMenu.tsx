@@ -5,6 +5,8 @@ import type { Menu } from "@/models/restaurant/menu.type";
 import RestaurantCategory from "../restaurantCategory/RestaurantCategory";
 import styles from "./restaurantMenu.module.scss";
 import RestaurantNewCategory from "@/screens/restaurant/restaurantNewCatergory/RestaurantNewCategory";
+import Image from "next/image";
+import Button from "@/components/shared/controls/button/Button";
 
 type RestaurantMenuProps = Menu & {};
 
@@ -14,7 +16,10 @@ const RestaurantMenu = ({
 }: RestaurantMenuProps) => {
   return (
     <div>
-      <h4 className={styles.title}>{name}</h4>
+      <div className={styles.titleContainer}>
+        <h4 className={styles.title}>{name}</h4>
+        <Button btnType={"link"} style={"flat"} iconSrc={"/icons/Edit.svg"} href={"?state=menuEdit&type=edit"} />
+      </div>
       <ul className={styles.categories}>
         {categories.map((category) => {
           return (

@@ -3,12 +3,22 @@
 .title {
   font-size: 2.5rem;
   text-decoration: underline 5px $text-color-underline;
-  margin-left: 130px;
-  margin-bottom: 100px;
+  transition-duration: 0.2s;
 }
 
 .categories {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 30px;
+}
+
+.titleContainer {
+  margin-left: 130px;
+  margin-bottom: 100px;
+  display: flex;
+  gap: 20px;
+
+  &:has(a:hover) {
+    color: $text-color-accent;
+  }
 }
