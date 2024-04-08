@@ -8,12 +8,15 @@ import CategoryService from "@/services/restaurant/CategoryService";
 import styles from "./deleteModal.module.scss";
 import DishesService from "@/services/restaurant/DishesService";
 import { queryClient } from "@/app/providers";
+import MenuService from "@/services/restaurant/MenuService";
+import {revalidateMenus} from "@/lib/actions";
 
 const DeleteModal = () => {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
   const categoryId = searchParams.get("categoryId");
   const dishId = searchParams.get("dishId");
+  const menuId = searchParams.get("menuId");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -25,6 +28,10 @@ const DeleteModal = () => {
       await DishesService.delete(dishId);
       await queryClient.invalidateQueries({ queryKey: ["restaurant dishes"] });
     }
+    if (type === "menu" && menuId) {
+      await MenuService.delete(menuId);
+      await revalidateMenus();
+    }
     close();
   };
 
@@ -34,7 +41,8 @@ const DeleteModal = () => {
     params.delete("type");
     params.delete("dishId");
     params.delete("categoryId");
-    router.replace(`${pathname}?${params.toString()}`);
+    params.delete("menuId");
+    router.replace(`${pathname}?${params.toString()}`, {scroll: false});
   };
 
   return (
