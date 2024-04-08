@@ -44,7 +44,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True, null=True, blank=True)
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
-    avatar = models.ImageField(upload_to='images/avatars')
+    avatar = models.ImageField(upload_to='images/avatars/', null=True, blank=True)
     birth_date = models.DateField(null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

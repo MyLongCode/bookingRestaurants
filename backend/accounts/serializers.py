@@ -20,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.is_active = validated_data.get('is_active', instance.is_active)
         instance.username = validated_data.get('username', instance.username)
         instance.role = validated_data.get('role', instance.role)
+        instance.save()
         return instance
 
     class Meta:

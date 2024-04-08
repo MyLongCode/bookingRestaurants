@@ -51,7 +51,7 @@ class MenuListViewSet(viewsets.ViewSet):
 
     def list(self, request, restaurant_pk=None):
         queryset = Menu.objects.filter(restaurant=restaurant_pk)
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
 
