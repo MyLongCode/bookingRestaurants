@@ -13,9 +13,8 @@ import Button from "@/components/shared/controls/button/Button";
 import ImageInput from "@/components/shared/controls/imageInput/ImageInput";
 import DishesService from "@/services/restaurant/DishesService";
 import InputError from "@/components/shared/inputError/InputError";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 import { queryClient } from "@/app/providers";
-import {useRouter, useSearchParams} from "next/navigation";
 
 const restaurantDishEditSchema = z.object({
   name: z.string().optional(),
@@ -26,14 +25,32 @@ const restaurantDishEditSchema = z.object({
   }),
 });
 
+const restaurantDishCreateSchema = z.object({
+  name: z.string().min(1, "Введите название!"),
+  price: z.string().min(1, "Введите цену!"),
+  weight: z.string().min(1, "Введите вес!"),
+  photo: fileType.or(z.string()).transform((value) => {
+    return typeof value === "string" ? undefined : value;
+  }),
+});
+
 type RestaurantDishEditSchema = z.infer<typeof restaurantDishEditSchema>;
 
-const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
-  const [selectedImage, setSelectedImage] = useState<string>(photo);
+type RestaurantDishEditProps = Partial<DishItem> & { asNew?: boolean };
+
+const RestaurantDishEdit = ({
+  name,
+  weight,
+  price,
+  photo,
+  id,
+  asNew,
+}: RestaurantDishEditProps) => {
+  const [selectedImage, setSelectedImage] = useState<string>(photo || "");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const router = useRouter();
-  const params = useSearchParams().toString();
+  const params = useSearchParams();
 
   const handleImageChange = (event: InputEvent) => {
     const target = event.currentTarget as HTMLInputElement;
@@ -43,18 +60,28 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
   };
 
   const handleSave = async (data: RestaurantDishEditSchema) => {
-    await DishesService.patch(id, data);
+    if (asNew) {
+      const categoryId = params.get("id");
+      if (!categoryId) return;
+
+      await DishesService.create({
+        ...data,
+        category: categoryId,
+        compound: "-",
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["restaurant dishes"],
+      });
+    } else {
+      await DishesService.patch(id!, data);
+    }
     setIsSubmitted(true);
+    handleReset();
   };
 
   const handleReset = () => {
-    console.log(errors);
-    setSelectedImage(photo);
+    setSelectedImage(photo || "");
     reset();
-  };
-
-  const handleDelete = async () => {
-    router.push(`?${params}&state=delete&type=dish&dishId=${id}`);
   };
 
   const {
@@ -63,40 +90,48 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
     formState: { isValid, errors, isLoading, isDirty },
     reset,
   } = useForm<RestaurantDishEditSchema>({
-    resolver: zodResolver(restaurantDishEditSchema),
+    resolver: asNew
+      ? zodResolver(restaurantDishCreateSchema)
+      : zodResolver(restaurantDishEditSchema),
     mode: "onTouched",
     defaultValues: {
       name,
-      weight: weight.toString(),
-      price: price.toString(),
+      weight: weight?.toString(),
+      price: price?.toString(),
       photo,
     },
   });
 
   return (
     <li className={styles.wrapper}>
-      <Button
-        btnType={"button"}
-        style={"flat"}
-        type={"button"}
-        iconSrc={"/icons/Exit.svg"}
-        className={styles.delete}
-        onClick={handleDelete}
-      />
+      {!asNew && (
+        <Button
+          btnType={"link"}
+          style={"flat"}
+          type={"button"}
+          iconSrc={"/icons/Exit.svg"}
+          className={styles.delete}
+          href={`?${params.toString()}&state=delete&type=dish&dishId=${id}`}
+        />
+      )}
       <form
         className={styles.form}
         onSubmit={handleSubmit(handleSave)}
-        onChange={() => setIsSubmitted(false)}
+        onChange={() => isSubmitted && setIsSubmitted(false)}
       >
-        <div className={styles.imgContainer}>
-          <Image src={selectedImage} alt={""} fill sizes={"1"} />
+        <div>
+          <div className={styles.imgContainer}>
+            {selectedImage && (
+              <Image src={selectedImage} alt={""} fill sizes={"1"} />
+            )}
+          </div>
+          <ImageInput
+            {...register("photo", {
+              onChange: handleImageChange,
+            })}
+          />
+          <InputError error={errors.photo?.message?.toString()} />
         </div>
-        <ImageInput
-          {...register("photo", {
-            onChange: handleImageChange,
-          })}
-        />
-        <InputError error={errors.photo?.message?.toString()} />
         <div className={styles.inputs}>
           <Input
             inputType={"textarea"}
@@ -118,6 +153,8 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
             {...register("price")}
           />
           <InputError error={errors.price?.message} />
+        </div>
+        <div className={styles.btns}>
           <Button
             btnType={"button"}
             type={"submit"}
@@ -127,7 +164,7 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
             className={styles.submit}
             disabled={!isDirty || !isValid || isLoading || isSubmitted}
           >
-            Сохранить
+            {asNew ? "Создать" : "Сохранить"}
           </Button>
           <Button
             btnType={"button"}

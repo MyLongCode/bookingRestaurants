@@ -21,7 +21,9 @@ const RestaurantDishes = ({ dishes, editable }: RestaurantDishesProps) => {
             price={dish.price}
             weight={dish.weight}
             compound={dish.compound}
-            photo={`${process.env.API_URL}${dish.photo}`}
+            photo={
+              !!dish.photo ? `${process.env.API_URL}${dish.photo}` : undefined
+            }
           />
         ) : (
           <RestaurantDish
@@ -30,10 +32,13 @@ const RestaurantDishes = ({ dishes, editable }: RestaurantDishesProps) => {
             price={dish.price}
             weight={dish.weight}
             compound={dish.compound}
-            photo={`${process.env.API_URL}${dish.photo}`}
+            photo={
+              !!dish.photo ? `${process.env.API_URL}${dish.photo}` : undefined
+            }
           />
         );
       })}
+      {editable && <RestaurantDishEdit asNew={true} />}
     </ul>
   );
 };

@@ -9,11 +9,11 @@ const RestaurantDish = ({
   price,
   compound,
   photo,
-}: Omit<DishItem, "id">) => {
+}: Omit<DishItem, "id" | "category">) => {
   return (
     <li className={styles.wrapper}>
       <div className={styles.imgContainer}>
-        <Image src={photo} alt={""} fill sizes={"1"} />
+        {photo && <Image src={photo} alt={""} fill sizes={"1"} />}
       </div>
       <h6 className={styles.title}>{name}</h6>
       <p className={styles.weight}>{weight} г</p>

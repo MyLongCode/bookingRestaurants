@@ -4,5 +4,6 @@ export type DishItem = {
   price: number | string;
   weight: number | string;
   compound: string;
-  photo: string;
+  photo?: string;
+  category: number | string;
 };
