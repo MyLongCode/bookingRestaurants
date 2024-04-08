@@ -9,13 +9,6 @@ type RestaurantNewCategoryProps = {
 const RestaurantNewCategory = ({ menuId }: RestaurantNewCategoryProps) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.upperContainer}>
-        <Button
-          btnType={"button"}
-          style={"flat"}
-          iconSrc={"/icons/AddImage.svg"}
-        />
-      </div>
       <Button
         btnType={"link"}
         style={"outlined"}

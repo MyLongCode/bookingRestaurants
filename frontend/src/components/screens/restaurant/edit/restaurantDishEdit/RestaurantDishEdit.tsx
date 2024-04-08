@@ -49,7 +49,6 @@ const RestaurantDishEdit = ({
   const [selectedImage, setSelectedImage] = useState<string>(photo || "");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  const router = useRouter();
   const params = useSearchParams();
 
   const handleImageChange = (event: InputEvent) => {
@@ -69,14 +68,14 @@ const RestaurantDishEdit = ({
         category: categoryId,
         compound: "-",
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["restaurant dishes"],
-      });
     } else {
       await DishesService.patch(id!, data);
     }
     setIsSubmitted(true);
     handleReset();
+    await queryClient.invalidateQueries({
+      queryKey: [`restaurant dishes ${params.get("id")}`],
+    });
   };
 
   const handleReset = () => {

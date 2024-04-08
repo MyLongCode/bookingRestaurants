@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@/components/shared/modal/Modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { z } from "zod";
@@ -15,6 +15,7 @@ import CategoryService from "@/services/restaurant/CategoryService";
 import InputError from "@/components/shared/inputError/InputError";
 import { revalidateMenus } from "@/lib/actions";
 import ImageInput from "@/components/shared/controls/imageInput/ImageInput";
+import useCategory from "@/hooks/restaurant/useCategory";
 
 const categoryEditSchema = z.object({
   photo: fileType,
@@ -38,12 +39,22 @@ const RestaurantCategoryEditModal = () => {
   const type = params.get("type");
   const id = params.get("id");
   const menuId = params.get("menuId");
+  const { data: category } = useCategory(id!);
+
+  useEffect(() => {
+    if (category && type === "edit") {
+      setValue("name", category.name);
+      setValue("photo", category.photo);
+      setSelectedImage(category.photo);
+    }
+  }, [category]);
 
   const {
     register,
     handleSubmit,
     formState: { isValid, isLoading, errors },
     reset,
+    setValue,
   } = useForm<CategoryEditSchema>({
     resolver: zodResolver(
       type === "edit" ? categoryEditSchema : categoryCreateSchema,

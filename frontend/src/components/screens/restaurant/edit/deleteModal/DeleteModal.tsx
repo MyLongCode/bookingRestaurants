@@ -34,7 +34,9 @@ const DeleteModal = () => {
     }
     if (type === "dish" && dishId) {
       await DishesService.delete(dishId);
-      await queryClient.invalidateQueries({ queryKey: ["restaurant dishes"] });
+      await queryClient.invalidateQueries({
+        queryKey: [`restaurant dishes ${searchParams.get("id")}`],
+      });
     }
     if (type === "menu" && menuId) {
       await MenuService.delete(menuId);
