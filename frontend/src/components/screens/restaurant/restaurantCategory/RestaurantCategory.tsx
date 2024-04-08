@@ -31,12 +31,14 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
           style={"flat"}
           href={`?state=categoryEdit&type=edit&id=${id}`}
           iconSrc={"/icons/AddImage.svg"}
+          className={styles.edit}
         />
         <Button
           btnType={"link"}
           style={"flat"}
           iconSrc={"/icons/Exit.svg"}
           href={`?state=delete&type=category&id=${id}`}
+          className={styles.delete}
         />
       </div>
       <h5 className={styles.title} onClick={categoryClickHandler}>

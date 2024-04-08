@@ -16,9 +16,16 @@
   margin-left: 130px;
   margin-bottom: 100px;
   display: flex;
-  gap: 20px;
 
-  &:has(a:hover) {
+  &:has(.edit:hover) {
     color: $text-color-accent;
   }
+
+  &:has(.delete:hover) {
+    color: red;
+  }
+}
+
+.edit {
+  margin-left: 20px;
 }

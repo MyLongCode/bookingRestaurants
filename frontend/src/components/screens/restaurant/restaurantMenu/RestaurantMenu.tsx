@@ -26,6 +26,7 @@ const RestaurantMenu = ({
           style={"flat"}
           iconSrc={"/icons/Edit.svg"}
           href={"?state=menuEdit&type=edit"}
+          className={styles.edit}
         />
         <Button
           btnType={"link"}
