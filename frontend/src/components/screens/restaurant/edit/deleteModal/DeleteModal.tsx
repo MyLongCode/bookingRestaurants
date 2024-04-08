@@ -9,11 +9,19 @@ import styles from "./deleteModal.module.scss";
 import DishesService from "@/services/restaurant/DishesService";
 import { queryClient } from "@/app/providers";
 import MenuService from "@/services/restaurant/MenuService";
-import {revalidateMenus} from "@/lib/actions";
+import { revalidateMenus } from "@/lib/actions";
+
+type ObjectType = "menu" | "dish" | "category";
+
+enum TypeTitle {
+  "menu" = "меню",
+  "dish" = "блюдо",
+  "category" = "категорию",
+}
 
 const DeleteModal = () => {
   const searchParams = useSearchParams();
-  const type = searchParams.get("type");
+  const type: ObjectType = searchParams.get("type") as ObjectType;
   const categoryId = searchParams.get("categoryId");
   const dishId = searchParams.get("dishId");
   const menuId = searchParams.get("menuId");
@@ -42,16 +50,13 @@ const DeleteModal = () => {
     params.delete("dishId");
     params.delete("categoryId");
     params.delete("menuId");
-    router.replace(`${pathname}?${params.toString()}`, {scroll: false});
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
     <Modal state={"delete"} style={{ zIndex: 100 }} onOuterClick={close}>
       <Modal.Window opacityType={"transparent"}>
-        <Modal.Title>
-          Удалить{" "}
-          {type === "category" ? "категорию" : type === "dish" ? "блюдо" : ""}?
-        </Modal.Title>
+        <Modal.Title>Удалить {TypeTitle[type]}</Modal.Title>
         <div className={styles.btns}>
           <Button
             btnType={"button"}
