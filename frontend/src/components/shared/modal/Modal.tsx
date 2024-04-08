@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect } from "react";
+import React, { CSSProperties, ReactNode, useEffect } from "react";
 import ModalTitle from "@/components/shared/modal/components/modalTitle/ModalTitle";
 import styles from "./modal.module.scss";
 import Portal from "@/hoc/Portal";
@@ -10,16 +10,22 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 type ModalProps = {
   children?: ReactNode;
   state: string;
+  style?: CSSProperties;
+  onOuterClick?: () => void;
 };
 
-const Modal = ({ children, state }: ModalProps) => {
-  const paramsState = useSearchParams().get("state");
+const Modal = ({ children, state, style, onOuterClick }: ModalProps) => {
+  const paramsState = useSearchParams().getAll("state");
   const path = usePathname();
   const router = useRouter();
 
   const handleOuterClick = () => {
-    document.body.style.overflow = "auto";
-    router.push(path, { scroll: false });
+    if (onOuterClick) {
+      onOuterClick();
+    } else {
+      router.push(path, { scroll: false });
+      document.body.style.overflow = "auto";
+    }
   };
 
   useEffect(() => {
@@ -30,7 +36,7 @@ const Modal = ({ children, state }: ModalProps) => {
       }
     };
 
-    if (paramsState === state) {
+    if (paramsState.includes(state)) {
       document.addEventListener("keydown", handleEscKey);
       document.body.style.overflow = "hidden";
     } else {
@@ -44,10 +50,14 @@ const Modal = ({ children, state }: ModalProps) => {
   }, [paramsState, path, state, router]);
 
   return (
-    paramsState === state && (
+    paramsState.includes(state) && (
       <>
         <Portal>
-          <div className={styles.wrapper} onClick={handleOuterClick}>
+          <div
+            className={styles.wrapper}
+            onClick={handleOuterClick}
+            style={style}
+          >
             <div
               className={styles.content}
               onClick={(e) => e.stopPropagation()}

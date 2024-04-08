@@ -10,13 +10,14 @@
   border-radius: 30px;
   border: 2px solid $modal-border-color;
   overflow: hidden;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   color: $text-color-accent;
+  min-height: 360px;
 }
 
 .imgContainer {
   position: relative;
-  height: 230px;
+  height: 80%;
   width: 100%;
 
   > img {
@@ -26,7 +27,7 @@
 
 .title {
   font-size: 1.25rem;
-  max-width: 250px;
+  max-width: 300px;
   margin-top: 25px;
 }
 

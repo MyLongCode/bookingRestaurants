@@ -16,4 +16,10 @@ export default class DishesService {
         return res.data;
       });
   }
+
+  public static async delete(id: string | number): Promise<DishItem> {
+    return axiosAuth.delete<DishItem>(`dish-item/${id}/`).then((res) => {
+      return res.data;
+    });
+  }
 }

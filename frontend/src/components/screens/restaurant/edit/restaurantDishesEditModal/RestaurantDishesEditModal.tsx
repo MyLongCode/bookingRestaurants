@@ -3,8 +3,6 @@
 import Modal from "@/components/shared/modal/Modal";
 import { useSearchParams } from "next/navigation";
 import useDishes from "@/hooks/restaurant/useDishes";
-import RestaurantCategory from "@/restaurant/restaurantCategory/RestaurantCategory";
-import RestaurantDish from "@/restaurant/restaurantDish/RestaurantDish";
 import RestaurantDishes from "@/restaurant/restaurantDishes/RestaurantDishes";
 
 const RestaurantDishesEditModal = () => {

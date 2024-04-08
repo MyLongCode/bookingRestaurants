@@ -12,12 +12,12 @@ import RestaurantProfileEditModal from "@/restaurant/edit/restaurantProfileEditM
 import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/RestaurantInfoEditModal";
 import RestaurantMenuEditModal from "@/restaurant/edit/restaurantMenuEditModal/RestaurantMenuEditModal";
 import RestaurantCategoryEditModal from "@/restaurant/edit/restaurantCategoryEditModal/RestaurantCategoryEditModal";
-import DeleteModal from "@/restaurant/edit/approveModal/DeleteModal";
 import RestaurantDishesEditModal from "@/restaurant/edit/restaurantDishesEditModal/RestaurantDishesEditModal";
+import DeleteModal from "@/components/screens/restaurant/edit/deleteModal/DeleteModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
-  state?: string;
+  state?: string[] | string;
 };
 
 type RestaurantPageProps = {
@@ -25,6 +25,7 @@ type RestaurantPageProps = {
 };
 
 const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
+  const params = searchParams.state;
   const restaurant = await RestaurantService.getById(1);
   const photos = await RestaurantService.getPhotos(1).then((data) =>
     data.map((photo) => `${process.env.API_URL}${photo.image}`),
@@ -70,16 +71,16 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       {searchParams.state === "category" && (
         <RestaurantCategoryModal searchParams={searchParams} />
       )}
-      {searchParams.state === "profileEdit" && (
+      {params && params.includes("profileEdit") && (
         <RestaurantProfileEditModal />
       )}
-      {searchParams.state === "infoEdit" && (
-        <RestaurantInfoEditModal />
+      {params && params.includes("infoEdit") && <RestaurantInfoEditModal />}
+      {params && params.includes("menuEdit") && <RestaurantMenuEditModal />}
+      {params && params.includes("categoryEdit") && (
+        <RestaurantCategoryEditModal />
       )}
-      {searchParams.state === "menuEdit" && <RestaurantMenuEditModal />}
-      {searchParams.state === "categoryEdit" && <RestaurantCategoryEditModal />}
-      {searchParams.state === "delete" && <DeleteModal />}
-      {searchParams.state === "dishesEdit" && <RestaurantDishesEditModal />}
+      {params && params.includes("delete") && <DeleteModal />}
+      {params && params.includes("dishesEdit") && <RestaurantDishesEditModal />}
     </main>
   );
 };

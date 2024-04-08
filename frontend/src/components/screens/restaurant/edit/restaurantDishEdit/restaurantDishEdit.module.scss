@@ -2,6 +2,7 @@
 
 .wrapper {
   display: flex;
+  position: relative;
   flex-direction: column;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.1);
@@ -18,6 +19,13 @@
   textarea {
     min-height: 80px;
   }
+}
+
+.delete {
+  position: absolute;
+  z-index: 1;
+  right: 2px;
+  top: 15px;
 }
 
 .submit {

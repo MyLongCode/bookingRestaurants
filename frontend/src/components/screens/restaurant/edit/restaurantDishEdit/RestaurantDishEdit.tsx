@@ -13,6 +13,9 @@ import Button from "@/components/shared/controls/button/Button";
 import ImageInput from "@/components/shared/controls/imageInput/ImageInput";
 import DishesService from "@/services/restaurant/DishesService";
 import InputError from "@/components/shared/inputError/InputError";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClient } from "@/app/providers";
+import {useRouter, useSearchParams} from "next/navigation";
 
 const restaurantDishEditSchema = z.object({
   name: z.string().optional(),
@@ -28,6 +31,10 @@ type RestaurantDishEditSchema = z.infer<typeof restaurantDishEditSchema>;
 const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
   const [selectedImage, setSelectedImage] = useState<string>(photo);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  const router = useRouter();
+  const params = useSearchParams().toString();
+
   const handleImageChange = (event: InputEvent) => {
     const target = event.currentTarget as HTMLInputElement;
     if (target.files && target.files[0]) {
@@ -44,6 +51,10 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
     console.log(errors);
     setSelectedImage(photo);
     reset();
+  };
+
+  const handleDelete = async () => {
+    router.push(`?${params}&state=delete&type=dish&dishId=${id}`);
   };
 
   const {
@@ -64,6 +75,14 @@ const RestaurantDishEdit = ({ name, weight, price, photo, id }: DishItem) => {
 
   return (
     <li className={styles.wrapper}>
+      <Button
+        btnType={"button"}
+        style={"flat"}
+        type={"button"}
+        iconSrc={"/icons/Exit.svg"}
+        className={styles.delete}
+        onClick={handleDelete}
+      />
       <form
         className={styles.form}
         onSubmit={handleSubmit(handleSave)}
