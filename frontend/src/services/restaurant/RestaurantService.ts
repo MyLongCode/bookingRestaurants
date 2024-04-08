@@ -3,12 +3,13 @@ import { Restaurant } from "@/models/restaurant/restaurant.type";
 import { Menu } from "@/models/restaurant/menu.type";
 import { Photo } from "@/models/restaurant/photo.type";
 import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
-import { revalidateRestaurant } from "@/lib/actions";
+import {revalidateRestaurant, revalidateRestaurantTags} from "@/lib/actions";
 import fetch from "@/lib/fetch";
+import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
 
 export default class RestaurantService {
   public static async getById(id: string | number): Promise<Restaurant> {
-    return await fetch.get(`/restaurant/${id}`, "restaurant");
+    return await fetch.get(`/restaurant/${id}/`, "restaurant");
   }
 
   public static async getMenus(id: string | number): Promise<Menu[]> {
@@ -41,12 +42,12 @@ export default class RestaurantService {
 
   public static async patchTags(
     id: string | number,
-    data: Partial<RestaurantTags>,
-  ): Promise<RestaurantTags> {
+    data: Partial<RestaurantTagsDto>,
+  ): Promise<RestaurantTagsDto> {
     return await axiosAuth
-      .post<RestaurantTags>(`/restaurant/${id}/tag-put/`, data)
+      .post<RestaurantTagsDto>(`/restaurant/${id}/tag-put/`, data)
       .then(async (res) => {
-        await revalidateRestaurant();
+        await revalidateRestaurantTags();
         return res.data;
       });
   }

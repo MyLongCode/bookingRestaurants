@@ -3,7 +3,7 @@ import TagService from "@/services/restaurant/TagService";
 
 const useTags = () => {
   const { data, isSuccess, error } = useQuery({
-    queryKey: ["restaurant tags"],
+    queryKey: ["tags"],
     queryFn: async () => await TagService.getAll(),
   });
 

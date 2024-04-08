@@ -13,3 +13,7 @@ export async function revalidatePhotos() {
 export async function revalidateMenus() {
   revalidateTag("restaurant menu");
 }
+
+export async function revalidateRestaurantTags() {
+  revalidateTag("restaurant tags");
+}

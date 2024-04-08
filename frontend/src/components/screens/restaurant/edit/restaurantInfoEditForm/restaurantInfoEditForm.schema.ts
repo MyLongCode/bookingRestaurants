@@ -11,15 +11,15 @@ export const restaurantInfoEditSchema = z.object({
     .optional()
     .transform((value) => (value?.length === 0 ? undefined : value)),
   mealTime: z
-    .string()
+    .array(tagSchema)
     .optional()
     .transform((value) => (value?.length === 0 ? undefined : value)),
   restrictions: z
-    .string()
+    .array(tagSchema)
     .optional()
     .transform((value) => (value?.length === 0 ? undefined : value)),
   parking: z
-    .string()
+    .array(tagSchema)
     .optional()
     .transform((value) => (value?.length === 0 ? undefined : value)),
   address: z

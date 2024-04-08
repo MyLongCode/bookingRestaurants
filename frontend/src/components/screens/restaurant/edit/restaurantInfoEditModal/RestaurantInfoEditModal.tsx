@@ -1,16 +1,16 @@
 "use client";
 
 import Modal from "@/components/shared/modal/Modal";
-import RestaurantInfoEditForm from "@/restaurant/edit/restaurantInfoForm/RestaurantInfoEditForm";
+import RestaurantInfoEditForm from "@/restaurant/edit/restaurantInfoEditForm/RestaurantInfoEditForm";
 import { useEffect } from "react";
-import { revalidatePhotos } from "@/lib/actions";
+import { revalidateRestaurantTags } from "@/lib/actions";
 
 const RestaurantProfileEditModal = () => {
   useEffect(() => {
-    revalidatePhotos();
+    revalidateRestaurantTags();
 
     return () => {
-      revalidatePhotos();
+      revalidateRestaurantTags;
     };
   }, []);
 

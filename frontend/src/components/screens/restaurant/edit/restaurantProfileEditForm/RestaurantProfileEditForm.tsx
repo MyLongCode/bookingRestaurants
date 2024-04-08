@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./restaurantProfileEditForm.module.scss";
 import Input from "@/components/shared/controls/input/Input";
 import Button from "@/components/shared/controls/button/Button";
@@ -13,14 +13,24 @@ import {
   RestaurantProfileEditSchema,
 } from "./restaurantProfileEditForm.schema";
 import RestaurantService from "@/services/restaurant/RestaurantService";
+import useRestaurant from "@/hooks/restaurant/useRestaurant";
 
 const RestaurantProfileEditForm = () => {
   const router = useRouter();
+  const { data: restaurant } = useRestaurant(1);
+
+  useEffect(() => {
+    if (restaurant) {
+      setValue("name", restaurant.name);
+      setValue("description", restaurant.description);
+    }
+  }, [restaurant]);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isLoading },
+    formState: { errors, isValid, isDirty, isLoading },
+    setValue,
   } = useForm<RestaurantProfileEditSchema>({
     resolver: zodResolver(restaurantProfileEditSchema),
     mode: "onTouched",
@@ -75,7 +85,7 @@ const RestaurantProfileEditForm = () => {
           font={"comfortaa"}
           style={"filled"}
           type={"submit"}
-          disabled={!isValid || isLoading}
+          disabled={!isValid || isLoading || !isDirty}
         >
           Сохранить
         </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultiSelect, Option } from "react-multi-select-component";
 import "./multipleSelect.scss";
 
@@ -8,14 +8,21 @@ type MultipleSelectProps = {
   label: string;
   options?: Option[];
   handleChange?: (value: Option[]) => void;
+  defaultValue?: Option[];
 };
 
 const MultipleSelect = ({
   label,
   options,
   handleChange,
+  defaultValue,
 }: MultipleSelectProps) => {
-  const [selected, setSelected] = useState<Option[]>([]);
+  const [selected, setSelected] = useState<Option[]>(defaultValue || []);
+
+  useEffect(() => {
+    if (!defaultValue) return;
+    setSelected(defaultValue);
+  }, [defaultValue]);
 
   if (!options) return null;
 

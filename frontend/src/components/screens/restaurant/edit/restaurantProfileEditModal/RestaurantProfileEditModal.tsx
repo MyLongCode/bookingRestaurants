@@ -2,18 +2,8 @@
 
 import Modal from "@/components/shared/modal/Modal";
 import RestaurantProfileEditForm from "@/restaurant/edit/restaurantProfileEditForm/RestaurantProfileEditForm";
-import { useEffect } from "react";
-import { revalidatePhotos } from "@/lib/actions";
 
 const RestaurantProfileEditModal = () => {
-  useEffect(() => {
-    revalidatePhotos();
-
-    return () => {
-      revalidatePhotos();
-    };
-  }, []);
-
   return (
     <Modal state={"profileEdit"}>
       <Modal.Window opacityType={"transparent"}>
