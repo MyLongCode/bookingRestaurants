@@ -1,17 +1,23 @@
+import NextAuth from "next-auth";
+import { Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
-import NextAuth, { DefaultSession } from "next-auth";
+import { AuthResponse } from "@/models/responces/authResponce.type";
+import { User as MyUser } from "@/models/user.type";
 
 declare module "next-auth" {
-  import { User } from "@/models/user.type";
-
   interface Session {
-    user: User & DefaultSession["user"];
+    user: User;
+    access: string;
+    refresh: string;
+  }
+
+  interface User extends MyUser {
+    access: string;
+    refresh: string;
   }
 }
 
 declare module "next-auth/jwt" {
-  import { User } from "@/models/user.type";
-
   interface JWT {
     user: User;
     access: string;
