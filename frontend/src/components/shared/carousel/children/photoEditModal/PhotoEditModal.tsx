@@ -1,6 +1,6 @@
 "use client";
 
-import React, {Suspense, useEffect, useState} from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Modal from "@/components/shared/modal/Modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -17,10 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PhotoService from "@/services/restaurant/PhotoService";
 
 const photoEditModalSchema = z.object({
-  image: fileType.refine(
-    (value: FileList | string) => value && typeof value !== "string",
-    "Необходимо изображение!",
-  ),
+  image: fileType,
   title: z.string().min(1, "Введите название!"),
 });
 
@@ -84,13 +81,11 @@ const PhotoEditModal = () => {
       <Modal.Window opacityType={"transparent"}>
         <Modal.Title>Редактирование фото</Modal.Title>
         <form className={styles.form} onSubmit={handleSubmit(handleSave)}>
-          <Suspense fallback={"loading..."}>
-            <div className={styles.imgContainer}>
-              {(photo || selectedImage) && (
-                <Image src={selectedImage} alt={photo?.title || ""} fill />
-              )}
-            </div>
-          </Suspense>
+          <div className={styles.imgContainer}>
+            {(photo || selectedImage) && (
+              <Image src={selectedImage} alt={photo?.title || ""} fill />
+            )}
+          </div>
           <InputError error={errors.image?.message?.toString()} />
           <Input
             inputStyle={"alternative"}

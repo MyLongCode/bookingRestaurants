@@ -50,7 +50,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
           btnType={"link"}
           btnStyle={"flat"}
           color={"gray"}
-          iconSrc={"/icons/Edit.svg"}
+          iconSrc={"/icons/AddImage.svg"}
           href={`?state=photoEdit&type=create&restaurantId=${restaurant.id}`}
         >
           Добавить фото
@@ -72,6 +72,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
         <RestaurantMenus menus={menus} />
       </section>
       <section></section>
+
       {searchParams.state === "category" && (
         <RestaurantCategoryModal searchParams={searchParams} />
       )}
