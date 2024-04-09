@@ -5,8 +5,12 @@ const deleteQuery = (
   queries: Array<{ key: string; value?: string }>,
 ) => {
   const params = new URLSearchParams(searchParams);
-  for (const key in queries) {
-    params.delete(key, queries?.[key].value);
+  for (const { key, value } of queries) {
+    if (value) {
+      params.delete(key, value);
+    } else {
+      params.delete(key);
+    }
   }
   return params;
 };
