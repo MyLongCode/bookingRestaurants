@@ -13,7 +13,7 @@ import Button from "@/components/shared/controls/button/Button";
 import ImageInput from "@/components/shared/controls/imageInput/ImageInput";
 import DishesService from "@/services/restaurant/DishesService";
 import InputError from "@/components/shared/inputError/InputError";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { queryClient } from "@/app/providers";
 
 const restaurantDishEditSchema = z.object({

@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PhotoService from "@/services/restaurant/PhotoService";
 
 const photoEditModalSchema = z.object({
-  photo: fileType,
+  image: fileType,
   title: z.string().min(1, "Введите название!"),
 });
 
@@ -83,7 +83,7 @@ const PhotoEditModal = () => {
           />
           <InputError error={errors.title?.message} />
           <ImageInput
-            {...register("photo", {
+            {...register("image", {
               onChange: handleImageChange,
             })}
           />
