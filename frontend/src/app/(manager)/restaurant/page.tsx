@@ -47,13 +47,13 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       />
       <section className={styles.carousel}>
         <Button
-          btnType={"button"}
-          color={"gray"}
-          fontSize={"small"}
-          iconSrc={"/icons/AddImage.svg"}
+          btnType={"link"}
           btnStyle={"flat"}
+          color={"gray"}
+          iconSrc={"/icons/Edit.svg"}
+          href={`?state=photoEdit&type=create&restaurantId=${restaurant.id}`}
         >
-          Добавить все фото сразу
+          Добавить фото
         </Button>
         <InfiniteCarousel photos={photos} editable />
       </section>

@@ -17,7 +17,7 @@ const CarouselPhoto = ({ editable, id, title, image }: CarouselPhotoProps) => {
             btnType={"link"}
             btnStyle={"icon"}
             iconSrc={"/icons/Edit.svg"}
-            href={`?state=photoEdit&id=${id}`}
+            href={`?state=photoEdit&type=edit&id=${id}`}
           />
           <Button
             btnType={"link"}

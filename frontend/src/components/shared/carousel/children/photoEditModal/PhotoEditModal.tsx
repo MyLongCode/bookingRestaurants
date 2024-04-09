@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import Modal from "@/components/shared/modal/Modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -17,7 +17,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PhotoService from "@/services/restaurant/PhotoService";
 
 const photoEditModalSchema = z.object({
-  image: fileType,
+  image: fileType.refine(
+    (value: FileList | string) => value && typeof value !== "string",
+    "Необходимо изображение!",
+  ),
   title: z.string().min(1, "Введите название!"),
 });
 
@@ -26,8 +29,9 @@ type PhotoEditModalSchema = z.infer<typeof photoEditModalSchema>;
 const PhotoEditModal = () => {
   const params = useSearchParams();
   const router = useRouter();
-  const id = params.get("id")!;
-  const { data: photo, isSuccess } = usePhoto(id);
+  const id = params.get("id");
+  const type = params.get("type")!;
+  const { data: photo } = usePhoto(id);
   const [selectedImage, setSelectedImage] = useState<string>("");
 
   useEffect(() => {
@@ -45,7 +49,17 @@ const PhotoEditModal = () => {
   };
 
   const handleSave = async (data: PhotoEditModalSchema) => {
-    await PhotoService.patch(id, data);
+    if (type === "edit" && id) {
+      await PhotoService.patch(id, data);
+    } else if (type === "create") {
+      const restaurantId = params.get("restaurantId");
+      if (restaurantId) {
+        await PhotoService.create({
+          ...data,
+          restaurant: restaurantId,
+        });
+      }
+    }
     router.push("restaurant", { scroll: false });
   };
 
@@ -65,16 +79,19 @@ const PhotoEditModal = () => {
     resolver: zodResolver(photoEditModalSchema),
   });
 
-  if (!isSuccess || !photo) return null;
-
   return (
     <Modal state={"photoEdit"}>
       <Modal.Window opacityType={"transparent"}>
         <Modal.Title>Редактирование фото</Modal.Title>
         <form className={styles.form} onSubmit={handleSubmit(handleSave)}>
-          <div className={styles.imgContainer}>
-            <Image src={selectedImage} alt={photo.title} fill />
-          </div>
+          <Suspense fallback={"loading..."}>
+            <div className={styles.imgContainer}>
+              {(photo || selectedImage) && (
+                <Image src={selectedImage} alt={photo?.title || ""} fill />
+              )}
+            </div>
+          </Suspense>
+          <InputError error={errors.image?.message?.toString()} />
           <Input
             inputStyle={"alternative"}
             placeholder={"Название фото"}
@@ -96,7 +113,7 @@ const PhotoEditModal = () => {
               fontSize={"small"}
               disabled={!isValid || !isDirty || isLoading}
             >
-              Сохранить
+              {type === "create" ? "Создать" : "Сохранить"}
             </Button>
             <Button
               btnType={"link"}
