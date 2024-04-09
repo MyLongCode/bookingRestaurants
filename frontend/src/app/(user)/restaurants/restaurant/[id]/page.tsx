@@ -15,27 +15,48 @@ import RestaurantCategoryEditModal from "@/restaurant/edit/restaurantCategoryEdi
 import RestaurantDishesEditModal from "@/restaurant/edit/restaurantDishesEditModal/RestaurantDishesEditModal";
 import DeleteModal from "@/components/shared/deleteModal/DeleteModal";
 import PhotoEditModal from "@/components/shared/carousel/children/photoEditModal/PhotoEditModal";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
   state?: string[] | string;
 };
 
-type RestaurantPageProps = {
-  searchParams: RestaurantPageSearchParams;
+export type RestaurantPageParams = {
+  id: string;
 };
 
-const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
-  const params = searchParams.state;
-  const restaurant = await RestaurantService.getById(1);
-  const photos = await RestaurantService.getPhotos(1).then((data) =>
+type RestaurantPageProps = {
+  searchParams: RestaurantPageSearchParams;
+  params: RestaurantPageParams;
+};
+
+const RestaurantPage = async ({
+  searchParams,
+  params,
+}: RestaurantPageProps) => {
+  const state = searchParams.state;
+  const id = params.id;
+
+  const restaurant = await RestaurantService.getById(id);
+
+  if ("detail" in restaurant) {
+    redirect("/restaurants");
+  }
+
+  const photos = await RestaurantService.getPhotos(id).then((data) =>
     data.map((photo) => ({
       ...photo,
       image: `${process.env.API_URL}${photo.image}`,
     })),
   );
-  const menus = await RestaurantService.getMenus(1);
-  const tags = await RestaurantService.getTags(1);
+  const menus = await RestaurantService.getMenus(id);
+  const tags = await RestaurantService.getTags(id);
+
+  const session = await getServerSession(authOptions);
+  const role = session?.user.role;
 
   return (
     <main className={clsx(styles.wrapper)}>
@@ -44,18 +65,21 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
         logoSrc={restaurant.logo}
         title={restaurant.name}
         description={restaurant.description}
+        editable={role === "manager"}
       />
       <section className={styles.carousel}>
-        <Button
-          btnType={"link"}
-          btnStyle={"flat"}
-          color={"gray"}
-          iconSrc={"/icons/AddImage.svg"}
-          href={`?state=photoEdit&type=create&restaurantId=${restaurant.id}`}
-        >
-          Добавить фото
-        </Button>
-        <InfiniteCarousel photos={photos} editable />
+        {role === "manager" && (
+          <Button
+            btnType={"link"}
+            btnStyle={"flat"}
+            color={"gray"}
+            iconSrc={"/icons/AddImage.svg"}
+            href={`?state=photoEdit&type=create&restaurantId=${restaurant.id}`}
+          >
+            Добавить фото
+          </Button>
+        )}
+        <InfiniteCarousel photos={photos} editable={role === "manager"} />
       </section>
       <section>
         <RestaurantInfo
@@ -66,27 +90,35 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
           website={restaurant.site}
           parking={tags["Парковка"]}
           schedule={restaurant.schedule}
+          editable={role === "manager"}
         />
       </section>
       <section className={styles.menus}>
-        <RestaurantMenus menus={menus} />
+        <RestaurantMenus menus={menus} editable={role === "manager"} />
       </section>
       <section></section>
 
-      {searchParams.state === "category" && (
+      {state && state.includes("category") && (
         <RestaurantCategoryModal searchParams={searchParams} />
       )}
-      {params && params.includes("profileEdit") && (
-        <RestaurantProfileEditModal />
+
+      {role === "manager" && (
+        <>
+          {state && state.includes("profileEdit") && (
+            <RestaurantProfileEditModal />
+          )}
+          {state && state.includes("infoEdit") && <RestaurantInfoEditModal />}
+          {state && state.includes("menuEdit") && <RestaurantMenuEditModal />}
+          {state && state.includes("categoryEdit") && (
+            <RestaurantCategoryEditModal />
+          )}
+          {state && state.includes("delete") && <DeleteModal />}
+          {state && state.includes("dishesEdit") && (
+            <RestaurantDishesEditModal />
+          )}
+          {state && state.includes("photoEdit") && <PhotoEditModal />}
+        </>
       )}
-      {params && params.includes("infoEdit") && <RestaurantInfoEditModal />}
-      {params && params.includes("menuEdit") && <RestaurantMenuEditModal />}
-      {params && params.includes("categoryEdit") && (
-        <RestaurantCategoryEditModal />
-      )}
-      {params && params.includes("delete") && <DeleteModal />}
-      {params && params.includes("dishesEdit") && <RestaurantDishesEditModal />}
-      {params && params.includes("photoEdit") && <PhotoEditModal />}
     </main>
   );
 };

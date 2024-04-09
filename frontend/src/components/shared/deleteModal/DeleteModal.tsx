@@ -9,8 +9,9 @@ import styles from "./deleteModal.module.scss";
 import DishesService from "@/services/restaurant/DishesService";
 import { queryClient } from "@/app/providers";
 import MenuService from "@/services/restaurant/MenuService";
-import {revalidateMenus, revalidatePhotos} from "@/lib/actions";
+import { revalidateMenus, revalidatePhotos } from "@/lib/actions";
 import PhotoService from "@/services/restaurant/PhotoService";
+import deleteQuery from "@/lib/helpers/deleteQuery";
 
 type ObjectType = "menu" | "dish" | "category" | "photo";
 
@@ -52,13 +53,27 @@ const DeleteModal = () => {
   };
 
   const close = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete("state", "delete");
-    params.delete("type");
-    params.delete("dishId");
-    params.delete("categoryId");
-    params.delete("menuId");
-    params.delete("photoId");
+    const params = deleteQuery(searchParams, [
+      {
+        key: "state",
+        value: "delete",
+      },
+      {
+        key: "type",
+      },
+      {
+        key: "dishId",
+      },
+      {
+        key: "categoryId",
+      },
+      {
+        key: "menuId",
+      },
+      {
+        key: "photoId",
+      },
+    ]);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 

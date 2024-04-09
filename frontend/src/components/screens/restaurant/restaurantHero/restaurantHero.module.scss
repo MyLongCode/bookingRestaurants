@@ -1,5 +1,5 @@
 .wrapper {
-  padding-inline: 145px;
+  padding-inline: 7dvw;
 }
 
 .info {
@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-left: 440px;
+    margin-left: 22dvw;
 
     h2 {
       font-size: 5rem;
@@ -26,7 +26,7 @@
 }
 
 .rating {
-  margin-left: 440px;
+  margin-left: 22dvw;
   justify-content: flex-end;
 }
 
@@ -47,7 +47,7 @@
   position: absolute;
   width: 300px;
   top: -150px;
-  margin-left: 100px;
+  margin-left: 5dvw;
   aspect-ratio: 1 / 1;
 }
 
@@ -61,5 +61,5 @@
   margin-top: 60px;
   display: flex;
   gap: 40px;
-  justify-content: center;
+  margin-left: 22dvw;
 }

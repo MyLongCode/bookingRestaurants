@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Modal from "@/components/shared/modal/Modal";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { z } from "zod";
 import styles from "./restaurantCategoryEditModal.module.scss";
 import Image from "next/image";
@@ -36,6 +36,7 @@ const RestaurantCategoryEditModal = () => {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const params = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const type = params.get("type");
   const id = params.get("id");
   const menuId = params.get("menuId");
@@ -44,7 +45,6 @@ const RestaurantCategoryEditModal = () => {
   useEffect(() => {
     if (category && type === "edit") {
       setValue("name", category.name);
-      setValue("photo", category.photo);
       setSelectedImage(category.photo);
     }
   }, [category]);
@@ -77,7 +77,7 @@ const RestaurantCategoryEditModal = () => {
     }
     reset();
     setSelectedImage("");
-    router.push("restaurant", { scroll: false });
+    router.push(pathname, { scroll: false });
   };
 
   return (
@@ -123,7 +123,7 @@ const RestaurantCategoryEditModal = () => {
             font={"comfortaa"}
             fontSize={"small"}
             className={styles.submitBtn}
-            href={"restaurant"}
+            href={pathname}
           >
             Отменить
           </Button>

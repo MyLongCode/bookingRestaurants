@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Modal from "@/components/shared/modal/Modal";
 import Input from "@/components/shared/controls/input/Input";
-import { useRouter, useSearchParams } from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Button from "@/components/shared/controls/button/Button";
 import { FieldValues, useForm } from "react-hook-form";
 import styles from "./restaurantMenuEditModal.module.scss";
@@ -24,6 +24,7 @@ type MenuEditScheme = z.infer<typeof menuEditScheme>;
 
 const RestaurantMenuEditModal = () => {
   const params = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
   const type = params.get("type");
 
@@ -49,7 +50,7 @@ const RestaurantMenuEditModal = () => {
     }
     await revalidateMenus();
     reset();
-    router.push("restaurant", { scroll: false });
+    router.push(pathname, { scroll: false });
   };
 
   return (
@@ -79,7 +80,7 @@ const RestaurantMenuEditModal = () => {
             btnStyle={"flat"}
             fontSize={"small"}
             font={"comfortaa"}
-            href={"restaurant"}
+            href={pathname}
           >
             Отменить
           </Button>

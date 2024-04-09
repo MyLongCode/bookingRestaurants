@@ -7,7 +7,7 @@ import Button from "@/components/shared/controls/button/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputError from "@/components/shared/inputError/InputError";
-import { useRouter } from "next/navigation";
+import {useParams, usePathname, useRouter, useSearchParams} from "next/navigation";
 import {
   restaurantProfileEditSchema,
   RestaurantProfileEditSchema,
@@ -17,7 +17,9 @@ import useRestaurant from "@/hooks/restaurant/useRestaurant";
 
 const RestaurantProfileEditForm = () => {
   const router = useRouter();
-  const { data: restaurant } = useRestaurant(1);
+  const restaurantId = useParams<{ id: string }>().id;
+  const { data: restaurant } = useRestaurant(restaurantId);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (restaurant) {
@@ -38,7 +40,7 @@ const RestaurantProfileEditForm = () => {
 
   const handleSave = async (data: RestaurantProfileEditSchema) => {
     await RestaurantService.patchProfile(1, data);
-    router.push("restaurant", { scroll: false });
+    router.push(pathname, { scroll: false });
   };
 
   return (
@@ -95,7 +97,7 @@ const RestaurantProfileEditForm = () => {
           font={"comfortaa"}
           btnStyle={"flat"}
           type={"reset"}
-          href={"restaurant"}
+          href={pathname}
         >
           Отменить
         </Button>

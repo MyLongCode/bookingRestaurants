@@ -8,12 +8,13 @@ import RestaurantNewCategory from "@/screens/restaurant/restaurantNewCatergory/R
 import Button from "@/components/shared/controls/button/Button";
 import { useSearchParams } from "next/navigation";
 
-type RestaurantMenuProps = Menu & {};
+type RestaurantMenuProps = Menu & { editable?: boolean };
 
 const RestaurantMenu = ({
   category: categories,
   name,
   id,
+  editable,
 }: RestaurantMenuProps) => {
   const params = useSearchParams();
 
@@ -21,21 +22,25 @@ const RestaurantMenu = ({
     <div>
       <div className={styles.titleContainer}>
         <h4 className={styles.title}>{name}</h4>
-        <Button
-          btnType={"link"}
-          btnStyle={"flat"}
-          iconSrc={"/icons/Edit.svg"}
-          href={"?state=menuEdit&type=edit"}
-          className={styles.edit}
-        />
-        <Button
-          btnType={"link"}
-          btnStyle={"flat"}
-          type={"button"}
-          iconSrc={"/icons/Exit.svg"}
-          className={styles.delete}
-          href={`?${params.toString()}&state=delete&type=menu&menuId=${id}`}
-        />
+        {editable && (
+          <>
+            <Button
+              btnType={"link"}
+              btnStyle={"flat"}
+              iconSrc={"/icons/Edit.svg"}
+              href={"?state=menuEdit&type=edit"}
+              className={styles.edit}
+            />
+            <Button
+              btnType={"link"}
+              btnStyle={"flat"}
+              type={"button"}
+              iconSrc={"/icons/Exit.svg"}
+              className={styles.delete}
+              href={`?${params.toString()}&state=delete&type=menu&menuId=${id}`}
+            />
+          </>
+        )}
       </div>
       <ul className={styles.categories}>
         {categories.map((category) => {
@@ -45,10 +50,11 @@ const RestaurantMenu = ({
               id={category.id}
               name={category.name}
               photo={category.photo}
+              editable={editable}
             />
           );
         })}
-        <RestaurantNewCategory menuId={id} />
+        {editable && <RestaurantNewCategory menuId={id} />}
       </ul>
     </div>
   );

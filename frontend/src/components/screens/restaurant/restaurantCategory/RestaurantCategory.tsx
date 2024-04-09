@@ -10,9 +10,16 @@ import { useRouter } from "next/navigation";
 import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
 import CategoryService from "@/services/restaurant/CategoryService";
 
-type RestaurantCategoryProps = Omit<Category, "dish_item"> & {};
+type RestaurantCategoryProps = Omit<Category, "dish_item"> & {
+  editable?: boolean;
+};
 
-const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
+const RestaurantCategory = ({
+  name,
+  photo,
+  id,
+  editable,
+}: RestaurantCategoryProps) => {
   const router = useRouter();
   const categoryClickHandler = () => {
     router.push(`?state=category&categoryId=${id}`, {
@@ -25,36 +32,40 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
       className={styles.wrapper}
       style={{ backgroundImage: `url("${photo}")` }}
     >
-      <div className={styles.upperContainer}>
-        <Button
-          btnType={"link"}
-          btnStyle={"flat"}
-          href={`?state=categoryEdit&type=edit&id=${id}`}
-          iconSrc={"/icons/AddImage.svg"}
-          className={styles.edit}
-        />
-        <Button
-          btnType={"link"}
-          btnStyle={"flat"}
-          iconSrc={"/icons/Exit.svg"}
-          href={`?state=delete&type=category&id=${id}`}
-          className={styles.delete}
-        />
-      </div>
+      {editable && (
+        <div className={styles.upperContainer}>
+          <Button
+            btnType={"link"}
+            btnStyle={"flat"}
+            href={`?state=categoryEdit&type=edit&id=${id}`}
+            iconSrc={"/icons/AddImage.svg"}
+            className={styles.edit}
+          />
+          <Button
+            btnType={"link"}
+            btnStyle={"flat"}
+            iconSrc={"/icons/Exit.svg"}
+            href={`?state=delete&type=category&id=${id}`}
+            className={styles.delete}
+          />
+        </div>
+      )}
       <h5 className={styles.title} onClick={categoryClickHandler}>
         {name}
       </h5>
-      <Button
-        btnType={"link"}
-        btnStyle={"outlined"}
-        color={"gray"}
-        iconSrc={"/icons/Edit.svg"}
-        fontSize={"small"}
-        className={styles.btn}
-        href={`?state=dishesEdit&id=${id}`}
-      >
-        Изменить категорию
-      </Button>
+      {editable && (
+        <Button
+          btnType={"link"}
+          btnStyle={"outlined"}
+          color={"gray"}
+          iconSrc={"/icons/Edit.svg"}
+          fontSize={"small"}
+          className={styles.btn}
+          href={`?state=dishesEdit&id=${id}`}
+        >
+          Изменить категорию
+        </Button>
+      )}
     </li>
   );
 };

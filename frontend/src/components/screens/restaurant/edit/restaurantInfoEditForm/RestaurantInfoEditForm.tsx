@@ -8,7 +8,7 @@ import Input from "@/components/shared/controls/input/Input";
 import InputError from "@/components/shared/inputError/InputError";
 import Button from "@/components/shared/controls/button/Button";
 import RestaurantService from "@/services/restaurant/RestaurantService";
-import { useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {
   restaurantInfoEditSchema,
   RestaurantProfileInfoSchema,
@@ -44,6 +44,8 @@ const RestaurantInfoEditForm = () => {
   const [mealTimeTags, setMealTimeTags] = useState<RestaurantTag[]>([]);
   const [parkingTags, setParkingTags] = useState<RestaurantTag[]>([]);
   const [restrictionTags, setRestrictionTags] = useState<RestaurantTag[]>([]);
+
+  const pathname = usePathname();
 
   const { data: tags, isSuccess: isTagsSuccess } = useTags();
   const { data: restaurant, isSuccess: isRestaurantSuccess } = useRestaurant(1);
@@ -97,7 +99,7 @@ const RestaurantInfoEditForm = () => {
     await RestaurantService.patchTags(1, {
       tags: dto.tags,
     });
-    router.push("restaurant", { scroll: false });
+    router.push(pathname, { scroll: false });
   };
 
   if (!isRestaurantSuccess || !isTagsSuccess || !isRestaurantTagsSuccess)
@@ -175,7 +177,7 @@ const RestaurantInfoEditForm = () => {
       </Button>
       <Button
         btnType={"link"}
-        href={"restaurant"}
+        href={pathname}
         btnStyle={"flat"}
         font={"comfortaa"}
         fontSize={"small"}

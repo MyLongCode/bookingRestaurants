@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import Modal from "@/components/shared/modal/Modal";
-import { useRouter, useSearchParams } from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Image from "next/image";
 import usePhoto from "@/hooks/shared/usePhoto";
 import styles from "./photoEditModal.module.scss";
@@ -26,6 +26,7 @@ type PhotoEditModalSchema = z.infer<typeof photoEditModalSchema>;
 const PhotoEditModal = () => {
   const params = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const id = params.get("id");
   const type = params.get("type")!;
   const { data: photo } = usePhoto(id);
@@ -57,7 +58,7 @@ const PhotoEditModal = () => {
         });
       }
     }
-    router.push("restaurant", { scroll: false });
+    router.push(pathname, { scroll: false });
   };
 
   const handleReset = () => {
@@ -113,7 +114,7 @@ const PhotoEditModal = () => {
             <Button
               btnType={"link"}
               btnStyle={"flat"}
-              href={"restaurant"}
+              href={pathname}
               font={"comfortaa"}
               fontSize={"small"}
               onClick={handleReset}
