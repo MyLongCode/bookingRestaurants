@@ -6,7 +6,7 @@ type NavArrowProps = {
   className?: string;
   style?: CSSProperties;
   onClick?: () => void;
-  isLeft?: boolean
+  isLeft?: boolean;
 };
 
 const NavArrow = ({ onClick, className, style, isLeft }: NavArrowProps) => {

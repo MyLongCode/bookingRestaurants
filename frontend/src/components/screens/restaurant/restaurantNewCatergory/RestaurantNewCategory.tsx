@@ -11,7 +11,7 @@ const RestaurantNewCategory = ({ menuId }: RestaurantNewCategoryProps) => {
     <div className={styles.wrapper}>
       <Button
         btnType={"link"}
-        style={"outlined"}
+        btnStyle={"outlined"}
         color={"gray"}
         iconSrc={"/icons/Edit.svg"}
         fontSize={"small"}

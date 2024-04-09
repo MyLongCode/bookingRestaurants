@@ -23,14 +23,14 @@ const RestaurantMenu = ({
         <h4 className={styles.title}>{name}</h4>
         <Button
           btnType={"link"}
-          style={"flat"}
+          btnStyle={"flat"}
           iconSrc={"/icons/Edit.svg"}
           href={"?state=menuEdit&type=edit"}
           className={styles.edit}
         />
         <Button
           btnType={"link"}
-          style={"flat"}
+          btnStyle={"flat"}
           type={"button"}
           iconSrc={"/icons/Exit.svg"}
           className={styles.delete}

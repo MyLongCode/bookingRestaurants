@@ -13,7 +13,7 @@ const HomeModalButtons = () => {
       <Button
         btnType={"link"}
         font={"default"}
-        style={"outlined"}
+        btnStyle={"outlined"}
         href={"?state=login"}
         className={styles.button}
       >
@@ -22,7 +22,7 @@ const HomeModalButtons = () => {
       <Button
         btnType={"link"}
         font={"default"}
-        style={"flat"}
+        btnStyle={"flat"}
         href={"?state=register"}
         scroll={false}
       >

@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import styles from "./checkbox.module.scss";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 
 type CheckboxProps = React.ComponentProps<"input"> & {
   children?: string;

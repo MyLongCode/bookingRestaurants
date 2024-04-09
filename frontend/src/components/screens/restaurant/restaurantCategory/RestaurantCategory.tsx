@@ -28,14 +28,14 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
       <div className={styles.upperContainer}>
         <Button
           btnType={"link"}
-          style={"flat"}
+          btnStyle={"flat"}
           href={`?state=categoryEdit&type=edit&id=${id}`}
           iconSrc={"/icons/AddImage.svg"}
           className={styles.edit}
         />
         <Button
           btnType={"link"}
-          style={"flat"}
+          btnStyle={"flat"}
           iconSrc={"/icons/Exit.svg"}
           href={`?state=delete&type=category&id=${id}`}
           className={styles.delete}
@@ -46,7 +46,7 @@ const RestaurantCategory = ({ name, photo, id }: RestaurantCategoryProps) => {
       </h5>
       <Button
         btnType={"link"}
-        style={"outlined"}
+        btnStyle={"outlined"}
         color={"gray"}
         iconSrc={"/icons/Edit.svg"}
         fontSize={"small"}

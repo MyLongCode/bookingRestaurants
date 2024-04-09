@@ -1,4 +1,4 @@
-import React, {forwardRef, useId} from "react";
+import React, { forwardRef, useId } from "react";
 import Image from "next/image";
 import styles from "./imageInput.module.scss";
 

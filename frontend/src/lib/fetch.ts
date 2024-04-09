@@ -1,7 +1,6 @@
 const customFetch = () => {};
 
 const getFetch = async (input: string, tag: string) => {
-
   return await fetch(`${process.env.API_URL}${input}`, {
     method: "GET",
     next: { tags: [tag] },

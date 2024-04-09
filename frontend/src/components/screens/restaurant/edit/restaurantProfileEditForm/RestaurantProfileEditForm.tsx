@@ -45,14 +45,14 @@ const RestaurantProfileEditForm = () => {
     <form className={styles.form} onSubmit={handleSubmit(handleSave)}>
       <Input
         type={"text"}
-        style={"alternative"}
+        inputStyle={"alternative"}
         placeholder={"Название заведения"}
         className={styles.title}
         {...register("name")}
       />
       <Input
         type={"text"}
-        style={"alternative"}
+        inputStyle={"alternative"}
         inputType={"textarea"}
         placeholder={"Описание заведения"}
         className={styles.desc}
@@ -83,7 +83,7 @@ const RestaurantProfileEditForm = () => {
           btnType={"button"}
           fontSize={"small"}
           font={"comfortaa"}
-          style={"filled"}
+          btnStyle={"filled"}
           type={"submit"}
           disabled={!isValid || isLoading || !isDirty}
         >
@@ -93,7 +93,7 @@ const RestaurantProfileEditForm = () => {
           btnType={"link"}
           fontSize={"small"}
           font={"comfortaa"}
-          style={"flat"}
+          btnStyle={"flat"}
           type={"reset"}
           href={"restaurant"}
         >

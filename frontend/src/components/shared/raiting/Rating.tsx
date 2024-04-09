@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./raiting.module.scss";
 import { clsx } from "clsx";
-import {types} from "sass";
+import { types } from "sass";
 import Number = types.Number;
 
 type RatingProps = {

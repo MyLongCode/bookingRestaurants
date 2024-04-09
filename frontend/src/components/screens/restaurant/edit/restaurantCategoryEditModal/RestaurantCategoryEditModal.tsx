@@ -99,7 +99,7 @@ const RestaurantCategoryEditModal = () => {
 
           <div className={styles.inputs}>
             <Input
-              style={"alternative"}
+              inputStyle={"alternative"}
               placeholder={"Название категории"}
               className={styles.input}
               {...register("name")}
@@ -109,7 +109,7 @@ const RestaurantCategoryEditModal = () => {
           <Button
             btnType={"button"}
             type={"submit"}
-            style={"filled"}
+            btnStyle={"filled"}
             font={"comfortaa"}
             fontSize={"small"}
             className={styles.submitBtn}
@@ -119,7 +119,7 @@ const RestaurantCategoryEditModal = () => {
           </Button>
           <Button
             btnType={"link"}
-            style={"flat"}
+            btnStyle={"flat"}
             font={"comfortaa"}
             fontSize={"small"}
             className={styles.submitBtn}

@@ -7,13 +7,13 @@ import { clsx } from "clsx";
 
 type InputProps = React.ComponentProps<"input"> &
   React.ComponentProps<"textarea"> & {
-    style?: "default" | "alternative";
+    inputStyle?: "default" | "alternative";
     inputType?: "default" | "textarea";
   };
 
 const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
   (
-    { children, type, className, style, inputType, ...props }: InputProps,
+    { children, type, className, inputStyle, inputType, ...props }: InputProps,
     ref,
   ) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
         className={clsx(
           styles.wrapper,
           {
-            [styles.alternative]: style === "alternative",
+            [styles.alternative]: inputStyle === "alternative",
           },
           className,
         )}

@@ -15,7 +15,7 @@ const RestaurantMenus = ({ menus }: RestaurantMenusProps) => {
         <h3 className={styles.title}>Меню</h3>
         <Button
           btnType={"link"}
-          style={"filled"}
+          btnStyle={"filled"}
           fontSize={"small"}
           font={"comfortaa"}
           color={"gray"}

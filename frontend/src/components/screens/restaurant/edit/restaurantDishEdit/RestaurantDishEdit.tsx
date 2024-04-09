@@ -106,7 +106,7 @@ const RestaurantDishEdit = ({
       {!asNew && (
         <Button
           btnType={"link"}
-          style={"flat"}
+          btnStyle={"flat"}
           type={"button"}
           iconSrc={"/icons/Exit.svg"}
           className={styles.delete}
@@ -134,20 +134,20 @@ const RestaurantDishEdit = ({
         <div className={styles.inputs}>
           <Input
             inputType={"textarea"}
-            style={"alternative"}
+            inputStyle={"alternative"}
             placeholder={"Название блюда"}
             className={styles.title}
             {...register("name")}
           />
           <InputError error={errors.name?.message} />
           <Input
-            style={"alternative"}
+            inputStyle={"alternative"}
             placeholder={"Вес, г"}
             {...register("weight")}
           />
           <InputError error={errors.weight?.message} />
           <Input
-            style={"alternative"}
+            inputStyle={"alternative"}
             placeholder={"Цена, ₽"}
             {...register("price")}
           />
@@ -157,7 +157,7 @@ const RestaurantDishEdit = ({
           <Button
             btnType={"button"}
             type={"submit"}
-            style={"filled"}
+            btnStyle={"filled"}
             font={"comfortaa"}
             fontSize={"small"}
             className={styles.submit}
@@ -168,7 +168,7 @@ const RestaurantDishEdit = ({
           <Button
             btnType={"button"}
             type={"button"}
-            style={"flat"}
+            btnStyle={"flat"}
             font={"comfortaa"}
             fontSize={"small"}
             onClick={handleReset}

@@ -3,7 +3,7 @@ import { Restaurant } from "@/models/restaurant/restaurant.type";
 import { Menu } from "@/models/restaurant/menu.type";
 import { Photo } from "@/models/restaurant/photo.type";
 import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
-import {revalidateRestaurant, revalidateRestaurantTags} from "@/lib/actions";
+import { revalidateRestaurant, revalidateRestaurantTags } from "@/lib/actions";
 import fetch from "@/lib/fetch";
 import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
 

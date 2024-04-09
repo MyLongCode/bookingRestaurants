@@ -32,6 +32,10 @@ button {
   cursor: pointer;
 }
 
+input::-ms-reveal {
+  display: none;
+}
+
 #portal {
   position: fixed;
   top: 0;

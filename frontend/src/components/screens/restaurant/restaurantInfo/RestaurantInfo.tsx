@@ -96,7 +96,7 @@ const RestaurantInfo = async ({
         <Button
           className={styles.btn}
           btnType={"link"}
-          style={"filled"}
+          btnStyle={"filled"}
           color={"gray"}
           iconSrc={"/icons/Edit.svg"}
           fontSize={"small"}

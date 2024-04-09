@@ -6,7 +6,7 @@ import styles from "./button.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 
-type ButtonStyle = "filled" | "outlined" | "flat";
+type ButtonStyle = "filled" | "outlined" | "flat" | "icon";
 type ButtonColor = "default" | "gray";
 type ButtonFont = "default" | "comfortaa";
 type ButtonFontSize = "default" | "small";
@@ -15,7 +15,7 @@ type ButtonProps = Partial<React.ComponentProps<"button">> &
   Partial<React.ComponentProps<typeof Link>> & {
     btnType: "link" | "button";
     color?: ButtonColor;
-    style: ButtonStyle;
+    btnStyle: ButtonStyle;
     iconSrc?: string;
     iconPosition?: "left" | "right";
     font?: ButtonFont;
@@ -24,7 +24,7 @@ type ButtonProps = Partial<React.ComponentProps<"button">> &
   };
 
 const Button = ({
-  style,
+  btnStyle,
   font,
   children,
   btnType,
@@ -40,9 +40,10 @@ const Button = ({
     styles.wrapper,
     {
       [styles.comfortaa]: font === "comfortaa",
-      [styles.filled]: style === "filled",
-      [styles.outlined]: style === "outlined",
-      [styles.flat]: style === "flat",
+      [styles.filled]: btnStyle === "filled",
+      [styles.outlined]: btnStyle === "outlined",
+      [styles.flat]: btnStyle === "flat",
+      [styles.iconStyle]: btnStyle === "icon",
       [styles.small]: fontSize === "small",
       [styles.gray]: color === "gray",
     },

@@ -60,7 +60,7 @@ const RestaurantMenuEditModal = () => {
         </Modal.Title>
         <form className={styles.form} onSubmit={handleSubmit(handleSave)}>
           <Input
-            style={"alternative"}
+            inputStyle={"alternative"}
             type={"text"}
             placeholder={"Название"}
             {...register("name")}
@@ -68,7 +68,7 @@ const RestaurantMenuEditModal = () => {
           <Button
             btnType={"button"}
             type={"submit"}
-            style={"filled"}
+            btnStyle={"filled"}
             font={"comfortaa"}
             disabled={type === "create" && (!isValid || isLoading)}
           >
@@ -76,7 +76,7 @@ const RestaurantMenuEditModal = () => {
           </Button>
           <Button
             btnType={"link"}
-            style={"flat"}
+            btnStyle={"flat"}
             fontSize={"small"}
             font={"comfortaa"}
             href={"restaurant"}

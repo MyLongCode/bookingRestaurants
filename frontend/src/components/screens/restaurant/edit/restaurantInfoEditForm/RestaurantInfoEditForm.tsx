@@ -143,14 +143,14 @@ const RestaurantInfoEditForm = () => {
       />
       <Input
         type={"text"}
-        style={"alternative"}
+        inputStyle={"alternative"}
         placeholder={"Адрес"}
         {...register("address")}
         className={styles.input}
       />
       <Input
         type={"text"}
-        style={"alternative"}
+        inputStyle={"alternative"}
         placeholder={"Телефон"}
         {...register("phone")}
         className={styles.input}
@@ -158,7 +158,7 @@ const RestaurantInfoEditForm = () => {
       <InputError error={errors.phone?.message} />
       <Input
         type={"text"}
-        style={"alternative"}
+        inputStyle={"alternative"}
         placeholder={"Сайт"}
         {...register("site")}
         className={styles.input}
@@ -166,7 +166,7 @@ const RestaurantInfoEditForm = () => {
 
       <Button
         btnType={"button"}
-        style={"filled"}
+        btnStyle={"filled"}
         font={"comfortaa"}
         fontSize={"small"}
         disabled={isLoading}
@@ -176,7 +176,7 @@ const RestaurantInfoEditForm = () => {
       <Button
         btnType={"link"}
         href={"restaurant"}
-        style={"flat"}
+        btnStyle={"flat"}
         font={"comfortaa"}
         fontSize={"small"}
       >

@@ -9,14 +9,16 @@ import styles from "./deleteModal.module.scss";
 import DishesService from "@/services/restaurant/DishesService";
 import { queryClient } from "@/app/providers";
 import MenuService from "@/services/restaurant/MenuService";
-import { revalidateMenus } from "@/lib/actions";
+import {revalidateMenus, revalidatePhotos} from "@/lib/actions";
+import PhotoService from "@/services/restaurant/PhotoService";
 
-type ObjectType = "menu" | "dish" | "category";
+type ObjectType = "menu" | "dish" | "category" | "photo";
 
 enum TypeTitle {
   "menu" = "меню",
   "dish" = "блюдо",
   "category" = "категорию",
+  "photo" = "фото",
 }
 
 const DeleteModal = () => {
@@ -25,6 +27,7 @@ const DeleteModal = () => {
   const categoryId = searchParams.get("categoryId");
   const dishId = searchParams.get("dishId");
   const menuId = searchParams.get("menuId");
+  const photoId = searchParams.get("photoId");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,6 +45,9 @@ const DeleteModal = () => {
       await MenuService.delete(menuId);
       await revalidateMenus();
     }
+    if (type === "photo" && photoId) {
+      await PhotoService.delete(photoId);
+    }
     close();
   };
 
@@ -52,6 +58,7 @@ const DeleteModal = () => {
     params.delete("dishId");
     params.delete("categoryId");
     params.delete("menuId");
+    params.delete("photoId");
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -62,7 +69,7 @@ const DeleteModal = () => {
         <div className={styles.btns}>
           <Button
             btnType={"button"}
-            style={"filled"}
+            btnStyle={"filled"}
             fontSize={"small"}
             font={"comfortaa"}
             onClick={handleApprove}
@@ -72,7 +79,7 @@ const DeleteModal = () => {
           </Button>
           <Button
             btnType={"button"}
-            style={"filled"}
+            btnStyle={"filled"}
             fontSize={"small"}
             font={"comfortaa"}
             onClick={close}

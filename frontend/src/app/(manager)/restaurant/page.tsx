@@ -13,7 +13,8 @@ import RestaurantInfoEditModal from "@/restaurant/edit/restaurantInfoEditModal/R
 import RestaurantMenuEditModal from "@/restaurant/edit/restaurantMenuEditModal/RestaurantMenuEditModal";
 import RestaurantCategoryEditModal from "@/restaurant/edit/restaurantCategoryEditModal/RestaurantCategoryEditModal";
 import RestaurantDishesEditModal from "@/restaurant/edit/restaurantDishesEditModal/RestaurantDishesEditModal";
-import DeleteModal from "@/components/screens/restaurant/edit/deleteModal/DeleteModal";
+import DeleteModal from "@/components/shared/deleteModal/DeleteModal";
+import PhotoEditModal from "@/components/shared/carousel/children/photoEditModal/PhotoEditModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -28,7 +29,10 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
   const params = searchParams.state;
   const restaurant = await RestaurantService.getById(1);
   const photos = await RestaurantService.getPhotos(1).then((data) =>
-    data.map((photo) => `${process.env.API_URL}${photo.image}`),
+    data.map((photo) => ({
+      ...photo,
+      image: `${process.env.API_URL}${photo.image}`,
+    })),
   );
   const menus = await RestaurantService.getMenus(1);
   const tags = await RestaurantService.getTags(1);
@@ -47,11 +51,11 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
           color={"gray"}
           fontSize={"small"}
           iconSrc={"/icons/AddImage.svg"}
-          style={"flat"}
+          btnStyle={"flat"}
         >
           Добавить все фото сразу
         </Button>
-        <InfiniteCarousel images={photos} />
+        <InfiniteCarousel photos={photos} editable />
       </section>
       <section>
         <RestaurantInfo
@@ -81,6 +85,7 @@ const RestaurantPage = async ({ searchParams }: RestaurantPageProps) => {
       )}
       {params && params.includes("delete") && <DeleteModal />}
       {params && params.includes("dishesEdit") && <RestaurantDishesEditModal />}
+      {params && params.includes("photoEdit") && <PhotoEditModal />}
     </main>
   );
 };

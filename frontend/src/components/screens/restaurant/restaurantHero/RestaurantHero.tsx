@@ -48,14 +48,14 @@ const RestaurantHero = ({
         </div>
       </div>
       <div className={styles.btns}>
-        <Button btnType={"button"} style={"filled"} fontSize={"small"}>
+        <Button btnType={"button"} btnStyle={"filled"} fontSize={"small"}>
           Забронировать столик
         </Button>
         <Button
           btnType={"link"}
           color={"gray"}
           fontSize={"small"}
-          style={"filled"}
+          btnStyle={"filled"}
           iconSrc={"/icons/Edit.svg"}
           href={"?state=profileEdit"}
         >
