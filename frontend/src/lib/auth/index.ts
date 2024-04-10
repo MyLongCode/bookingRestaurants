@@ -28,7 +28,6 @@ export const authOptions: AuthOptions = {
             password: credentials?.password,
           })
           .then((res) => {
-            console.log(res);
             return res.data;
           })
           .catch((e) => {
@@ -37,23 +36,37 @@ export const authOptions: AuthOptions = {
 
         if (!data) return null;
 
+        const user = data.user_data;
+
         return {
-          email: data.user_data.email,
-          id: data.user_data.id.toString(),
-          name: data.user_data.full_name,
+          ...user,
+          id: user.id.toString(),
+          name: "",
+          image: "",
+          access: data.access,
+          refresh: data.refresh,
         };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.user = user as User;
+      if (user) {
+        token.user = user;
+        token.refresh = user.refresh;
+        token.access = user.access;
+      }
       return token;
     },
     async session({ token, session }) {
       session.user = token.user;
+      session.refresh = token.refresh;
+      session.access = token.access;
       return session;
     },
+  },
+  pages: {
+    signIn: "/?state=login",
   },
 };
 

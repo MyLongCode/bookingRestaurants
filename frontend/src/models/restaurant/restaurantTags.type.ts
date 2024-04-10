@@ -4,4 +4,5 @@ export type RestaurantTags = {
   ["Время приема пищи"]: RestaurantTag[];
   ["Тип кухни"]: RestaurantTag[];
   ["Парковка"]: RestaurantTag[];
+  ["Пищевые ограничения"]: RestaurantTag[];
 };

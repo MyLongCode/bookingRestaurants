@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import RestaurantService from "@/services/restaurant/RestaurantService";
 
-const useRestaurant = async (id: number | string) => {
-  const { data, isPending, error } = useQuery({
+const useRestaurant = (id: number | string) => {
+  const { data, isSuccess, error } = useQuery({
     queryKey: ["restaurant"],
     queryFn: async () => await RestaurantService.getById(id),
   });
 
-  return { data, isPending, error };
+  return { data, isSuccess, error };
 };
 
 export default useRestaurant;

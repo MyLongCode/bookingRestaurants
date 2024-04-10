@@ -17,6 +17,7 @@ type RestaurantInfoProps = {
   address?: string;
   phoneNumber?: string;
   website?: string;
+  editable?: boolean;
 };
 
 const RestaurantInfo = async ({
@@ -28,19 +29,20 @@ const RestaurantInfo = async ({
   schedule,
   restrictions,
   mealTime,
+  editable,
 }: RestaurantInfoProps) => {
-  const response = await axios.get("https://geocode-maps.yandex.ru/1.x", {
-    params: {
-      apikey: process.env.YANDEX_API,
-      geocode: address,
-      format: "json",
-    },
-  });
-
-  const pos =
-    response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
-      .split(" ")
-      .reverse();
+  // const response = await axios.get("https://geocode-maps.yandex.ru/1.x", {
+  //   params: {
+  //     apikey: process.env.YANDEX_API,
+  //     geocode: address,
+  //     format: "json",
+  //   },
+  // });
+  //
+  // const pos =
+  //   response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+  //     .split(" ")
+  //     .reverse();
 
   return (
     <section className={styles.wrapper}>
@@ -93,30 +95,23 @@ const RestaurantInfo = async ({
             </a>
           </li>
         </ul>
-        <Button
-          className={styles.btn}
-          btnType={"button"}
-          style={"filled"}
-          color={"gray"}
-          iconSrc={"/icons/Edit.svg"}
-          fontSize={"small"}
-        >
-          Изменить информацию
-        </Button>
+        {editable && (
+          <Button
+            className={styles.btn}
+            btnType={"link"}
+            btnStyle={"filled"}
+            color={"gray"}
+            iconSrc={"/icons/Edit.svg"}
+            fontSize={"small"}
+            href={"?state=infoEdit"}
+          >
+            Изменить информацию
+          </Button>
+        )}
       </section>
       <section className={styles.mapContainer}>
         <h3>Карта</h3>
-        <YandexMap state={{ center: pos, zoom: 15 }} width={550} height={400} />
-        <Button
-          className={clsx(styles.btn, styles.mapBtn)}
-          btnType={"button"}
-          style={"filled"}
-          color={"gray"}
-          iconSrc={"/icons/Edit.svg"}
-          fontSize={"small"}
-        >
-          Изменить местоположение
-        </Button>
+        {/*<YandexMap state={{ center: pos, zoom: 15 }} width={500} height={500} />*/}
       </section>
     </section>
   );

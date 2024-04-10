@@ -6,38 +6,35 @@ import Slider from "@ant-design/react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NavArrow from "./components/navArrow/NavArrow";
+import CarouselPhoto from "@/components/shared/carousel/children/carouselPhoto/CarouselPhoto";
+import { Photo } from "@/models/restaurant/photo.type";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8];
 
 type InfiniteCarouselProps = {
-  images: string[];
+  photos: Photo[];
+  editable?: boolean;
 };
 
-const InfiniteCarousel = ({ images }: InfiniteCarouselProps) => {
-  if (images.length === 0) {
+const InfiniteCarousel = ({ photos, editable }: InfiniteCarouselProps) => {
+  if (photos.length === 0) {
     return null;
   }
 
   return (
     <div className={styles.wrapper}>
       <Slider
-        infinite={true}
-        slidesToShow={4}
+        infinite={photos.length >= 2}
+        slidesToShow={photos.length > 3 ? 4 : photos.length > 2 ? 3 : 2}
         autoplay={true}
         autoplaySpeed={4000}
         swipeToSlide={true}
+        swipe={photos.length > 2}
         slidesToScroll={1}
-        centerMode={true}
         speed={2000}
         nextArrow={<NavArrow />}
         prevArrow={<NavArrow isLeft />}
         responsive={[
-          {
-            breakpoint: 1440,
-            settings: {
-              slidesToShow: 3,
-            },
-          },
           {
             breakpoint: 1200,
             settings: {
@@ -52,19 +49,15 @@ const InfiniteCarousel = ({ images }: InfiniteCarouselProps) => {
           },
         ]}
       >
-        {images.map((item) => {
+        {photos.map((photo) => {
           return (
-            <div key={item} className={styles.item}>
-              <Image
-                className={styles.image}
-                src={item}
-                alt={""}
-                fill
-                sizes={
-                  "300px, (min-width: 1440px) 400px, (min-width: 1024px) 900px "
-                }
-              />
-            </div>
+            <CarouselPhoto
+              key={photo.id}
+              id={photo.id}
+              image={photo.image}
+              title={photo.title}
+              editable={editable}
+            />
           );
         })}
       </Slider>

@@ -3,7 +3,7 @@ import CategoryService from "@/services/restaurant/CategoryService";
 
 const useDishes = (id?: number | string) => {
   const { data, isSuccess } = useQuery({
-    queryKey: ["restaurant dishes"],
+    queryKey: [`restaurant dishes ${id}`],
     queryFn: () => (!!id ? CategoryService.getDishes(id) : null),
   });
 

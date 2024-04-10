@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 import styles from "./yandexMap.module.scss";
 
-type YandexMapProps = React.ComponentProps<typeof Map>
+type YandexMapProps = React.ComponentProps<typeof Map>;
 
 const YandexMap = ({ state, ...props }: YandexMapProps) => {
   return (

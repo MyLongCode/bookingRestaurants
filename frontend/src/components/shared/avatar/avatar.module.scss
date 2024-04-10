@@ -6,11 +6,11 @@
   border: 1px solid white;
   border-radius: 50%;
   aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
 
 .img {
   object-fit: contain;
   padding: 10px;
   aspect-ratio: 1 / 1;
-
 }

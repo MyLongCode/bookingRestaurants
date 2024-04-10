@@ -14,8 +14,12 @@ type RestaurantCategoryModalProps = {
 const RestaurantCategoryModal = ({
   searchParams,
 }: RestaurantCategoryModalProps) => {
-  const { data: dishes, isSuccess: isDishesSuccess } = useDishes(searchParams.categoryId);
-  const { data: category, isSuccess: isCategorySuccess } = useCategory(searchParams.categoryId);
+  const { data: dishes, isSuccess: isDishesSuccess } = useDishes(
+    searchParams.categoryId,
+  );
+  const { data: category, isSuccess: isCategorySuccess } = useCategory(
+    searchParams.categoryId,
+  );
 
   if (!isDishesSuccess && !isCategorySuccess) return null;
 

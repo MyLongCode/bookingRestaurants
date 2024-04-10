@@ -78,7 +78,7 @@ const RegisterForm = () => {
           btnType={"button"}
           fontSize={"small"}
           font="comfortaa"
-          style="filled"
+          btnStyle="filled"
           disabled={!isValid || isSubmitting}
         >
           Зарегистрироваться
@@ -88,7 +88,7 @@ const RegisterForm = () => {
           fontSize={"small"}
           href={"?state=login"}
           font="comfortaa"
-          style="flat"
+          btnStyle="flat"
         >
           Войти
         </Button>

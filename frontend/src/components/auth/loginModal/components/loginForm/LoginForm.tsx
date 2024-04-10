@@ -67,7 +67,7 @@ const LoginForm = () => {
           btnType={"button"}
           fontSize={"small"}
           font="comfortaa"
-          style="filled"
+          btnStyle="filled"
           disabled={!isValid || isSubmitting}
         >
           Войти
@@ -77,7 +77,7 @@ const LoginForm = () => {
           fontSize={"small"}
           href={"?state=register"}
           font="comfortaa"
-          style="flat"
+          btnStyle="flat"
         >
           Зарегистрироваться
         </Button>

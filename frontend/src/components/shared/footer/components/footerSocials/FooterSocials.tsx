@@ -17,7 +17,12 @@ type FooterSocialsItemProps = {
 const Item = ({ iconSrc }: FooterSocialsItemProps) => {
   return (
     <li className={styles.item}>
-      <Button className={styles.itemBtn} btnType={"link"} style={"flat"} iconSrc={iconSrc} />
+      <Button
+        className={styles.itemBtn}
+        btnType={"link"}
+        btnStyle={"flat"}
+        iconSrc={iconSrc}
+      />
     </li>
   );
 };

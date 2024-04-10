@@ -9,6 +9,7 @@ type RestaurantHeroProps = {
   logoSrc: string;
   title: string;
   description: string;
+  editable?: boolean;
 };
 
 const RestaurantHero = ({
@@ -16,12 +17,13 @@ const RestaurantHero = ({
   logoSrc,
   description,
   title,
+  editable,
 }: RestaurantHeroProps) => {
   return (
     <section className={styles.wrapper}>
       <div className={styles.imgContainer}>
         <Image
-          className={styles.img}
+          className={styles.preview}
           src={imgSrc}
           alt={"Фон ресторана"}
           fill
@@ -48,18 +50,21 @@ const RestaurantHero = ({
         </div>
       </div>
       <div className={styles.btns}>
-        <Button btnType={"button"} style={"filled"} fontSize={"small"}>
+        <Button btnType={"button"} btnStyle={"filled"} fontSize={"small"}>
           Забронировать столик
         </Button>
-        <Button
-          btnType={"button"}
-          color={"gray"}
-          fontSize={"small"}
-          style={"filled"}
-          iconSrc={"/icons/Edit.svg"}
-        >
-          Редактировать профиль ресторана
-        </Button>
+        {editable && (
+          <Button
+            btnType={"link"}
+            color={"gray"}
+            fontSize={"small"}
+            btnStyle={"filled"}
+            iconSrc={"/icons/Edit.svg"}
+            href={"?state=profileEdit"}
+          >
+            Редактировать профиль ресторана
+          </Button>
+        )}
       </div>
     </section>
   );

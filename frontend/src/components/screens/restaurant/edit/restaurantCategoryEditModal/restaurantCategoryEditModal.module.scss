@@ -1,0 +1,35 @@
+@import "@/styles/variables/variables";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.selectedImage {
+  position: relative;
+  min-height: 260px;
+  width: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid $input-border-color;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding-inline: 25px;
+}
+
+.input {
+  width: 100%;
+}
+
+.submitBtn {
+  margin-top: 20px;
+  width: 70%;
+}

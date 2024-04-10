@@ -1,0 +1,15 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid $input-border-color;
+  color: $text-color-main;
+  background: none;
+  font-size: 1.25rem;
+
+  option {
+    background-color: $bg-color;
+  }
+}

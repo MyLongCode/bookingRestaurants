@@ -4,19 +4,16 @@ import HeaderNavLink from "@/components/shared/header/components/navLink/HeaderN
 import styles from "./header.module.scss";
 import HeaderNotifications from "@/components/shared/header/components/notifications/HeaderNotifications";
 import Avatar from "@/components/shared/avatar/Avatar";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 type HeaderProps = {};
 
 const Header = async ({}: HeaderProps) => {
-  const session = await getServerSession();
-  if (session?.user) {
-    session.user.isManager = true;
-  }
-
+  const session: Session | null = await getServerSession(authOptions);
   return (
     <header className={styles.wrapper}>
-      {!session?.user.isManager ? (
+      {session?.user?.role !== "manager" ? (
         <HeaderNav>
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />

@@ -8,13 +8,17 @@ import Button from "@/components/shared/controls/button/Button";
 import { clsx } from "clsx";
 import { useRouter } from "next/navigation";
 import RestaurantCategoryModal from "@/screens/restaurant/restaurantCategoryModal/RestaurantCategoryModal";
+import CategoryService from "@/services/restaurant/CategoryService";
 
-type RestaurantCategoryProps = Omit<Category, "dish_item"> & {};
+type RestaurantCategoryProps = Omit<Category, "dish_item"> & {
+  editable?: boolean;
+};
 
 const RestaurantCategory = ({
   name,
   photo,
   id,
+  editable,
 }: RestaurantCategoryProps) => {
   const router = useRouter();
   const categoryClickHandler = () => {
@@ -28,27 +32,40 @@ const RestaurantCategory = ({
       className={styles.wrapper}
       style={{ backgroundImage: `url("${photo}")` }}
     >
-      <div className={styles.upperContainer}>
-        <Button
-          btnType={"button"}
-          style={"flat"}
-          iconSrc={"/icons/AddImage.svg"}
-        />
-        <Button btnType={"button"} style={"flat"} iconSrc={"/icons/Exit.svg"} />
-      </div>
+      {editable && (
+        <div className={styles.upperContainer}>
+          <Button
+            btnType={"link"}
+            btnStyle={"flat"}
+            href={`?state=categoryEdit&type=edit&id=${id}`}
+            iconSrc={"/icons/AddImage.svg"}
+            className={styles.edit}
+          />
+          <Button
+            btnType={"link"}
+            btnStyle={"flat"}
+            iconSrc={"/icons/Exit.svg"}
+            href={`?state=delete&type=category&categoryId=${id}`}
+            className={styles.delete}
+          />
+        </div>
+      )}
       <h5 className={styles.title} onClick={categoryClickHandler}>
         {name}
       </h5>
-      <Button
-        btnType={"button"}
-        style={"outlined"}
-        color={"gray"}
-        iconSrc={"/icons/Edit.svg"}
-        fontSize={"small"}
-        className={styles.btn}
-      >
-        Изменить категорию
-      </Button>
+      {editable && (
+        <Button
+          btnType={"link"}
+          btnStyle={"outlined"}
+          color={"gray"}
+          iconSrc={"/icons/Edit.svg"}
+          fontSize={"small"}
+          className={styles.btn}
+          href={`?state=dishesEdit&id=${id}`}
+        >
+          Изменить категорию
+        </Button>
+      )}
     </li>
   );
 };

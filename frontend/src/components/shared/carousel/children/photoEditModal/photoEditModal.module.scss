@@ -1,0 +1,32 @@
+@import "@/styles/variables/variables";
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.imgContainer {
+  position: relative;
+  min-height: 300px;
+  width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 10px;
+  align-self: center;
+  margin-bottom: 20px;
+  outline: 1px solid $modal-border-color;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.btnsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  margin-bottom: 20px;
+}

@@ -12,10 +12,20 @@
   width: fit-content;
   padding: 20px;
   outline: 3px solid transparent;
+  width: 360px;
+  min-height: 260px;
   transition-duration: 0.2s;
 
-  &:has(> .title:hover) {
+  &:has(.title:hover) {
     outline: 3px solid $modal-border-color;
+  }
+
+  &:has(.delete:hover) {
+    outline: 3px solid red;
+  }
+
+  &:has(.btn:hover, .edit:hover) {
+    outline: 3px solid yellow;
   }
 }
 

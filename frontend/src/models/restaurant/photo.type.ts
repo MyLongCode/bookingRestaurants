@@ -1,5 +1,6 @@
 export type Photo = {
-  id: number;
+  id: string | number;
   image: string;
   title: string;
+  restaurant?: string | number;
 };

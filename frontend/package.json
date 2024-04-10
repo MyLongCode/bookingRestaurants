@@ -21,6 +21,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
+    "react-multi-select-component": "^4.3.4",
     "react-use-websocket": "^4.8.1",
     "sass": "^1.72.0",
     "slick-carousel": "^1.8.1",

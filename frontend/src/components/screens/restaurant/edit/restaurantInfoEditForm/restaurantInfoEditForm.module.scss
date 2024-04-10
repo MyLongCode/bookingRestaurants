@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 60dvh;
+  flex-wrap: wrap;
+}
+
+.btns {
+  display: flex;
+  gap: 20px;
+}

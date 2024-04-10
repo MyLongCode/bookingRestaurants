@@ -1,0 +1,62 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  position: relative;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  border: 2px solid $modal-border-color;
+  overflow: hidden;
+  color: $text-color-accent;
+}
+
+.form {
+  height: 100%;
+  padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  textarea {
+    min-height: 80px;
+  }
+}
+
+.delete {
+  position: absolute;
+  z-index: 1;
+  right: 2px;
+  top: 15px;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 40px;
+  gap: 10px;
+}
+
+.submit {
+  margin-top: auto;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-inline: 20px;
+  margin-bottom: 20px;
+}
+
+.imgContainer {
+  margin-bottom: 20px;
+  position: relative;
+  height: 230px;
+  width: 100%;
+
+  > img {
+    object-fit: cover;
+  }
+}
