@@ -45,7 +45,7 @@ const RestaurantCategory = ({
             btnType={"link"}
             btnStyle={"flat"}
             iconSrc={"/icons/Exit.svg"}
-            href={`?state=delete&type=category&id=${id}`}
+            href={`?state=delete&type=category&categoryId=${id}`}
             className={styles.delete}
           />
         </div>

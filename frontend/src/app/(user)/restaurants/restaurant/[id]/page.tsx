@@ -46,12 +46,7 @@ const RestaurantPage = async ({
     redirect("/restaurants");
   }
 
-  const photos = await RestaurantService.getPhotos(id).then((data) =>
-    data.map((photo) => ({
-      ...photo,
-      image: `${process.env.API_URL}${photo.image}`,
-    })),
-  );
+  const photos = await RestaurantService.getPhotos(id);
   const menus = await RestaurantService.getMenus(id);
   const tags = await RestaurantService.getTags(id);
 
