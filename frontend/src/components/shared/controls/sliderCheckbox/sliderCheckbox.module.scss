@@ -1,0 +1,47 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+.input {
+  appearance: none;
+  width: 40px;
+  height: 20px;
+  border: 2px solid $input-border-color;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition-duration: 0.2s;
+
+  &:after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    position: absolute;
+    border-radius: 50%;
+    margin: 2px;
+    left: 0;
+    transition: 0.2s ease-in-out;
+  }
+
+  &:checked {
+    background-color: $input-border-color;
+
+    &:after {
+      left: 19px;
+    }
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  margin-left: 7px;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  height: 100%;
+}

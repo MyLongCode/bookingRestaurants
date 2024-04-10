@@ -8,7 +8,7 @@ import Input from "@/components/shared/controls/input/Input";
 import InputError from "@/components/shared/inputError/InputError";
 import Button from "@/components/shared/controls/button/Button";
 import RestaurantService from "@/services/restaurant/RestaurantService";
-import {usePathname, useRouter} from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   restaurantInfoEditSchema,
   RestaurantProfileInfoSchema,
@@ -20,6 +20,7 @@ import { Option } from "react-multi-select-component";
 import useRestaurant from "@/hooks/restaurant/useRestaurant";
 import useRestaurantTags from "@/hooks/restaurant/useRestaurantTags";
 import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
+import WorkingHoursEdit from "@/restaurant/edit/workingHoursEdit/WorkingHoursEdit";
 
 const makeOptionsFromTags = (tags?: RestaurantTag[]) => {
   return (
@@ -44,13 +45,15 @@ const RestaurantInfoEditForm = () => {
   const [mealTimeTags, setMealTimeTags] = useState<RestaurantTag[]>([]);
   const [parkingTags, setParkingTags] = useState<RestaurantTag[]>([]);
   const [restrictionTags, setRestrictionTags] = useState<RestaurantTag[]>([]);
+  const { id } = useParams<{ id: string }>();
 
   const pathname = usePathname();
 
   const { data: tags, isSuccess: isTagsSuccess } = useTags();
-  const { data: restaurant, isSuccess: isRestaurantSuccess } = useRestaurant(1);
+  const { data: restaurant, isSuccess: isRestaurantSuccess } =
+    useRestaurant(id);
   const { data: restaurantTags, isSuccess: isRestaurantTagsSuccess } =
-    useRestaurantTags(1);
+    useRestaurantTags(id);
   const router = useRouter();
 
   useEffect(() => {
@@ -63,8 +66,6 @@ const RestaurantInfoEditForm = () => {
       setMealTimeTags(restaurantTags?.["Время приема пищи"]);
       setParkingTags(restaurantTags?.["Парковка"]);
       setRestrictionTags(restaurantTags?.["Пищевые ограничения"]);
-
-      console.log(restaurantTags);
     }
   }, [restaurantTags, restaurant]);
 
@@ -107,83 +108,88 @@ const RestaurantInfoEditForm = () => {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit(handleSave)}>
-      <MultipleSelect
-        {...register("cuisine")}
-        handleChange={(value) => {
-          setCuisineTags(makeTagsFromOptions(value));
-        }}
-        label={"Тип кухни"}
-        options={makeOptionsFromTags(tags?.["Тип кухни"])}
-        defaultValue={makeOptionsFromTags(cuisineTags)}
-      />
-      <MultipleSelect
-        {...register("mealTime")}
-        handleChange={(value) => {
-          setMealTimeTags(makeTagsFromOptions(value));
-        }}
-        label={"Время приема пищи"}
-        options={makeOptionsFromTags(tags?.["Время приема пищи"])}
-        defaultValue={makeOptionsFromTags(mealTimeTags)}
-      />
-      <MultipleSelect
-        {...register("parking")}
-        handleChange={(value) => {
-          setParkingTags(makeTagsFromOptions(value));
-        }}
-        label={"Парковка"}
-        options={makeOptionsFromTags(tags?.["Парковка"])}
-        defaultValue={makeOptionsFromTags(parkingTags)}
-      />
-      <MultipleSelect
-        {...register("restrictions")}
-        handleChange={(value) => {
-          setRestrictionTags(makeTagsFromOptions(value));
-        }}
-        label={"Пищевые ограничения"}
-        options={makeOptionsFromTags(tags?.["Пищевые ограничения"])}
-        defaultValue={makeOptionsFromTags(restrictionTags)}
-      />
-      <Input
-        type={"text"}
-        inputStyle={"alternative"}
-        placeholder={"Адрес"}
-        {...register("address")}
-        className={styles.input}
-      />
-      <Input
-        type={"text"}
-        inputStyle={"alternative"}
-        placeholder={"Телефон"}
-        {...register("phone")}
-        className={styles.input}
-      />
-      <InputError error={errors.phone?.message} />
-      <Input
-        type={"text"}
-        inputStyle={"alternative"}
-        placeholder={"Сайт"}
-        {...register("site")}
-        className={styles.input}
-      />
+      <div className={styles.inputs}>
+        <MultipleSelect
+          {...register("cuisine")}
+          handleChange={(value) => {
+            setCuisineTags(makeTagsFromOptions(value));
+          }}
+          label={"Тип кухни"}
+          options={makeOptionsFromTags(tags?.["Тип кухни"])}
+          defaultValue={makeOptionsFromTags(cuisineTags)}
+        />
+        <MultipleSelect
+          {...register("mealTime")}
+          handleChange={(value) => {
+            setMealTimeTags(makeTagsFromOptions(value));
+          }}
+          label={"Время приема пищи"}
+          options={makeOptionsFromTags(tags?.["Время приема пищи"])}
+          defaultValue={makeOptionsFromTags(mealTimeTags)}
+        />
+        <MultipleSelect
+          {...register("parking")}
+          handleChange={(value) => {
+            setParkingTags(makeTagsFromOptions(value));
+          }}
+          label={"Парковка"}
+          options={makeOptionsFromTags(tags?.["Парковка"])}
+          defaultValue={makeOptionsFromTags(parkingTags)}
+        />
+        <MultipleSelect
+          {...register("restrictions")}
+          handleChange={(value) => {
+            setRestrictionTags(makeTagsFromOptions(value));
+          }}
+          label={"Пищевые ограничения"}
+          options={makeOptionsFromTags(tags?.["Пищевые ограничения"])}
+          defaultValue={makeOptionsFromTags(restrictionTags)}
+        />
+        <Input
+          type={"text"}
+          inputStyle={"alternative"}
+          placeholder={"Адрес"}
+          {...register("address")}
+          className={styles.input}
+        />
+        <Input
+          type={"text"}
+          inputStyle={"alternative"}
+          placeholder={"Телефон"}
+          {...register("phone")}
+          className={styles.input}
+        />
+        <InputError error={errors.phone?.message} />
+        <Input
+          type={"text"}
+          inputStyle={"alternative"}
+          placeholder={"Сайт"}
+          {...register("site")}
+          className={styles.input}
+        />
+        <WorkingHoursEdit />
+      </div>
 
-      <Button
-        btnType={"button"}
-        btnStyle={"filled"}
-        font={"comfortaa"}
-        fontSize={"small"}
-        disabled={isLoading}
-      >
-        Сохранить
-      </Button>
-      <Button
-        btnType={"link"}
-        href={pathname}
-        btnStyle={"flat"}
-        font={"comfortaa"}
-        fontSize={"small"}
-      >
-        Отменить
-      </Button>
+      <div className={styles.btns}>
+        <Button
+          btnType={"button"}
+          btnStyle={"filled"}
+          font={"comfortaa"}
+          fontSize={"small"}
+          disabled={isLoading}
+        >
+          Сохранить
+        </Button>
+        <Button
+          btnType={"link"}
+          href={pathname}
+          btnStyle={"flat"}
+          font={"comfortaa"}
+          fontSize={"small"}
+        >
+          Отменить
+        </Button>
+      </div>
     </form>
   );
 };

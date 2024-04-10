@@ -40,6 +40,18 @@ export default class RestaurantService {
       });
   }
 
+  public static async patchSchedule(
+    id: string | number,
+    data: Pick<Restaurant, "schedule">,
+  ): Promise<Restaurant> {
+    return await axiosAuth
+      .patch<Restaurant>(`/restaurant/${id}/`, data)
+      .then(async (res) => {
+        await revalidateRestaurant();
+        return res.data;
+      });
+  }
+
   public static async patchTags(
     id: string | number,
     data: Partial<RestaurantTagsDto>,

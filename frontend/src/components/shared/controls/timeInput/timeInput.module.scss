@@ -1,0 +1,19 @@
+@import "@/styles/variables/variables";
+
+.label {
+  display: none;
+}
+
+.input {
+  background: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: $text-color-main;
+  padding: 2px 10px;
+  font-size: 0.875rem;
+  font-family: var(--font-comfortaa) sans-serif;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
