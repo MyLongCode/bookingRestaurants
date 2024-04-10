@@ -84,6 +84,7 @@ const RestaurantPage = async ({
           phoneNumber={restaurant.phone}
           website={restaurant.site}
           parking={tags["Парковка"]}
+          restrictions={tags["Пищевые ограничения"]}
           schedule={restaurant.schedule}
           editable={role === "manager"}
         />
