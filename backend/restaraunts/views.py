@@ -1,15 +1,17 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
+
+from accounts.models import User
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
-    CategorySerializer
+    CategorySerializer, BookingSerializer
 )
 from django.db.models import Count
 from rest_framework import status, mixins, generics
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag)
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking)
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -210,7 +212,51 @@ class RestaurantListViewSet(viewsets.ViewSet):
 
     def list(self, request, users_pk=None):
         queryset = Restaurant.objects.filter(owner=users_pk)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
+        return Response(serializer.data)
+
+
+class BookingViewSet(viewsets.ViewSet):
+    serializer_class = BookingSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Booking.objects.all()
+
+        return queryset
+
+    def create(self, request, restaurant_pk=None):
+        booking = self.serializer_class(data=request.data, context={"restaurant_pk": restaurant_pk})
+        booking.is_valid(raise_exception=True)
+        booking.save()
+        return Response(booking.data)
+
+    def list(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"Restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant_pk)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class UserBookingViewSet(viewsets.ViewSet):
+    serializer_class = BookingSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Booking.objects.all()
+        return queryset
+
+    def list(self, request, users_pk=None):
+        try:
+            user = User.objects.all().get(pk=users_pk)
+        except User.DoesNotExist:
+            return Response(f"User {users_pk} does not exist")
+        queryset = self.get_queryset().filter(user=users_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)

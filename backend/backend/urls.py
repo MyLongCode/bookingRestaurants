@@ -10,10 +10,9 @@ from accounts.views import UserViewSet
 from restaraunts.views import (
     RestaurantViewSet, MenuViewSet, MenuListViewSet,
     TagViewSet, TagGroupViewSet, RestaurantTagsViewSet,
-    NestedCategoryViewSet, DishItemViewSet, PhotoViewSet,
-    PhotoListViewSet, CategoryViewSet, DishListViewSet,
+    DishItemViewSet, PhotoViewSet, PhotoListViewSet, CategoryViewSet, DishListViewSet,
     RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
-    RestaurantTagsPATCHViewSet
+    RestaurantTagsPATCHViewSet, BookingViewSet, UserBookingViewSet
 )
 from rest_framework_nested import routers
 
@@ -35,17 +34,21 @@ restaurant_router.register(r'photo', PhotoListViewSet, basename='photo')
 restaurant_router.register(r'tag', RestaurantTagsListViewSet, basename='tag')
 restaurant_router.register(r'tag-put', RestaurantTagsPUTViewSet, basename='tagPUT')
 restaurant_router.register(r'tag-patch', RestaurantTagsPATCHViewSet, basename='tagPATCH')
+restaurant_router.register(r'booking', BookingViewSet, basename='booking')
+
 
 dishes_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
 dishes_router.register(r'dishes', DishListViewSet, basename='dishes')
 
 restaurant_users_router = routers.NestedSimpleRouter(router, r'users', lookup='users')
 restaurant_users_router.register(r'restaurant', RestaurantListViewSet, basename='restaurant')
+restaurant_users_router.register(r'booking', UserBookingViewSet, basename='booking')
 
 urlpatterns = [
                   path(r'', include(router.urls)),
                   path(r'', include(restaurant_router.urls)),
                   path(r'', include(dishes_router.urls)),
+                  path(r'', include(restaurant_users_router.urls)),
                   path('admin/', admin.site.urls),
                   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
                   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
