@@ -1,0 +1,27 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  max-height: 60dvh;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.tableHead {
+  font-size: 1.25rem;
+  color: $text-color-accent;
+}
+
+.tableBody {
+  font-size: 1.125rem;
+
+  &:before {
+    line-height: 0.5rem;
+    content: "\200C";
+    display: block;
+  }
+}

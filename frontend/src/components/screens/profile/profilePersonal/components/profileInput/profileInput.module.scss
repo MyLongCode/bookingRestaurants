@@ -1,0 +1,18 @@
+@import "@/styles/variables/variables";
+
+.input {
+  font-size: 1.5rem;
+  border: 2px solid $input-border-color;
+  border-radius: 8px;
+  background: none;
+  color: $text-color-main;
+  padding: 15px 10px;
+  width: 100%;
+  color-scheme: dark;
+}
+
+.label {
+  font-size: 1.25rem;
+  color: $text-color-accent;
+  margin-bottom: 5px;
+}

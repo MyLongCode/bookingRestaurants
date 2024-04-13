@@ -1,0 +1,15 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-between;
+  padding-inline: 200px;
+  gap: 200px;
+
+  h2 {
+    color: $text-color-accent;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+}

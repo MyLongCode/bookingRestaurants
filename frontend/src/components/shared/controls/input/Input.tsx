@@ -32,7 +32,13 @@ const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
           <input
             className={styles.input}
             maxLength={type === "password" ? 22 : 30}
-            type={type === "password" && !passwordVisible ? "password" : "text"}
+            type={
+              type === "password" && !passwordVisible
+                ? "password"
+                : type === "password"
+                  ? "text"
+                  : type
+            }
             ref={ref}
             {...props}
           />
