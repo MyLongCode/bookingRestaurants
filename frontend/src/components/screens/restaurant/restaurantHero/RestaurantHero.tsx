@@ -50,7 +50,7 @@ const RestaurantHero = ({
         </div>
       </div>
       <div className={styles.btns}>
-        <Button btnType={"button"} btnStyle={"filled"} fontSize={"small"}>
+        <Button btnType={"link"} btnStyle={"filled"} fontSize={"small"} href={"?state=booking"}>
           Забронировать столик
         </Button>
         {editable && (
