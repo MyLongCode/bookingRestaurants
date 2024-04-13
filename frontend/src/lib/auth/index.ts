@@ -2,6 +2,7 @@ import NextAuth, { AuthOptions, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import axios from "@/lib/axios";
 import { AuthResponse } from "@/models/responces/authResponce.type";
+import UserService from "@/services/user/UserService";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -41,8 +42,6 @@ export const authOptions: AuthOptions = {
         return {
           ...user,
           id: user.id.toString(),
-          name: "",
-          image: "",
           access: data.access,
           refresh: data.refresh,
         };
@@ -50,12 +49,19 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        token.user = session.user;
+
+        return token;
+      }
+
       if (user) {
         token.user = user;
         token.refresh = user.refresh;
         token.access = user.access;
       }
+
       return token;
     },
     async session({ token, session }) {

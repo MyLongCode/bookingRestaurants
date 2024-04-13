@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./profileInput.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import UserService from "@/services/user/UserService";
 
 type ProfileInputProps = {
   variant: "email" | "name" | "birthday";
@@ -33,27 +35,64 @@ const inputSchema = z.object({
   field: z.string(),
 });
 
-type InputSchema = z.infer<typeof inputSchema>
+const emailSchema = z.object({
+  field: z.string().email(),
+});
+
+type InputSchema = z.infer<typeof inputSchema>;
 
 const ProfileInput = ({ variant }: ProfileInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const { data: session, update } = useSession();
+
+  const refreshField = () => {
+    if (session?.user.email) {
+      setValue(
+        "field",
+        variant === "name"
+          ? session.user.full_name
+          : variant === "email"
+            ? session.user.email
+            : "",
+      );
+    }
+  };
+
+  useEffect(() => {
+    refreshField();
+  }, [session]);
+
   const {
     register,
     formState: { isSubmitting, isValid },
     handleSubmit,
-    reset,
+    setValue,
   } = useForm<InputSchema>({
     mode: "onTouched",
-    resolver: zodResolver(inputSchema),
+    resolver: zodResolver(variant === "email" ? emailSchema : inputSchema),
   });
 
   const handleCancel = () => {
-    reset();
     setIsEditing(false);
+    refreshField();
   };
 
-  const handleSave = (data: InputSchema) => {
-    console.log(data);
+  const handleSave = async (data: InputSchema) => {
+    if (!session?.user) return;
+
+    switch (variant) {
+      case "name":
+        break;
+      case "email":
+        await UserService.patch(session?.user.id, { email: data.field });
+        await update({ user: { ...session.user, email: data.field } });
+        break;
+      case "birthday":
+        break;
+      default:
+        break;
+    }
+
     setIsEditing(false);
   };
 
