@@ -80,6 +80,7 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
             fontSize={"small"}
             type={"button"}
             onClick={() => setIsEditing(true)}
+            className={styles.innerBtn}
           >
             Изменить
           </Button>
@@ -92,6 +93,7 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
               btnStyle={"flat"}
               fontSize={"small"}
               disabled={isSubmitting || !isValid}
+              className={styles.innerBtn}
             >
               Сохранить
             </Button>
@@ -101,6 +103,7 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
               btnStyle={"flat"}
               fontSize={"small"}
               onClick={handleCancel}
+              className={styles.outerBtn}
             >
               Отменить
             </Button>

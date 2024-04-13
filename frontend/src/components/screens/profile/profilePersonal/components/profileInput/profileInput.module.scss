@@ -1,5 +1,9 @@
 @import "@/styles/variables/variables";
 
+.wrapper {
+  position: relative;
+}
+
 .input {
   font-size: 1.5rem;
   border: 2px solid $input-border-color;
@@ -15,4 +19,18 @@
   font-size: 1.25rem;
   color: $text-color-accent;
   margin-bottom: 5px;
+}
+
+.innerBtn {
+  position: absolute;
+  top: 75%;
+  transform: translateY(-75%);
+  right: 20px;
+}
+
+.outerBtn {
+  position: absolute;
+  top: 75%;
+  transform: translateY(-75%);
+  right: -120px;
 }
