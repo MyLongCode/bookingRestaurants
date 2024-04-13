@@ -2,9 +2,11 @@
   font-family: var(--font-comfortaa);
   font-size: 1.25rem;
   background-color: rgba(78, 212, 115, 0.7);
-  border: none;
+  border: 1px solid white;
   border-radius: 16px;
   overflow: hidden;
+  height: fit-content;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
 }
 
 .react-calendar__navigation {
@@ -29,7 +31,7 @@
   width: 50px;
   height: 50px;
   transition-duration: 0.2s;
-  border-radius: 50%;
+  border-radius: 25%;
 
   &:disabled {
     background-color: rgba(67, 114, 80, 0.7);
@@ -51,6 +53,10 @@
 .react-calendar__tile--active {
   background: #00dc80;
   color: white;
+}
+
+.react-calendar__navigation__label {
+  pointer-events: none;
 }
 
 .react-calendar__navigation__label__labelText {
