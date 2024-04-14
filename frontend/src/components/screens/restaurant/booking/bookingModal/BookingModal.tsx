@@ -18,6 +18,10 @@ import {
   bookingSchema,
 } from "@/restaurant/booking/bookingModal/bookingModal.schema";
 import InputError from "@/components/shared/inputError/InputError";
+import useRestaurant from "@/hooks/restaurant/useRestaurant";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import BookingService from "@/services/booking/BookingService";
 
 type ValuePiece = Date | null;
 
@@ -25,12 +29,18 @@ type DateValue = ValuePiece | [ValuePiece, ValuePiece];
 
 const BookingModal = () => {
   const [date, setDate] = useState<DateValue>(new Date());
+  const { id } = useParams<{ id: string }>();
+  const { data: restaurant } = useRestaurant(id);
+  const { data: session } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const {
     register,
     formState: { isValid, isSubmitting, errors },
     handleSubmit,
     setValue,
-    getValues,
+    reset,
   } = useForm<BookingSchema>({
     resolver: zodResolver(bookingSchema),
     mode: "onTouched",
@@ -44,8 +54,25 @@ const BookingModal = () => {
     }
   }, [date]);
 
-  const handleBooking = (data: BookingSchema) => {
+  useEffect(() => {
+    if (session?.user) {
+      const user = session.user;
+      // setValue("phone", user.phone)
+      setValue("name", user.full_name);
+    }
+  }, [session?.user]);
 
+  const handleBooking = async (data: BookingSchema) => {
+    if (!id || !session?.user) return;
+
+    await BookingService.create(id, {
+      user: session?.user.id,
+      wishes: data.wishes,
+      count_people: Number(data.people),
+    });
+
+    reset();
+    router.push(pathname, { scroll: false });
   };
 
   return (
@@ -69,7 +96,10 @@ const BookingModal = () => {
               containerClassName={styles.time}
               {...register("time")}
             />
-            <IntegerSelectInput maxValue={20} {...register("people")} />
+            <IntegerSelectInput
+              maxValue={restaurant?.capacityOnTable || 0}
+              {...register("people")}
+            />
             <Input
               inputStyle={"alternative"}
               placeholder={"ФИО"}
@@ -80,7 +110,7 @@ const BookingModal = () => {
               placeholder={"Телефон"}
               {...register("phone")}
             />
-            <InputError error={errors?.phone?.message}/>
+            <InputError error={errors?.phone?.message} />
             <Input
               inputStyle={"alternative"}
               inputType={"textarea"}
