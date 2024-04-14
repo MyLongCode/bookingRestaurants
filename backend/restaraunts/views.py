@@ -1,15 +1,17 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
+
+from accounts.models import User
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
-    CategorySerializer
+    CategorySerializer, BookingSerializer, BookingStatusSerializer
 )
 from django.db.models import Count
 from rest_framework import status, mixins, generics
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag)
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking)
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -21,7 +23,6 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         tags = self.request.query_params.get('tag')
-        orderby = self.request.query_params.get('orderby')
         limit = self.request.query_params.get('limit')
         skip = self.request.query_params.get('skip')
 
@@ -29,15 +30,14 @@ class RestaurantViewSet(viewsets.ModelViewSet):
             tags_ids = Tag.objects.filter(name__in=tags.split(';')).values_list('id', flat=True)
             self.queryset = self.queryset.filter(
                 id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
-        if orderby is not None:
-            print(orderby)
-            # НАДО ПОДУМАТЬ НАД СОРТИРОВКОЙ
+
         if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
-            return self.queryset[skip:limit]
-        if skip is not None and str(skip).isdigit():
-            return self.queryset[skip:]
-        if limit is not None and str(limit).isdigit():
+            return self.queryset[int(skip):][:int(limit)]
+        elif skip is not None and str(skip).isdigit():
+            return self.queryset[int(skip):]
+        elif limit is not None and str(limit).isdigit():
             return self.queryset[:int(limit)]
+
         return self.queryset
 
     def retrieve(self, request, *args, **kwargs):
@@ -208,9 +208,95 @@ class DishListViewSet(viewsets.ViewSet):
 class RestaurantListViewSet(viewsets.ViewSet):
     serializer_class = RestaurantSerializer
 
-    def list(self, request, users_pk=None):
-        queryset = Restaurant.objects.filter(owner=users_pk)
+    def list(self, request, user_pk=None):
+        queryset = Restaurant.objects.filter(owner=user_pk)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
+        return Response(serializer.data)
+
+
+class BookingViewSet(viewsets.ViewSet):
+    serializer_class = BookingSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Booking.objects.all()
+        return queryset
+
+    def create(self, request, restaurant_pk=None):
+        booking = self.serializer_class(data=request.data, context={"restaurant_pk": restaurant_pk, "status": "Ожидается"})
+        booking.is_valid(raise_exception=True)
+        booking.save()
+        return Response(booking.data)
+
+    def list(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"Restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant_pk)
+
+        limit = self.request.query_params.get('limit')
+        skip = self.request.query_params.get('skip')
+        orderby = self.request.query_params.get('orderby')
+
+        if orderby is not None:
+            if orderby == 'datetime':
+                queryset = queryset.order_by(f'-date')
+            if orderby == 'status':
+                queryset = queryset.order_by(f'-status')
+            if orderby == 'countPeople':
+                queryset = queryset.order_by(f'-count_people')
+
+        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
+            queryset = queryset[int(skip):][:int(limit)]
+        elif skip is not None and str(skip).isdigit():
+            queryset = queryset[int(skip):]
+        elif limit is not None and str(limit).isdigit():
+            queryset = queryset[:int(limit)]
+
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class UserBookingViewSet(viewsets.ViewSet):
+    serializer_class = BookingSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Booking.objects.all()
+        return queryset
+
+    def list(self, request, user_pk=None):
+        try:
+            user = User.objects.all().get(pk=user_pk)
+        except User.DoesNotExist:
+            return Response(f"User {user_pk} does not exist")
+        queryset = self.get_queryset().filter(user=user_pk)
+
+        limit = self.request.query_params.get('limit')
+        skip = self.request.query_params.get('skip')
+        orderby = self.request.query_params.get('orderby')
+
+        if orderby is not None:
+            if orderby == 'datetime':
+                queryset = queryset.order_by(f'-date')
+            if orderby == 'status':
+                queryset = queryset.order_by(f'-status')
+
+        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
+            queryset = queryset[int(skip):][:int(limit)]
+        elif skip is not None and str(skip).isdigit():
+            queryset = queryset[int(skip):]
+        elif limit is not None and str(limit).isdigit():
+            queryset = queryset[:int(limit)]
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class BookingStatusViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingStatusSerializer
+    permission_classes = []
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
