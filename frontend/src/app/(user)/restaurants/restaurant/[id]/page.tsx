@@ -18,7 +18,7 @@ import PhotoEditModal from "@/components/shared/carousel/children/photoEditModal
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import BookingModal from "@/restaurant/bookingModal/BookingModal";
+import BookingModal from "@/components/screens/restaurant/booking/bookingModal/BookingModal";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
