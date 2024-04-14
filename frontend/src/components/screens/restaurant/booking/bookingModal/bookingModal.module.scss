@@ -1,0 +1,54 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  gap: 60px;
+  margin-top: 20px;
+  position: relative;
+  margin-bottom: 75px;
+}
+
+.title {
+  font-size: 2.5rem;
+}
+
+.checkbox {
+  span {
+    font-size: 0.875rem;
+  }
+}
+
+.form {
+  max-width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  input, textarea {
+    font-size: 1rem;
+  }
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    font-size: 1rem;
+  }
+
+  label {
+    color: $text-color-accent;
+    line-height: 35px;
+  }
+}
+
+.submitBtn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -90px;
+
+  font-size: 1.5rem;
+  padding: 20px 40px;
+}

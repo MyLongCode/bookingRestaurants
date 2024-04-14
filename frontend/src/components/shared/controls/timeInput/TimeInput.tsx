@@ -2,14 +2,19 @@ import React, { forwardRef, useId } from "react";
 import styles from "./timeInput.module.scss";
 import { clsx } from "clsx";
 
-type TimeInputProps = React.ComponentProps<"input"> & {};
+type TimeInputProps = React.ComponentProps<"input"> & { label?: string, containerClassName?: string };
 const TimeInput = forwardRef<HTMLInputElement, TimeInputProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, label, containerClassName, ...props }, ref) => {
     const id = useId();
 
     return (
-      <>
-        <label htmlFor={`time-input-${id}`} className={styles.label}></label>
+      <div className={clsx(styles.wrapper, containerClassName)}>
+        <label
+          htmlFor={`time-input-${id}`}
+          className={clsx(styles.label, !label && styles.hidden)}
+        >
+          {label}
+        </label>
         <input
           id={`time-input-${id}`}
           ref={ref}
@@ -18,7 +23,7 @@ const TimeInput = forwardRef<HTMLInputElement, TimeInputProps>(
           defaultValue={"00:00"}
           {...props}
         />
-      </>
+      </div>
     );
   },
 );

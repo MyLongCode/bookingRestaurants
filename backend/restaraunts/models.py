@@ -91,3 +91,21 @@ class RestaurantTags(models.Model):
 class FavoriteRestaurant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+
+class Booking(models.Model):
+    date = models.DateTimeField(auto_now=True)
+    count_people = models.IntegerField()
+    status = models.CharField(max_length=255)
+    wishes = models.CharField(max_length=255, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='booking_user')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='booking_restaurant')
+
+
+class Reviews(models.Model):
+    rating = models.FloatField()
+    text = models.TextField(null=True, blank=True)
+    photo = models.ImageField(upload_to='images/reviews/', null=True)
+    time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_user')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews_restaurant')
