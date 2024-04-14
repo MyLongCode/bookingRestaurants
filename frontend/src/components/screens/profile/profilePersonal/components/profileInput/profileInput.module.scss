@@ -13,6 +13,10 @@
   padding: 15px 10px;
   width: 100%;
   color-scheme: dark;
+
+  &::-webkit-calendar-picker-indicator {
+    margin-right: 125px;
+  }
 }
 
 .label {

@@ -45,6 +45,8 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { data: session, update } = useSession();
 
+  console.log(session?.user);
+
   const refreshField = () => {
     if (session?.user.email) {
       setValue(
@@ -53,7 +55,7 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
           ? session.user.full_name
           : variant === "email"
             ? session.user.email
-            : "",
+            : session.user.birth_date,
       );
     }
   };

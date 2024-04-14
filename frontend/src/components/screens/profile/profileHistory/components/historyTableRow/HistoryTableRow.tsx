@@ -7,15 +7,8 @@ type HistoryTableRowProps = {
   restaurantAddress: string;
   date: string;
   dateTime: string;
-  status: "complete" | "waiting" | "approved" | "canceled";
+  status: "Завершено" | "Ожидается" | "Подтверждено" | "Отменено";
 };
-
-enum StatusText {
-  "complete" = "Завершено",
-  "waiting" = "Ожидание",
-  "approved" = "Подтверждено",
-  "canceled" = "Отменено",
-}
 
 const HistoryTableRow = ({
   restaurantName,
@@ -37,7 +30,7 @@ const HistoryTableRow = ({
       </td>
       <td>
         <p className={clsx(styles.status, styles[status])}>
-          {StatusText[status]}
+          {status.toLowerCase()}
         </p>
       </td>
     </tr>

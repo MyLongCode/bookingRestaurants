@@ -4,4 +4,5 @@ export type User = {
   email: string;
   avatar: string;
   role: "user" | "manager";
+  birth_date: string
 };
