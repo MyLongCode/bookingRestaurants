@@ -1,5 +1,5 @@
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem)
+    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking)
 from rest_framework import serializers
 
 from restaraunts.models import RestaurantTags
@@ -91,3 +91,26 @@ class NestedTagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['id', 'name']
 
+
+class BookingSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        restaurant_pk = self.context['restaurant_pk']
+        status = self.context['status']
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        validated_data['restaurant'] = restaurant
+        validated_data['status'] = status
+        post = Booking.objects.create(**validated_data)
+        return post
+
+
+    class Meta:
+        model = Booking
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant']
+        read_only_fields = ['restaurant', 'status']
+
+
+class BookingStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant']
+        read_only_fields = ['id', 'date', 'count_people', 'wishes', 'user', 'restaurant']
