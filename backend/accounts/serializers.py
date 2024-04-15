@@ -18,7 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.avatar = validated_data.get('avatar', instance.avatar)
         instance.birth_date = validated_data.get('birth_date', instance.birth_date)
         instance.is_active = validated_data.get('is_active', instance.is_active)
-        instance.username = validated_data.get('username', instance.username)
         instance.role = validated_data.get('role', instance.role)
         instance.save()
         return instance
@@ -26,5 +25,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = User
-        fields = ['id', 'email', 'password', 'role', 'username', 'avatar', 'full_name', 'birth_date']
+        fields = ['id', 'email', 'password', 'role', 'avatar', 'full_name', 'birth_date']
         write_only_fields = ('password',)

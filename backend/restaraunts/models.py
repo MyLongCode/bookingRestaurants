@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from accounts.models import User
 from django_jsonform.models.fields import JSONField
@@ -94,7 +96,9 @@ class FavoriteRestaurant(models.Model):
 
 
 class Booking(models.Model):
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now=True, )
+    booking_date = models.DateField(null=False, blank=False)
+    booking_time = models.TimeField(null=False, blank=False)
     count_people = models.IntegerField()
     status = models.CharField(max_length=255)
     wishes = models.CharField(max_length=255, blank=True)
