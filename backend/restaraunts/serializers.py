@@ -93,6 +93,9 @@ class NestedTagSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%dT%H:%M')
+    booking_time = serializers.TimeField(format='%H:%M')
+
     def create(self, validated_data):
         restaurant_pk = self.context['restaurant_pk']
         status = self.context['status']
@@ -102,15 +105,42 @@ class BookingSerializer(serializers.ModelSerializer):
         post = Booking.objects.create(**validated_data)
         return post
 
-
     class Meta:
         model = Booking
-        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant']
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
         read_only_fields = ['restaurant', 'status']
 
 
-class BookingStatusSerializer(serializers.ModelSerializer):
+class UserBookingSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%dT%H:%M')
+    booking_time = serializers.TimeField(format='%H:%M')
+    restaurant_name = serializers.SerializerMethodField(method_name='get_restaurant_name')
+
+    def create(self, validated_data):
+        restaurant_pk = self.context['restaurant_pk']
+        status = self.context['status']
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        validated_data['restaurant'] = restaurant
+        validated_data['status'] = status
+        post = Booking.objects.create(**validated_data)
+        return post
+
+    def get_restaurant_name(self, obj):
+        restaurant_pk = obj.restaurant.id
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        restaurant_name = restaurant.name
+        return restaurant_name
+
     class Meta:
         model = Booking
-        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant']
-        read_only_fields = ['id', 'date', 'count_people', 'wishes', 'user', 'restaurant']
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'restaurant_name', 'booking_date', 'booking_time']
+        read_only_fields = ['restaurant', 'status', 'restaurant_name']
+
+
+class BookingStatusSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%dT%H:%M')
+    booking_time = serializers.TimeField(format='%H:%M')
+    class Meta:
+        model = Booking
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
+        read_only_fields = ['id', 'date', 'count_people', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
