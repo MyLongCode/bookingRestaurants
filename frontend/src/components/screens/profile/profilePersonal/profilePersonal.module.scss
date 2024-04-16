@@ -1,0 +1,24 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  flex: 2;
+}
+
+.avatar {
+  border: 2px solid white;
+  padding: 15px;
+  border-radius: 50%;
+  overflow: visible;
+}
+
+.avatarContainer {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+}
+

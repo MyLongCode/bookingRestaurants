@@ -1,0 +1,36 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  position: relative;
+}
+
+.input {
+  font-size: 1.5rem;
+  border: 2px solid $input-border-color;
+  border-radius: 8px;
+  background: none;
+  color: $text-color-main;
+  width: 100%;
+  color-scheme: dark;
+  padding: 15px 150px 15px 10px;
+}
+
+.label {
+  font-size: 1.25rem;
+  color: $text-color-accent;
+  margin-bottom: 5px;
+}
+
+.innerBtn {
+  position: absolute;
+  top: 75%;
+  transform: translateY(-75%);
+  right: 20px;
+}
+
+.outerBtn {
+  position: absolute;
+  top: 75%;
+  transform: translateY(-75%);
+  right: -120px;
+}

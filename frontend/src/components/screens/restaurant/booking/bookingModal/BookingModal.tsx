@@ -50,14 +50,17 @@ const BookingModal = () => {
     const d = date as Date;
 
     if (date) {
-      setValue("date", d.toLocaleDateString());
+      setValue(
+        "date",
+        `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`,
+      );
     }
   }, [date]);
 
   useEffect(() => {
     if (session?.user) {
       const user = session.user;
-      // setValue("phone", user.phone)
+      setValue("phone", user.phone_number);
       setValue("name", user.full_name);
     }
   }, [session?.user]);
@@ -66,9 +69,12 @@ const BookingModal = () => {
     if (!id || !session?.user) return;
 
     await BookingService.create(id, {
+      date: new Date().toISOString(),
       user: session?.user.id,
       wishes: data.wishes,
       count_people: Number(data.people),
+      booking_time: data.time,
+      booking_date: data.date,
     });
 
     reset();

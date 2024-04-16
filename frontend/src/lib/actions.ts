@@ -17,3 +17,7 @@ export async function revalidateMenus() {
 export async function revalidateRestaurantTags() {
   revalidateTag("restaurant tags");
 }
+
+export async function revalidateBookings() {
+  revalidateTag("user bookings");
+}
