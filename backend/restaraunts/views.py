@@ -6,7 +6,7 @@ from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
-    CategorySerializer, BookingSerializer, BookingStatusSerializer
+    CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer
 )
 from django.db.models import Count
 from rest_framework import status, mixins, generics
@@ -254,12 +254,12 @@ class BookingViewSet(viewsets.ViewSet):
         elif limit is not None and str(limit).isdigit():
             queryset = queryset[:int(limit)]
 
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True, context={"restaurant_pk": restaurant_pk})
         return Response(serializer.data)
 
 
 class UserBookingViewSet(viewsets.ViewSet):
-    serializer_class = BookingSerializer
+    serializer_class = UserBookingSerializer
     permission_classes = []
 
     def get_queryset(self):
@@ -290,7 +290,7 @@ class UserBookingViewSet(viewsets.ViewSet):
         elif limit is not None and str(limit).isdigit():
             queryset = queryset[:int(limit)]
 
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
 

@@ -20,7 +20,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         user_data['full_name'] = self.user.full_name
         user_data['email'] = self.user.email
         user_data['role'] = self.user.role
+        user_data['birth_date'] = self.user.birth_date
         user_data['avatar'] = str(self.user.avatar)
+        user_data['phone_number'] = self.user.phone_number
         data['user_data'] = user_data
         return data
 
