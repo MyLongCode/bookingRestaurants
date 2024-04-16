@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import axios from "@/lib/axios";
 import { AuthResponse } from "@/models/responces/authResponce.type";
 import UserService from "@/services/user/UserService";
+import { jwtDecode } from "jwt-decode";
+import { JWT } from "next-auth/jwt";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -50,19 +52,32 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      if (trigger === "update") {
-        token.user = session.user;
-
-        return token;
-      }
-
       if (user) {
+        if (trigger === "update") {
+          token.user = session.user;
+
+          return token;
+        }
+
         token.user = user;
         token.refresh = user.refresh;
         token.access = user.access;
+        return token;
       }
 
-      return token;
+      const exp = jwtDecode(token.access).exp;
+
+      if (exp && Date.now() < exp) {
+        return token;
+      }
+
+      const newToken = await refreshAccessToken(token);
+
+      return {
+        access: newToken.access,
+        refresh: newToken.refresh,
+        user: newToken.user,
+      };
     },
     async session({ token, session }) {
       session.user = token.user;
@@ -74,6 +89,15 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/?state=login",
   },
+};
+
+const refreshAccessToken = async (token: JWT) => {
+  const newToken = await UserService.refresh(token.refresh);
+
+  return {
+    ...token,
+    access: newToken.access,
+  };
 };
 
 const handler = NextAuth(authOptions);
