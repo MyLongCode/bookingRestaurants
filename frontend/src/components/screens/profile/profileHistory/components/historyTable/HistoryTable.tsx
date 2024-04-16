@@ -14,6 +14,8 @@ const HistoryTable = async ({ ...props }: HistoryTableProps) => {
 
   const bookings = await BookingService.getByUser(session?.user.id);
 
+  bookings.reverse();
+
   if (bookings.length === 0) return <p className={styles.empty}>Нет записей</p>;
 
   return (
