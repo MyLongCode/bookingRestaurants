@@ -10,6 +10,7 @@ declare module "next-auth" {
     access: string;
     refresh: string;
     error: string;
+    currentRestaurant?: number;
   }
 
   interface User extends MyUser {
