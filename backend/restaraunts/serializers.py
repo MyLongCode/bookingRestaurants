@@ -115,6 +115,7 @@ class UserBookingSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format='%Y-%m-%dT%H:%M')
     booking_time = serializers.TimeField(format='%H:%M')
     restaurant_name = serializers.SerializerMethodField(method_name='get_restaurant_name')
+    restaurant_address = serializers.SerializerMethodField(method_name='get_restaurant_address')
 
     def create(self, validated_data):
         restaurant_pk = self.context['restaurant_pk']
@@ -131,10 +132,17 @@ class UserBookingSerializer(serializers.ModelSerializer):
         restaurant_name = restaurant.name
         return restaurant_name
 
+    def get_restaurant_address(self, obj):
+        restaurant_pk = obj.restaurant.id
+        restaurant = Restaurant.objects.get(pk=restaurant_pk)
+        restaurant_name = restaurant.address
+        return restaurant_name
+
     class Meta:
         model = Booking
-        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'restaurant_name', 'booking_date', 'booking_time']
-        read_only_fields = ['restaurant', 'status', 'restaurant_name']
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'restaurant_name',
+                  'restaurant_address', 'booking_date', 'booking_time']
+        read_only_fields = ['restaurant', 'status', 'restaurant_name', 'restaurant_address']
 
 
 class BookingStatusSerializer(serializers.ModelSerializer):
