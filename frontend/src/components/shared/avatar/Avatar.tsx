@@ -5,7 +5,7 @@ import styles from "./avatar.module.scss";
 
 const Avatar = () => {
   return (
-    <Link href={"profile"} className={styles.wrapper}>
+    <Link href={"/profile"} className={styles.wrapper}>
       <Image
         className={styles.img}
         src="/DefaultUserAvatar.svg"

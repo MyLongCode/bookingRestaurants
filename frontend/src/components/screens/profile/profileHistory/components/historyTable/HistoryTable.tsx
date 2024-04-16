@@ -14,6 +14,8 @@ const HistoryTable = async ({ ...props }: HistoryTableProps) => {
 
   const bookings = await BookingService.getByUser(session?.user.id);
 
+  if (bookings.length === 0) return <p className={styles.empty}>Нет записей</p>;
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
@@ -28,10 +30,11 @@ const HistoryTable = async ({ ...props }: HistoryTableProps) => {
           {bookings.map((booking) => {
             return (
               <HistoryTableRow
-                restaurantName={`Ресторан ${booking.id}`}
+                key={booking.id}
+                restaurantName={booking.restaurant_name}
                 restaurantAddress={"ул. Горького, 10А"}
-                date={"12.03.2024"}
-                dateTime={"18:00-20:30"}
+                date={booking.booking_date}
+                dateTime={booking.booking_time}
                 status={booking.status}
               />
             );

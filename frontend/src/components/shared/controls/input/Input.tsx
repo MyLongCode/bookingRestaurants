@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
         {inputType !== "textarea" ? (
           <input
             className={styles.input}
-            maxLength={type === "password" ? 22 : 30}
+            maxLength={type === "password" ? 22 : 45}
             type={
               type === "password" && !passwordVisible
                 ? "password"

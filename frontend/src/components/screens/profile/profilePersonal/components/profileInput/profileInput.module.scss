@@ -10,13 +10,9 @@
   border-radius: 8px;
   background: none;
   color: $text-color-main;
-  padding: 15px 10px;
   width: 100%;
   color-scheme: dark;
-
-  &::-webkit-calendar-picker-indicator {
-    margin-right: 125px;
-  }
+  padding: 15px 150px 15px 10px;
 }
 
 .label {

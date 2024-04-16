@@ -25,7 +25,7 @@ const HistoryTableRow = ({
       </th>
       <td>
         <p className={styles.date}>
-          {date} <span>{dateTime}</span>
+          {new Date(date).toLocaleDateString()} <span>{dateTime}</span>
         </p>
       </td>
       <td>

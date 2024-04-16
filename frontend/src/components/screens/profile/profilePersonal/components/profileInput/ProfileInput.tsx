@@ -10,25 +10,28 @@ import { useSession } from "next-auth/react";
 import UserService from "@/services/user/UserService";
 
 type ProfileInputProps = {
-  variant: "email" | "name" | "birthday";
+  variant: "email" | "name" | "birthday" | "phone";
 };
 
 enum InputLabel {
   "email" = "Почта",
   "name" = "ФИО",
   "birthday" = "День рождения",
+  "phone" = "Телефон",
 }
 
 enum InputPlaceholder {
   "email" = "Введите Ваш email...",
   "name" = "Введите Ваши ФИО",
-  "birthday" = "Выберите ваш день рождения",
+  "birthday" = "Выберите Ваш день рождения",
+  "phone" = "Введите Ваш телефон",
 }
 
 enum InputType {
   "email" = "email",
   "name" = "text",
   "birthday" = "date",
+  "phone" = "text",
 }
 
 const inputSchema = z.object({
@@ -49,14 +52,22 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
 
   const refreshField = () => {
     if (session?.user.email) {
-      setValue(
-        "field",
-        variant === "name"
-          ? session.user.full_name
-          : variant === "email"
-            ? session.user.email
-            : session.user.birth_date,
-      );
+      switch (variant) {
+        case "email":
+          setValue("field", session.user.email);
+          break;
+        case "birthday":
+          setValue("field", session.user.birth_date);
+          break;
+        case "name":
+          setValue("field", session.user.full_name);
+          break;
+        case "phone":
+          setValue("field", session.user.phone_number);
+          break;
+        default:
+          break;
+      }
     }
   };
 

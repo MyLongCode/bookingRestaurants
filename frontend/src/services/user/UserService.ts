@@ -3,7 +3,7 @@ import { axiosAuth } from "@/lib/axios";
 
 export default class UserService {
   public static async getById(id: string | number): Promise<User> {
-    return await axiosAuth.post<User>(`/users/${id}/`).then((res) => res.data);
+    return await axiosAuth.post<User>(`/user/${id}/`).then((res) => res.data);
   }
 
   public static async patch(
@@ -11,7 +11,7 @@ export default class UserService {
     data: Partial<User>,
   ): Promise<User> {
     return await axiosAuth
-      .patch<User>(`/users/${id}/`, data)
+      .patch<User>(`/user/${id}/`, data)
       .then((res) => res.data);
   }
 }

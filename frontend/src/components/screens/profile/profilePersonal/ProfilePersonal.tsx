@@ -25,6 +25,7 @@ const ProfilePersonal = () => {
         <ProfileInput variant={"name"} />
         <ProfileInput variant={"email"} />
         <ProfileInput variant={"birthday"} />
+        <ProfileInput variant={"phone"} />
       </div>
     </section>
   );
