@@ -48,8 +48,6 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { data: session, update } = useSession();
 
-  console.log(session?.user);
-
   const refreshField = () => {
     if (session?.user.email) {
       switch (variant) {
@@ -95,12 +93,20 @@ const ProfileInput = ({ variant }: ProfileInputProps) => {
 
     switch (variant) {
       case "name":
+        await UserService.patch(session?.user.id, { full_name: data.field });
+        await update({ user: { ...session.user, full_name: data.field } });
         break;
       case "email":
         await UserService.patch(session?.user.id, { email: data.field });
         await update({ user: { ...session.user, email: data.field } });
         break;
       case "birthday":
+        await UserService.patch(session?.user.id, { birth_date: data.field });
+        await update({ user: { ...session.user, birth_date: data.field } });
+        break;
+      case "phone":
+        await UserService.patch(session?.user.id, { phone_number: data.field });
+        await update({ user: { ...session.user, phone_number: data.field } });
         break;
       default:
         break;
