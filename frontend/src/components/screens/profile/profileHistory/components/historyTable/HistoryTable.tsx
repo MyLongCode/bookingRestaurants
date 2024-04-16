@@ -34,7 +34,7 @@ const HistoryTable = async ({ ...props }: HistoryTableProps) => {
               <HistoryTableRow
                 key={booking.id}
                 restaurantName={booking.restaurant_name}
-                restaurantAddress={"ул. Горького, 10А"}
+                restaurantAddress={booking.restaurant_address}
                 date={booking.booking_date}
                 dateTime={booking.booking_time}
                 status={booking.status}
