@@ -5,9 +5,7 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     const user = req.nextauth.token?.user;
-    if (
-      !RoutesAccess[user?.role || "unauthorized"].includes(req.nextUrl.pathname)
-    ) {
+    if (!user || !RoutesAccess[user?.role].includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   },
