@@ -4,7 +4,7 @@ import { Restaurant } from "@/models/restaurant/restaurant.type";
 
 export default class UserService {
   public static async getById(id: string | number): Promise<User> {
-    return await axiosAuth.post<User>(`/user/${id}/`).then((res) => res.data);
+    return await axiosAuth.get<User>(`/user/${id}/`).then((res) => res.data);
   }
 
   public static async refresh(token: string): Promise<{ access: string }> {

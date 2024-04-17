@@ -40,12 +40,20 @@ export const authOptions: AuthOptions = {
         if (!data) return null;
 
         const user = data.user_data;
+        let currentRestaurant: number | undefined = undefined;
+
+        if (user.role === "manager") {
+          const restaurant = await UserService.getRestaurant(user.id);
+
+          currentRestaurant = restaurant.id;
+        }
 
         return {
           ...user,
           id: user.id.toString(),
           access: data.access,
           refresh: data.refresh,
+          currentRestaurant,
         };
       },
     }),

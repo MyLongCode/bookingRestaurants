@@ -8,6 +8,10 @@ export default class BookingService {
     return fetch.get(`/user/${id}/booking/`, "user bookings");
   }
 
+  public static async getByRetaurant(id: string | number): Promise<Booking[]> {
+    return fetch.get(`/restaurant/${id}/booking/`, "restaurant bookings");
+  }
+
   public static async create(
     restaurantId: number | string,
     data: Partial<Booking>,
