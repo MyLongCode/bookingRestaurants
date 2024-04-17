@@ -7,5 +7,6 @@ export type Booking = {
   restaurant_name: string;
   booking_date: string;
   booking_time: string;
+  restaurant_address: string;
   date: string;
 };

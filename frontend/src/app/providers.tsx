@@ -1,7 +1,9 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
+import UserService from "@/services/user/UserService";
 
 type Props = {
   children?: React.ReactNode;

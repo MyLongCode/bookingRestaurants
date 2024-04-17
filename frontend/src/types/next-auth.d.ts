@@ -9,11 +9,13 @@ declare module "next-auth" {
     user: User;
     access: string;
     refresh: string;
+    error: string;
   }
 
   interface User extends MyUser {
     access: string;
     refresh: string;
+    currentRestaurant?: number;
   }
 }
 

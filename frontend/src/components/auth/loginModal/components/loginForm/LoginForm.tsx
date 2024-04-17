@@ -6,6 +6,7 @@ import Input from "@/components/shared/controls/input/Input";
 import Button from "@/components/shared/controls/button/Button";
 import styles from "./loginForm.module.scss";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const loginSchema = z.object({
   email: z
@@ -27,15 +28,14 @@ const LoginForm = () => {
     mode: "onTouched",
   });
 
+  const searchParams = useSearchParams();
+
   const onSubmit = async (data: LoginSchema) => {
-    console.log(data);
     await signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: true,
-      callbackUrl: "/",
-    }).then((res) => {
-      console.log(res);
+      callbackUrl: searchParams.get("callbackUrl") || "/",
     });
   };
 
