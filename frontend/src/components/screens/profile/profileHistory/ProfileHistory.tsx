@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./profileHistory.module.scss";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";

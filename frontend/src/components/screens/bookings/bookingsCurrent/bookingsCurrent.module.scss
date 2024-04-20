@@ -1,0 +1,18 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 80px;
+  gap: 40px;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty {
+  font-size: 1.25rem;
+}

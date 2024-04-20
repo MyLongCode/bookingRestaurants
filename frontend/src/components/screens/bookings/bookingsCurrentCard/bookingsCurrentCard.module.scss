@@ -1,0 +1,85 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid $input-border-color;
+  border-radius: 30px;
+  max-width: 460px;
+  padding: 35px 60px;
+  gap: 20px;
+}
+
+.date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dateValue {
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
+  padding-block: 5px;
+}
+
+.label {
+  font-size: 1.25rem;
+  color: $text-color-accent;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeValue {
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  width: 100%;
+  max-width: 150px;
+  padding-block: 5px;
+  border-radius: 4px;
+}
+
+.value {
+  font-size: 1rem;
+}
+
+.container {
+  border: 1px solid $text-color-accent;
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+
+.active {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.deny {
+  border-color: red;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+
+  &:hover {
+    border-color: #ff5757;
+  }
+}
+
+.approve {
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+}

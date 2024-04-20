@@ -5,11 +5,11 @@ import { revalidateBookings } from "@/lib/actions";
 
 export default class BookingService {
   public static async getByUser(id: string | number): Promise<Booking[]> {
-    return fetch.get(`/user/${id}/booking/`, "user bookings");
+    return await fetch.get(`/user/${id}/booking/`, "user bookings");
   }
 
-  public static async getByRetaurant(id: string | number): Promise<Booking[]> {
-    return fetch.get(`/restaurant/${id}/booking/`, "restaurant bookings");
+  public static async getByRestaurant(id: string | number): Promise<Booking[]> {
+    return await fetch.get(`/restaurant/${id}/booking/`, "restaurant bookings");
   }
 
   public static async create(
@@ -22,5 +22,16 @@ export default class BookingService {
         revalidateBookings();
         return res.data;
       });
+  }
+
+  public static async changeStatus(
+    id: number | string,
+    data: { status: string },
+  ): Promise<Booking> {
+    return await fetch.patch(
+      `/booking/${id}/status/`,
+      "restaurant bookings",
+      data,
+    );
   }
 }

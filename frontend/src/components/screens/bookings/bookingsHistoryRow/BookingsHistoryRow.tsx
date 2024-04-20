@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./bookingsHistoryRow.module.scss";
 import { clsx } from "clsx";
 
