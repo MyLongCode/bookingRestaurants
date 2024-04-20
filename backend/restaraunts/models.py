@@ -113,3 +113,9 @@ class Reviews(models.Model):
     time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_user')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews_restaurant')
+
+
+class Employee(models.Model):
+    user = models.OneToOneField(on_delete=models.CASCADE, to=User)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='employee_restaurant')
+    is_active = models.BooleanField(default=True)

@@ -12,7 +12,8 @@ from restaraunts.views import (
     TagViewSet, TagGroupViewSet, RestaurantTagsViewSet,
     DishItemViewSet, PhotoViewSet, PhotoListViewSet, CategoryViewSet, DishListViewSet,
     RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
-    RestaurantTagsPATCHViewSet, UserBookingViewSet, BookingStatusViewSet, BookingViewSet
+    RestaurantTagsPATCHViewSet, UserBookingViewSet, BookingStatusViewSet, BookingViewSet, EmployeeViewSet,
+    BookingAcceptViewSet, BookingRejectViewSet
 )
 from rest_framework_nested import routers
 
@@ -35,6 +36,7 @@ restaurant_router.register(r'tag', RestaurantTagsListViewSet, basename='tag')
 restaurant_router.register(r'tag-put', RestaurantTagsPUTViewSet, basename='tagPUT')
 restaurant_router.register(r'tag-patch', RestaurantTagsPATCHViewSet, basename='tagPATCH')
 restaurant_router.register(r'booking', BookingViewSet, basename='booking')
+restaurant_router.register(r'employee', EmployeeViewSet, basename='employee')
 
 dishes_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
 dishes_router.register(r'dishes', DishListViewSet, basename='dishes')
@@ -51,6 +53,8 @@ urlpatterns = [
                   path('booking/<int:pk>/status/', BookingStatusViewSet.as_view({'patch': 'partial_update',
                                                                                  'get': 'retrieve',
                                                                                  'put': 'update'})),
+                  path('booking/<int:pk>/accept/', BookingAcceptViewSet.as_view({'patch': 'partial_update'})),
+                  path('booking/<int:pk>/reject/', BookingRejectViewSet.as_view({'patch': 'partial_update'})),
                   path('admin/', admin.site.urls),
                   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
                   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

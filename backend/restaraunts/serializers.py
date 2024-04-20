@@ -1,5 +1,9 @@
+from rest_framework.response import Response
+
+from accounts.models import User
+from accounts.serializers import UserSerializer
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking)
+    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee)
 from rest_framework import serializers
 
 from restaraunts.models import RestaurantTags
@@ -93,6 +97,9 @@ class NestedTagSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    user_phone = serializers.SerializerMethodField(method_name='get_user_phone')
+    user_email = serializers.SerializerMethodField(method_name='get_user_email')
+    user_fullname = serializers.SerializerMethodField(method_name='get_user_fullname')
     date = serializers.DateTimeField(format='%Y-%m-%dT%H:%M')
     booking_time = serializers.TimeField(format='%H:%M')
 
@@ -105,9 +112,28 @@ class BookingSerializer(serializers.ModelSerializer):
         post = Booking.objects.create(**validated_data)
         return post
 
+    def get_user_phone(self, obj):
+        user_pk = obj.user.id
+        user = User.objects.get(pk=user_pk)
+        phone_number = user.phone_number
+        return phone_number
+
+    def get_user_email(self, obj):
+        user_pk = obj.user.id
+        user = User.objects.get(pk=user_pk)
+        user_email = user.email
+        return user_email
+
+    def get_user_fullname(self, obj):
+        user_pk = obj.user.id
+        user = User.objects.get(pk=user_pk)
+        user_full_name = user.full_name
+        return user_full_name
+
     class Meta:
         model = Booking
-        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
+        fields = ['id', 'date', 'count_people', 'status', 'wishes', 'restaurant', 'booking_date', 'booking_time',
+                  'user_phone', 'user_email', 'user_fullname']
         read_only_fields = ['restaurant', 'status']
 
 
@@ -152,3 +178,29 @@ class BookingStatusSerializer(serializers.ModelSerializer):
         model = Booking
         fields = ['id', 'date', 'count_people', 'status', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
         read_only_fields = ['id', 'date', 'count_people', 'wishes', 'user', 'restaurant', 'booking_date', 'booking_time']
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    user = UserSerializer(fields=['email', 'password'])
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user_data['role'] = 'employee'
+        user_serializer = UserSerializer(data=user_data)
+        user_serializer.is_valid(raise_exception=True)
+
+        user = User.objects.create(**user_serializer.validated_data)
+
+        employee = Employee.objects.create(user=user, restaurant=self.context['restaurant'], is_active=validated_data.pop('is_active'))
+        return employee
+
+    def update(self, instance, validated_data):
+        instance.is_active = validated_data.get('is_active', instance.is_active)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'user', 'restaurant', 'is_active']
+        read_only_fields = ['restaurant']
+
