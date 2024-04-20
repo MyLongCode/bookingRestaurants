@@ -2,16 +2,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
 
 from accounts.models import User
+from accounts.serializers import UserSerializer
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
-    CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer
+    CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer
 )
-from django.db.models import Count
-from rest_framework import status, mixins, generics
+
+from rest_framework import mixins, pagination, status
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking)
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee)
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -214,7 +215,7 @@ class RestaurantListViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class BookingViewSet(viewsets.ViewSet):
+class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
     serializer_class = BookingSerializer
     permission_classes = []
 
@@ -235,8 +236,6 @@ class BookingViewSet(viewsets.ViewSet):
             return Response(f"Restaurant {restaurant_pk} does not exist")
         queryset = self.get_queryset().filter(restaurant=restaurant_pk)
 
-        limit = self.request.query_params.get('limit')
-        skip = self.request.query_params.get('skip')
         orderby = self.request.query_params.get('orderby')
 
         if orderby is not None:
@@ -247,18 +246,16 @@ class BookingViewSet(viewsets.ViewSet):
             if orderby == 'countPeople':
                 queryset = queryset.order_by(f'-count_people')
 
-        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
-            queryset = queryset[int(skip):][:int(limit)]
-        elif skip is not None and str(skip).isdigit():
-            queryset = queryset[int(skip):]
-        elif limit is not None and str(limit).isdigit():
-            queryset = queryset[:int(limit)]
+        page = self.paginate_queryset(queryset, request)
+        if page is not None:
+            serializer = self.serializer_class(page, many=True, context={"restaurant_pk": restaurant_pk})
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.serializer_class(queryset, many=True, context={"restaurant_pk": restaurant_pk})
         return Response(serializer.data)
 
 
-class UserBookingViewSet(viewsets.ViewSet):
+class UserBookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
     serializer_class = UserBookingSerializer
     permission_classes = []
 
@@ -273,8 +270,6 @@ class UserBookingViewSet(viewsets.ViewSet):
             return Response(f"User {user_pk} does not exist")
         queryset = self.get_queryset().filter(user=user_pk)
 
-        limit = self.request.query_params.get('limit')
-        skip = self.request.query_params.get('skip')
         orderby = self.request.query_params.get('orderby')
 
         if orderby is not None:
@@ -283,12 +278,10 @@ class UserBookingViewSet(viewsets.ViewSet):
             if orderby == 'status':
                 queryset = queryset.order_by(f'-status')
 
-        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
-            queryset = queryset[int(skip):][:int(limit)]
-        elif skip is not None and str(skip).isdigit():
-            queryset = queryset[int(skip):]
-        elif limit is not None and str(limit).isdigit():
-            queryset = queryset[:int(limit)]
+        page = self.paginate_queryset(queryset, request)
+        if page is not None:
+            serializer = self.serializer_class(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.serializer_class(queryset, many=True, context={"request": request})
         return Response(serializer.data)
@@ -298,5 +291,94 @@ class BookingStatusViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, G
     queryset = Booking.objects.all()
     serializer_class = BookingStatusSerializer
     permission_classes = []
+
+
+class EmployeeViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
+    serializer_class = EmployeeSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Employee.objects.all()
+        return queryset
+
+    def create(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        employee = self.serializer_class(data=request.data, context={"restaurant": restaurant})
+        if employee.is_valid(raise_exception=True):
+            employee.save()
+            return Response(employee.data)
+        return Response('error')
+
+    def list(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant_pk)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
+        return Response(serializer.data)
+
+    def retrieve(self, request, restaurant_pk=None, pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant)
+        employee = get_object_or_404(queryset, pk=pk)
+        serializer = EmployeeSerializer(employee, context={"request": request})
+        return Response(serializer.data)
+
+
+class BookingAcceptViewSet(mixins.UpdateModelMixin, GenericViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingStatusSerializer
+    permission_classes = []
+
+    def update(self, data, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        data = dict()
+        data['status'] = 'Подтверждено'
+        return self.update(data, *args, **kwargs)
+
+
+class BookingRejectViewSet(mixins.UpdateModelMixin, GenericViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingStatusSerializer
+    permission_classes = []
+
+    def update(self, data, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        data = dict()
+        data['status'] = 'Отклонено'
+        return self.update(data, *args, **kwargs)
+
+
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
