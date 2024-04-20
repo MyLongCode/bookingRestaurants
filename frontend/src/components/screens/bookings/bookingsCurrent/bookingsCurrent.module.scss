@@ -1,9 +1,8 @@
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   margin-top: 80px;
   gap: 40px;
-  width: fit-content;
   margin-inline: auto;
 }
 
@@ -11,6 +10,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  > * {
+    flex: 1;
+  }
 }
 
 .empty {

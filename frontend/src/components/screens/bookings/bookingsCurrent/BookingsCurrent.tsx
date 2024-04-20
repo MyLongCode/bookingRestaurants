@@ -1,8 +1,6 @@
 import BookingsCurrentCard from "@/screens/bookings/bookingsCurrentCard/BookingsCurrentCard";
 import styles from "./bookingsCurrent.module.scss";
 import { Booking } from "@/models/bookings/booking.type";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 
 type BookingsCurrentProps = {
   bookings: Booking[];
