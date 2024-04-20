@@ -3,6 +3,7 @@ import Button from "@/components/shared/controls/button/Button";
 import BookingService from "@/services/booking/BookingService";
 import fetch from "@/lib/fetch";
 import { revalidateTag } from "next/cache";
+import toast from "react-hot-toast";
 
 type BookingsCurrentCardProps = {
   id: number | string;

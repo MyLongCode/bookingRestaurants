@@ -8,6 +8,7 @@ import UserService from "@/services/user/UserService";
 import { Booking } from "@/models/bookings/booking.type";
 import BookingsHistoryTable from "@/screens/bookings/bookingsHistoryTable/BookingsHistoryTable";
 import BookingsCurrent from "@/screens/bookings/bookingsCurrent/BookingsCurrent";
+import toast from "react-hot-toast";
 
 type BookingsPageProps = {};
 

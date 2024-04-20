@@ -22,6 +22,7 @@ import useRestaurant from "@/hooks/restaurant/useRestaurant";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import BookingService from "@/services/booking/BookingService";
+import toast from "react-hot-toast";
 
 type ValuePiece = Date | null;
 
@@ -50,10 +51,7 @@ const BookingModal = () => {
     const d = date as Date;
 
     if (date) {
-      setValue(
-        "date",
-        `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`,
-      );
+      setValue("date", `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`);
     }
   }, [date]);
 
@@ -75,8 +73,11 @@ const BookingModal = () => {
       count_people: Number(data.people),
       booking_time: data.time,
       booking_date: data.date,
+    }).catch(() => {
+      toast.error("Бронь не отправилась");
     });
 
+    toast.success("Бронь успешно отправлена");
     reset();
     router.push(pathname, { scroll: false });
   };

@@ -2,6 +2,7 @@ import { Booking } from "@/models/bookings/booking.type";
 import { axiosAuth } from "@/lib/axios";
 import fetch from "@/lib/fetch";
 import { revalidateBookings } from "@/lib/actions";
+import toast from "react-hot-toast";
 
 export default class BookingService {
   public static async getByUser(id: string | number): Promise<Booking[]> {
