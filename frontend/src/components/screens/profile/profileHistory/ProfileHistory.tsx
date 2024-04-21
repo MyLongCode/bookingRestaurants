@@ -11,15 +11,16 @@ const ProfileHistory = async () => {
   if (!session?.user) return;
 
   const bookings = await BookingService.getByUser(session?.user.id);
-  bookings.reverse();
+  bookings.results.reverse();
 
-  if (bookings.length === 0) return <p className={styles.empty}>Нет записей</p>;
+  if (bookings.results.length === 0)
+    return <p className={styles.empty}>Нет записей</p>;
 
   return (
     <section className={styles.wrapper}>
       <h2>История бронирования</h2>
       <Table columns={["Заведение", "Дата", "Статус"]}>
-        {bookings.map((booking) => {
+        {bookings.results.map((booking) => {
           return (
             <HistoryTableRow
               key={booking.id}

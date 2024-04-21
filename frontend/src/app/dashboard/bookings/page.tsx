@@ -22,7 +22,7 @@ const BookingsPage = async () => {
     <div className={styles.wrapper}>
       <section className={styles.history}>
         <BookingsHistoryTable
-          bookings={bookings.filter(
+          bookings={bookings.results.filter(
             (booking) => booking.status !== "Ожидается",
           )}
         />
@@ -30,7 +30,7 @@ const BookingsPage = async () => {
       <section className={styles.current}>
         <h2>Текущие заявки</h2>
         <BookingsCurrent
-          bookings={bookings.filter(
+          bookings={bookings.results.filter(
             (booking) => booking.status === "Ожидается",
           )}
         />

@@ -1,9 +1,9 @@
 import BookingsCurrentCard from "@/screens/bookings/bookingsCurrentCard/BookingsCurrentCard";
 import styles from "./bookingsCurrent.module.scss";
-import { Booking } from "@/models/bookings/booking.type";
+import { RestaurantBooking } from "@/models/bookings/restaurant-booking.type";
 
 type BookingsCurrentProps = {
-  bookings: Booking[];
+  bookings: RestaurantBooking[];
 };
 
 const BookingsCurrent = async ({ bookings }: BookingsCurrentProps) => {
@@ -21,8 +21,8 @@ const BookingsCurrent = async ({ bookings }: BookingsCurrentProps) => {
               date={booking.booking_date}
               time={booking.booking_time}
               peopleCount={booking.count_people}
-              phone={"89434544660"}
-              name={"Ивановна Анна Владимировна"}
+              phone={booking.user_phone}
+              name={booking.user_fullname}
               wishes={booking.wishes}
             />
           </li>

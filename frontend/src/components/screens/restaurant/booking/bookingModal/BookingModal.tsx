@@ -73,11 +73,13 @@ const BookingModal = () => {
       count_people: Number(data.people),
       booking_time: data.time,
       booking_date: data.date,
-    }).catch(() => {
-      toast.error("Бронь не отправилась");
-    });
-
-    toast.success("Бронь успешно отправлена");
+    })
+      .then(() => {
+        toast.success("Бронь успешно отправлена");
+      })
+      .catch(() => {
+        toast.error("Бронь не отправилась");
+      });
     reset();
     router.push(pathname, { scroll: false });
   };

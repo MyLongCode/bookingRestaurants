@@ -18,6 +18,15 @@ export async function revalidateRestaurantTags() {
   revalidateTag("restaurant tags");
 }
 
-export async function revalidateBookings() {
+export async function revalidateUserBookings() {
   revalidateTag("user bookings");
+}
+
+export async function revalidateRestaurantBookings() {
+  revalidateTag("restaurant bookings");
+}
+
+export async function revalidateBookings() {
+  await revalidateUserBookings();
+  await revalidateRestaurantBookings();
 }

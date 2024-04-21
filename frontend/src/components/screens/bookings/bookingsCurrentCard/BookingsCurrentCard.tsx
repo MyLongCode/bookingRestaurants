@@ -1,8 +1,8 @@
+"use client";
+
 import styles from "./bookingsCurrentCard.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import BookingService from "@/services/booking/BookingService";
-import fetch from "@/lib/fetch";
-import { revalidateTag } from "next/cache";
 import toast from "react-hot-toast";
 
 type BookingsCurrentCardProps = {
@@ -15,7 +15,7 @@ type BookingsCurrentCardProps = {
   wishes: string;
 };
 
-const BookingsCurrentCard = async ({
+const BookingsCurrentCard = ({
   date,
   time,
   peopleCount,
@@ -24,20 +24,16 @@ const BookingsCurrentCard = async ({
   wishes,
   id,
 }: BookingsCurrentCardProps) => {
-  const approve = async () => {
-    "use server";
-    await BookingService.changeStatus(id, {
-      status: "Подтверждено",
-    }).then((res) => console.log(res));
-    revalidateTag("restaurant bookings");
+  const accept = () => {
+    BookingService.accept(id).then(() => {
+      toast.success("Отправлено подтверждение брони на номер телефона");
+    });
   };
 
-  const deny = async () => {
-    "use server";
-    await BookingService.changeStatus(id, {
-      status: "Отменено",
-    }).then((res) => console.log(res));
-    revalidateTag("restaurant bookings");
+  const reject = () => {
+    BookingService.reject(id).then(() => {
+      toast.success("Отправлен отказ на номер телефона");
+    });
   };
 
   return (
@@ -65,29 +61,25 @@ const BookingsCurrentCard = async ({
         <p className={styles.value}>{wishes || "Нет"}</p>
       </div>
       <div className={styles.active}>
-        <form action={deny}>
-          <Button
-            btnType={"button"}
-            btnStyle={"outlined"}
-            fontSize={"small"}
-            font={"comfortaa"}
-            className={styles.deny}
-            type={"submit"}
-          >
-            Отклонить
-          </Button>
-        </form>
-        <form action={approve}>
-          <Button
-            btnType={"button"}
-            btnStyle={"outlined"}
-            font={"comfortaa"}
-            className={styles.approve}
-            type={"submit"}
-          >
-            Одобрить
-          </Button>
-        </form>
+        <Button
+          btnType={"button"}
+          btnStyle={"outlined"}
+          fontSize={"small"}
+          font={"comfortaa"}
+          className={styles.deny}
+          onClick={reject}
+        >
+          Отклонить
+        </Button>
+        <Button
+          btnType={"button"}
+          btnStyle={"outlined"}
+          font={"comfortaa"}
+          className={styles.approve}
+          onClick={accept}
+        >
+          Одобрить
+        </Button>
       </div>
     </div>
   );
