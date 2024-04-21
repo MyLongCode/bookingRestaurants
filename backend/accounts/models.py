@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 
 
@@ -41,8 +40,8 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    phone_number = models.CharField(max_length=255, null=True, blank=True)
     avatar = models.ImageField(upload_to='images/avatars/', null=True, blank=True)
     birth_date = models.DateField(null=True)
     is_active = models.BooleanField(default=True)
@@ -72,3 +71,6 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+
