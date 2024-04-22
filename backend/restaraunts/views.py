@@ -24,20 +24,11 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         tags = self.request.query_params.get('tag')
-        limit = self.request.query_params.get('limit')
-        skip = self.request.query_params.get('skip')
 
         if tags is not None:
             tags_ids = Tag.objects.filter(name__in=tags.split(';')).values_list('id', flat=True)
             self.queryset = self.queryset.filter(
                 id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
-
-        if skip is not None and limit is not None and str(limit).isdigit() and str(skip).isdigit():
-            return self.queryset[int(skip):][:int(limit)]
-        elif skip is not None and str(skip).isdigit():
-            return self.queryset[int(skip):]
-        elif limit is not None and str(limit).isdigit():
-            return self.queryset[:int(limit)]
 
         return self.queryset
 
@@ -238,6 +229,17 @@ class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
 
         orderby = self.request.query_params.get('orderby')
 
+        status = self.request.query_params.get('status')
+        if status is not None:
+            if status == 'Подтверждено':
+                queryset = queryset.filter(status='Подтверждено')
+            elif status == 'Ожидается':
+                queryset = queryset.filter(status='Ожидается')
+            elif status == 'Завершено':
+                queryset = queryset.filter(status='Завершено')
+            elif status == 'Отменено':
+                queryset = queryset.filter(status='Отменено')
+
         if orderby is not None:
             if orderby == 'datetime':
                 queryset = queryset.order_by(f'-date')
@@ -271,6 +273,17 @@ class UserBookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
         queryset = self.get_queryset().filter(user=user_pk)
 
         orderby = self.request.query_params.get('orderby')
+
+        status = self.request.query_params.get('status')
+        if status is not None:
+            if status == 'Подтверждено':
+                queryset = queryset.filter(status='Подтверждено')
+            elif status == 'Ожидается':
+                queryset = queryset.filter(status='Ожидается')
+            elif status == 'Завершено':
+                queryset = queryset.filter(status='Завершено')
+            elif status == 'Отменено':
+                queryset = queryset.filter(status='Отменено')
 
         if orderby is not None:
             if orderby == 'datetime':
