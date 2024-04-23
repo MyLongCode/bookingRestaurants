@@ -44,7 +44,7 @@ class Restaurant(models.Model):
     description = models.CharField(max_length=255)
     phone = models.CharField(max_length=50)
     site = models.CharField(max_length=255)
-    schedule = JSONField(schema=ITEMS_SCHEMA)
+    schedule = JSONField(schema=ITEMS_SCHEMA, null=True, blank=True)
     capacityOnTable = models.IntegerField(default=10)
     logo = models.ImageField(upload_to='images/logo/', null=True, blank=True)
     preview = models.ImageField(upload_to='images/preview/', null=True, blank=True)

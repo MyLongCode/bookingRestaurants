@@ -13,7 +13,7 @@ from restaraunts.views import (
     DishItemViewSet, PhotoViewSet, PhotoListViewSet, CategoryViewSet, DishListViewSet,
     RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
     RestaurantTagsPATCHViewSet, UserBookingViewSet, BookingStatusViewSet, BookingViewSet, EmployeeViewSet,
-    BookingAcceptViewSet, BookingRejectViewSet
+    BookingAcceptViewSet, BookingRejectViewSet, UserRestaurantViewSet
 )
 from rest_framework_nested import routers
 
@@ -55,6 +55,7 @@ urlpatterns = [
                                                                                  'put': 'update'})),
                   path('booking/<int:pk>/accept/', BookingAcceptViewSet.as_view({'patch': 'partial_update'})),
                   path('booking/<int:pk>/reject/', BookingRejectViewSet.as_view({'patch': 'partial_update'})),
+                  path('user/<int:pk>/user-restaurant/', UserRestaurantViewSet.as_view({'get': 'retrieve'})),
                   path('admin/', admin.site.urls),
                   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
                   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

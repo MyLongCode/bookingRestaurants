@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 
 from accounts.models import User
@@ -187,13 +188,12 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user_data['role'] = 'employee'
+        user_data['password'] = make_password(user_data['password'])
         user_serializer = UserSerializer(data=user_data)
         user_serializer.is_valid(raise_exception=True)
-        user = User.objects.create(**user_serializer.validated_data)
-        user.set_password(user.password)
-        user.save()
 
-        employee = Employee.objects.create(user=user, restaurant=self.context['restaurant'], is_active=validated_data.pop('is_active'))
+        user = User.objects.create(**user_serializer.validated_data)
+        employee = Employee.objects.create(user=user, restaurant=self.context['restaurant'], is_active=validated_data.pop('is_active', True))
         return employee
 
     def update(self, instance, validated_data):
