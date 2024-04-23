@@ -42,10 +42,10 @@ export const authOptions: AuthOptions = {
         const user = data.user_data;
         let currentRestaurant: number | undefined = undefined;
 
-        if (user.role === "manager") {
-          const restaurant = await UserService.getRestaurant(user.id);
+        if (user.role !== "user") {
+          const ids = await UserService.getRestaurantId(user.id);
 
-          currentRestaurant = restaurant.id;
+          currentRestaurant = ids[0];
         }
 
         return {

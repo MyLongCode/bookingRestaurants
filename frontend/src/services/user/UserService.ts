@@ -27,4 +27,10 @@ export default class UserService {
       .get<Restaurant[]>(`/user/${id}/restaurant/`)
       .then((res) => res.data[0]);
   }
+
+  public static async getRestaurantId(id: string | number): Promise<number[]> {
+    return await axiosAuth
+      .get<{ restaurant: number[] }>(`/user/${id}/user-restaurant/`)
+      .then((res) => res.data.restaurant);
+  }
 }

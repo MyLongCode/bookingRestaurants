@@ -11,10 +11,10 @@ type HeaderProps = {};
 
 const Header = async ({}: HeaderProps) => {
   const session: Session | null = await getServerSession(authOptions);
+  const role = session?.user?.role;
   return (
     <header className={styles.wrapper}>
-      {session?.user?.role !== "manager" &&
-      session?.user?.role !== "employee" ? (
+      {role !== "manager" && role !== "employee" ? (
         <HeaderNav>
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
@@ -24,13 +24,17 @@ const Header = async ({}: HeaderProps) => {
         </HeaderNav>
       ) : (
         <HeaderNav>
-          <HeaderNavLink
-            href={"/dashboard/restaurant"}
-            text={"Заведение"}
-            additionalActive={"/restaurants/restaurant"}
-          />
+          {role === "manager" && (
+            <HeaderNavLink
+              href={"/dashboard/restaurant"}
+              text={"Заведение"}
+              additionalActive={"/restaurants/restaurant"}
+            />
+          )}
           <HeaderNavLink href={"/dashboard/bookings"} text={"Брони"} />
-          <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
+          {role === "manager" && (
+            <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
+          )}
           <HeaderNavLink href={"/dashboard/statistics"} text={"Статистика"} />
         </HeaderNav>
       )}
