@@ -8,7 +8,7 @@ type BookingsHistoryRowProps = {
   date: string;
   dateTime: string;
   table: number | string;
-  status: "Завершено" | "Подтверждено" | "Отменено" | "Ожидается";
+  status: "Завершено" | "Подтверждено" | "Отклонено" | "Ожидается";
 };
 
 const BookingsHistoryRow = ({

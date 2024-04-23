@@ -14,25 +14,16 @@ type BookingsPageProps = {};
 
 const BookingsPage = async () => {
   const session = await getServerSession(authOptions);
-  const bookings = await BookingService.getByRestaurant(
-    session?.user.currentRestaurant!,
-  );
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.history}>
         <BookingsHistoryTable
-          bookings={bookings.results.filter(
-            (booking) => booking.status !== "Ожидается",
-          )}
         />
       </section>
       <section className={styles.current}>
         <h2>Текущие заявки</h2>
         <BookingsCurrent
-          bookings={bookings.results.filter(
-            (booking) => booking.status === "Ожидается",
-          )}
         />
       </section>
     </div>

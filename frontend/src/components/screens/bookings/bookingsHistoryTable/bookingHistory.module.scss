@@ -1,0 +1,35 @@
+.pages {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+  li {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #00F100;
+
+    &:has(.active) {
+      border-color: transparent;
+    }
+
+    a {
+      padding: 10px 15px;
+      font-size: 1rem;
+
+      &:active {
+        color: #71ff71;
+      }
+    }
+  }
+}
+
+.active {
+  background: #00F100;
+  color: black;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}

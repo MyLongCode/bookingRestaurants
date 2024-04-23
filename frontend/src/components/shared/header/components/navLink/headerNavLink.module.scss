@@ -9,8 +9,20 @@
 .link {
   font-size: 1rem;
   text-align: center;
+  transition-duration: 0.2s;
+  text-decoration: 2px underline transparent;
+  text-underline-offset: 0.25rem;
+
+  &:hover {
+    color: $text-color-transparent-7;
+    text-decoration-color: $text-color-underline;
+  }
 }
 
 .active {
   color: $text-color-accent;
+
+  &:hover {
+    color: $text-color-underline;
+  }
 }
