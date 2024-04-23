@@ -4,8 +4,6 @@ import fetch from "@/lib/fetch";
 import { revalidateBookings, revalidateUserBookings } from "@/lib/actions";
 import { RestaurantBooking } from "@/models/bookings/restaurant-booking.type";
 import { Page } from "@/models/page.type";
-import { revalidateTag } from "next/cache";
-import { Status } from "@/hooks/dashboard/bookings/useBookings";
 
 export default class BookingService {
   public static async getByUser(id: string | number): Promise<Page<Booking>> {
@@ -15,11 +13,11 @@ export default class BookingService {
   public static async getByRestaurant(
     id: string | number,
     page: number,
-    status?: Status | Status[],
+    query?: string,
   ): Promise<Page<RestaurantBooking>> {
     return await fetch
       .get(
-        `/restaurant/${id}/booking/?${status ? `status=${status}&` : ""}page=${page}`,
+        `/restaurant/${id}/booking/?${query ? `${query}&` : ""}page=${page}`,
         "restaurant bookings",
       )
       .then((data) => {

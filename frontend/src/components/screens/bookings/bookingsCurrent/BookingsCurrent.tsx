@@ -12,7 +12,7 @@ const BookingsCurrent = async () => {
   const bookings = await BookingService.getByRestaurant(
     session.user.currentRestaurant,
     1,
-    "Ожидается"
+    "status=Ожидается",
   ).then((data) =>
     data.results.filter((booking) => booking.status === "Ожидается"),
   );

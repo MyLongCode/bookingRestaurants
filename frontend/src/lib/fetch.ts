@@ -2,7 +2,7 @@ const customFetch = () => {};
 
 const getFetch = async (input: string, tag: string) => {
   return await fetch(`${process.env.API_URL}${input}`, {
-    method: "GET",
+    method: "get",
     next: { tags: [tag] },
   }).then((res) => res.json());
 };
@@ -10,6 +10,9 @@ const getFetch = async (input: string, tag: string) => {
 const postFetch = async (input: string, tag: string, body: any) => {
   return await fetch(`${process.env.API_URL}${input}`, {
     method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(body),
     next: { tags: [tag] },
   }).then((res) => res.json());

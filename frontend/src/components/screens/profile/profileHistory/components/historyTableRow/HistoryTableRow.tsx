@@ -7,7 +7,7 @@ type HistoryTableRowProps = {
   restaurantAddress: string;
   date: string;
   dateTime: string;
-  status: "Завершено" | "Ожидается" | "Подтверждено" | "Отменено";
+  status: "Завершено" | "Ожидается" | "Подтверждено" | "Отклонено";
 };
 
 const HistoryTableRow = ({

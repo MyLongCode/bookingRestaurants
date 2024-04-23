@@ -7,6 +7,8 @@ import Input from "@/components/shared/controls/input/Input";
 import React from "react";
 import styles from "./employeeAddForm.module.scss";
 import Button from "@/components/shared/controls/button/Button";
+import EmployeeService from "@/services/employees/EmployeeService";
+import { useSession } from "next-auth/react";
 
 const employeeAddFormSchema = z.object({
   name: z.string().min(1, "Необходимо ввести имя"),
@@ -17,6 +19,7 @@ const employeeAddFormSchema = z.object({
 type EmployeeAddFormSchema = z.infer<typeof employeeAddFormSchema>;
 
 const EmployeeAddForm = () => {
+  const { data: session } = useSession();
   const {
     register,
     formState: { errors, isValid, isSubmitting },
@@ -26,7 +29,16 @@ const EmployeeAddForm = () => {
     resolver: zodResolver(employeeAddFormSchema),
   });
 
-  const handleCreate = async () => {};
+  const handleCreate = async (data: EmployeeAddFormSchema) => {
+    if (!session?.user?.currentRestaurant) return;
+
+    await EmployeeService.create(session.user.currentRestaurant, {
+      user: {
+        ...data,
+        isActive: true,
+      },
+    });
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(handleCreate)}>
@@ -58,6 +70,7 @@ const EmployeeAddForm = () => {
         fontSize={"small"}
         font={"comfortaa"}
         className={styles.createBtn}
+        disabled={!isValid || isSubmitting}
       >
         Добавить сотрудника
       </Button>

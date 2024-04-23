@@ -17,6 +17,7 @@ const BookingsHistoryTable = () => {
   const { data: bookings } = useBookings(
     Number(page || 1),
     session?.user.currentRestaurant,
+    "notstatus=Ожидается"
   );
 
   useEffect(() => {
@@ -24,7 +25,9 @@ const BookingsHistoryTable = () => {
 
     if (bookings) {
       queryClient.invalidateQueries({
-        queryKey: [`restaurant bookings ${session?.user?.currentRestaurant}`],
+        queryKey: [
+          `restaurant bookings notstatus=Ожидается ${session?.user?.currentRestaurant}`,
+        ],
       });
       console.log(bookings.next);
     }
@@ -49,22 +52,20 @@ const BookingsHistoryTable = () => {
       <Table
         columns={["Гость", "Кол-во гостей", "Дата", "Номер стола", "Бронь"]}
       >
-        {bookings?.results
-          ?.filter((booking) => booking.status !== "Ожидается")
-          .map((booking) => {
-            return (
-              <BookingsHistoryRow
-                key={booking.id}
-                guestName={booking.user_fullname}
-                guestPhone={booking.user_phone}
-                guestsCount={booking.count_people}
-                date={booking.booking_date}
-                dateTime={booking.booking_time}
-                table={1}
-                status={booking.status}
-              />
-            );
-          })}
+        {bookings?.results.map((booking) => {
+          return (
+            <BookingsHistoryRow
+              key={booking.id}
+              guestName={booking.user_fullname}
+              guestPhone={booking.user_phone}
+              guestsCount={booking.count_people}
+              date={booking.booking_date}
+              dateTime={booking.booking_time}
+              table={1}
+              status={booking.status}
+            />
+          );
+        })}
       </Table>
       <nav className={styles.nav}>
         <ul className={styles.pages}>
@@ -74,9 +75,7 @@ const BookingsHistoryTable = () => {
               btnStyle={"icon"}
               className={styles.prevPageBtn}
               href={
-                bookings?.previous
-                  ? `${pathname}?page=${Number(page) - 1}`
-                  : ""
+                bookings?.previous ? `${pathname}?page=${Number(page) - 1}` : ""
               }
               iconSrc={"/icons/Arrow.svg"}
               disabled={!bookings?.previous}

@@ -9,7 +9,7 @@ const EmployeesPage = () => {
       <section className={styles.createEmployeeSection}>
         <h2>Добавление сотрудника</h2>
         <p>
-          Выберите почту сотрудника и придумайте ему пароль для входа в
+          Напишите почту сотрудника и придумайте ему пароль для входа в
           BistroScout
         </p>
         <EmployeeAddForm />
