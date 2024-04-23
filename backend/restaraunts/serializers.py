@@ -182,15 +182,16 @@ class BookingStatusSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    user = UserSerializer(fields=['email', 'password'])
+    user = UserSerializer(fields=['email', 'full_name', 'password'])
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user_data['role'] = 'employee'
         user_serializer = UserSerializer(data=user_data)
         user_serializer.is_valid(raise_exception=True)
-
         user = User.objects.create(**user_serializer.validated_data)
+        user.set_password(user.password)
+        user.save()
 
         employee = Employee.objects.create(user=user, restaurant=self.context['restaurant'], is_active=validated_data.pop('is_active'))
         return employee
