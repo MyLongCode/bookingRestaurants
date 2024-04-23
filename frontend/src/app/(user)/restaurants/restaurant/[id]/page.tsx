@@ -54,6 +54,8 @@ const RestaurantPage = async ({
   const session = await getServerSession(authOptions);
   const role = session?.user.role;
 
+  const editable = role === "manager" && Number(id) === session?.user?.currentRestaurant;
+
   return (
     <main className={clsx(styles.wrapper)}>
       <RestaurantHero
@@ -61,7 +63,7 @@ const RestaurantPage = async ({
         logoSrc={restaurant.logo}
         title={restaurant.name}
         description={restaurant.description}
-        editable={role === "manager"}
+        editable={editable}
       />
       <section className={styles.carousel}>
         {role === "manager" && (
@@ -75,7 +77,7 @@ const RestaurantPage = async ({
             Добавить фото
           </Button>
         )}
-        <InfiniteCarousel photos={photos} editable={role === "manager"} />
+        <InfiniteCarousel photos={photos} editable={editable} />
       </section>
       <section>
         <RestaurantInfo
@@ -87,11 +89,11 @@ const RestaurantPage = async ({
           parking={tags["Парковка"]}
           restrictions={tags["Пищевые ограничения"]}
           schedule={restaurant.schedule}
-          editable={role === "manager"}
+          editable={editable}
         />
       </section>
       <section className={styles.menus}>
-        <RestaurantMenus menus={menus} editable={role === "manager"} />
+        <RestaurantMenus menus={menus} editable={editable} />
       </section>
       <section></section>
 
@@ -101,7 +103,7 @@ const RestaurantPage = async ({
 
       {state && state.includes("booking") && <BookingModal />}
 
-      {role === "manager" && (
+      {editable && (
         <>
           {state && state.includes("profileEdit") && (
             <RestaurantProfileEditModal />

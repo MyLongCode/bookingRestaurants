@@ -9,9 +9,10 @@ import styles from "./employeeAddForm.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import EmployeeService from "@/services/employees/EmployeeService";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const employeeAddFormSchema = z.object({
-  name: z.string().min(1, "Необходимо ввести имя"),
+  full_name: z.string().min(1, "Необходимо ввести имя"),
   email: z.string().email("Не правильно введена почта (vasily@mail.ru)"),
   password: z.string().min(6, "Пароль должен содержать не менее 6 символов"),
 });
@@ -33,10 +34,9 @@ const EmployeeAddForm = () => {
     if (!session?.user?.currentRestaurant) return;
 
     await EmployeeService.create(session.user.currentRestaurant, {
-      user: {
-        ...data,
-        isActive: true,
-      },
+      user: data
+    }).then(() => {
+      toast.success ("Сотрудник успешно добавлен");
     });
   };
 
@@ -47,7 +47,7 @@ const EmployeeAddForm = () => {
         inputStyle={"alternative"}
         type={"text"}
         placeholder={"Имя сотрудника"}
-        {...register("name")}
+        {...register("full_name")}
       />
       <div className={styles.loginContainer}>
         <Input

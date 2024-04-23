@@ -13,7 +13,8 @@ const Header = async ({}: HeaderProps) => {
   const session: Session | null = await getServerSession(authOptions);
   return (
     <header className={styles.wrapper}>
-      {session?.user?.role !== "manager" ? (
+      {session?.user?.role !== "manager" &&
+      session?.user?.role !== "employee" ? (
         <HeaderNav>
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
