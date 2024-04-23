@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
 
 from accounts.models import User
+from accounts.serializers import UserSerializer
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
@@ -9,7 +10,7 @@ from restaraunts.serializers import (
     CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer
 )
 
-from rest_framework import mixins, pagination
+from rest_framework import mixins, pagination, status
 from restaraunts.models import (
     Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee)
 from rest_framework import viewsets
@@ -30,6 +31,16 @@ class RestaurantViewSet(viewsets.ModelViewSet):
                 id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
 
         return self.queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        owner = User.objects.get(pk=serializer.data['owner'])
+        owner.role = 'owner'
+        owner.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -342,6 +353,7 @@ class EmployeeViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             return Response(f"restaurant {restaurant_pk} does not exist")
         employee = self.serializer_class(data=request.data, context={"restaurant": restaurant})
         if employee.is_valid(raise_exception=True):
+            print(employee.validated_data)
             employee.save()
             return Response(employee.data)
         return Response('error')
@@ -360,6 +372,7 @@ class EmployeeViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
         except Restaurant.DoesNotExist:
             return Response(f"restaurant {restaurant_pk} does not exist")
+        print(1)
         queryset = self.get_queryset().filter(restaurant=restaurant)
         employee = get_object_or_404(queryset, pk=pk)
         serializer = EmployeeSerializer(employee, context={"request": request})
@@ -413,6 +426,34 @@ class BookingRejectViewSet(mixins.UpdateModelMixin, GenericViewSet):
         data['status'] = 'Отклонено'
         return self.update(data, *args, **kwargs)
 
+
+class UserRestaurantViewSet(viewsets.ViewSet):
+    serializer_class = UserSerializer
+    permission_classes = []
+    queryset = User.objects.all()
+
+    def retrieve(self, request, pk=None):
+        try:
+            user = self.queryset.get(pk=pk)
+        except User.DoesNotExist:
+            return Response(f"user does not exist")
+        data = dict()
+        if user.role == "employee":
+            try:
+                employer = Employee.objects.filter(user=pk).values_list('restaurant', flat=True)
+            except Employee.DoesNotExist:
+                return Response(f"employer does not exist")
+            data['restaurant'] = employer
+            return Response(data)
+        elif user.role == "owner":
+            try:
+                restaurant = Restaurant.objects.filter(owner=pk).values_list('id', flat=True)
+            except Employee.DoesNotExist:
+                return Response(f"restaurant does not exist")
+            data['restaurant'] = restaurant
+            return Response(data)
+        else:
+            return Response(f"нет привязанного ресторана")
 
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)
