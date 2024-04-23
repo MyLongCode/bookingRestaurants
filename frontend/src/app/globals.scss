@@ -1,12 +1,8 @@
 @import "@/styles/variables/variables";
 
 @keyframes scroll {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 0 100vh;
+  to {
+    background-position: 0 -15%;
   }
 }
 
@@ -19,9 +15,11 @@
 body {
   background-color: $bg-color;
   background-image: url("/Background.png");
+  backdrop-filter: saturate(150%);
   color: $text-color-main;
   font-size: 2.5rem;
-  animation: scroll infinite 120s linear;
+  animation: scroll linear;
+  animation-timeline: scroll();
 }
 
 a {

@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginContainer {
+  display: flex;
+  margin-top: 30px;
+  gap: 30px;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.createBtn {
+  margin-top: 40px;
+  align-self: center;
+}
