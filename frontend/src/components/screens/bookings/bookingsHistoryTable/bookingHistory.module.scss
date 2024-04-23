@@ -1,35 +1,62 @@
-.pages {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  .pages {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
 
-  li {
-    display: block;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 2px solid #00F100;
+    .page {
+      display: block;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #00F100;
 
-    &:has(.active) {
-      border-color: transparent;
-    }
+      &:has(.active) {
+        border-color: transparent;
+      }
 
-    a {
-      padding: 10px 15px;
-      font-size: 1rem;
+      a {
+        padding: 10px 15px;
+        font-size: 1rem;
 
-      &:active {
-        color: #71ff71;
+        &:active {
+          color: #71ff71;
+        }
       }
     }
   }
-}
 
-.active {
-  background: #00F100;
-  color: black;
-}
+  .active {
+    background: #00F100;
+    color: black;
+  }
 
-.nav {
-  display: flex;
-  justify-content: center;
-}
+  .nav {
+    display: flex;
+    justify-content: center;
+  }
+
+  .nextPage, .prevPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nextPageBtn, .prevPageBtn {
+    position: relative;
+    width: 24px;
+    height: 24px;
+
+    &:not(&:disabled):hover {
+      filter: invert(48%) sepia(50%) saturate(2000%) hue-rotate(80deg);
+    }
+    &:disabled {
+      opacity: 0.2;
+    }
+  }
+
+  .nextPage {
+    transform: rotate(-90deg);
+  }
+
+  .prevPage {
+    transform: rotate(90deg);
+  }

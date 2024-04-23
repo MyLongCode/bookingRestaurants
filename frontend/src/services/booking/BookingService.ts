@@ -19,7 +19,7 @@ export default class BookingService {
   ): Promise<Page<RestaurantBooking>> {
     return await fetch
       .get(
-        `/restaurant/${id}/booking/?${status && `status=${status}&`}page=${page}`,
+        `/restaurant/${id}/booking/?${status ? `status=${status}&` : ""}page=${page}`,
         "restaurant bookings",
       )
       .then((data) => {

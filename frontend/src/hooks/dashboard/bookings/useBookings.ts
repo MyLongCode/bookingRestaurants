@@ -10,7 +10,7 @@ const useBookings = (
   status?: Status[] | Status,
 ) => {
   const { data, isSuccess } = useQuery({
-    queryKey: [`restaurant bookings ${id}`],
+    queryKey: [`restaurant bookings ${!!status ? `${status} ` : ""}${id}`],
     queryFn: () =>
       !!id ? BookingService.getByRestaurant(id, page, status) : null,
   });

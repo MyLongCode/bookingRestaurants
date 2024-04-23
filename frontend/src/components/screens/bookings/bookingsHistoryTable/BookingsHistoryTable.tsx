@@ -26,6 +26,7 @@ const BookingsHistoryTable = () => {
       queryClient.invalidateQueries({
         queryKey: [`restaurant bookings ${session?.user?.currentRestaurant}`],
       });
+      console.log(bookings.next);
     }
 
     for (let i = 0; i < bookings.count / 9; i++) {
@@ -67,9 +68,23 @@ const BookingsHistoryTable = () => {
       </Table>
       <nav className={styles.nav}>
         <ul className={styles.pages}>
+          <li className={styles.prevPage}>
+            <Button
+              btnType={"link"}
+              btnStyle={"icon"}
+              className={styles.prevPageBtn}
+              href={
+                bookings?.previous
+                  ? `${pathname}?page=${Number(page) - 1}`
+                  : ""
+              }
+              iconSrc={"/icons/Arrow.svg"}
+              disabled={!bookings?.previous}
+            />
+          </li>
           {pages.map((p) => {
             return (
-              <li key={p}>
+              <li className={styles.page} key={p}>
                 <Button
                   btnType={"link"}
                   btnStyle={"flat"}
@@ -85,6 +100,20 @@ const BookingsHistoryTable = () => {
               </li>
             );
           })}
+          <li className={styles.nextPage}>
+            <Button
+              btnType={"link"}
+              btnStyle={"icon"}
+              className={styles.nextPageBtn}
+              href={
+                bookings?.next
+                  ? `${pathname}?page=${page ? Number(page) + 1 : 1}`
+                  : ""
+              }
+              iconSrc={"/icons/Arrow.svg"}
+              disabled={!bookings?.next}
+            />
+          </li>
         </ul>
       </nav>
     </>
