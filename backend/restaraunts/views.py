@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
 
 from accounts.models import User
-from accounts.serializers import UserSerializer
 from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
@@ -10,7 +9,7 @@ from restaraunts.serializers import (
     CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer
 )
 
-from rest_framework import mixins, pagination, status
+from rest_framework import mixins, pagination
 from restaraunts.models import (
     Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee)
 from rest_framework import viewsets
@@ -228,7 +227,6 @@ class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
         queryset = self.get_queryset().filter(restaurant=restaurant_pk)
 
         orderby = self.request.query_params.get('orderby')
-
         status = self.request.query_params.get('status')
         if status is not None:
             if status == 'Подтверждено':
@@ -237,18 +235,18 @@ class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
                 queryset = queryset.filter(status='Ожидается')
             elif status == 'Завершено':
                 queryset = queryset.filter(status='Завершено')
-            elif status == 'Отменено':
-                queryset = queryset.filter(status='Отменено')
+            elif status == 'Отклонено':
+                queryset = queryset.filter(status='Отклонено')
 
         notstatus = self.request.query_params.get('notstatus')
         if notstatus is not None:
             if notstatus == 'Подтверждено':
-                queryset = queryset.filter(status__in=['Ожидается', 'Завершено', 'Отменено'])
+                queryset = queryset.filter(status__in=['Ожидается', 'Завершено', 'Отклонено'])
             elif notstatus == 'Ожидается':
-                queryset = queryset.filter(status__in=['Подтверждено', 'Завершено', 'Отменено'])
+                queryset = queryset.filter(status__in=['Подтверждено', 'Завершено', 'Отклонено'])
             elif notstatus == 'Завершено':
-                queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Отменено'])
-            elif notstatus == 'Отменено':
+                queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Отклонено'])
+            elif notstatus == 'Отклонено':
                 queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Завершено'])
 
         if orderby is not None:
@@ -294,18 +292,18 @@ class UserBookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
                 queryset = queryset.filter(status='Ожидается')
             elif status == 'Завершено':
                 queryset = queryset.filter(status='Завершено')
-            elif status == 'Отменено':
-                queryset = queryset.filter(status='Отменено')
+            elif status == 'Отклонено':
+                queryset = queryset.filter(status='Отклонено')
 
         notstatus = self.request.query_params.get('notstatus')
         if notstatus is not None:
             if notstatus == 'Подтверждено':
-                queryset = queryset.filter(status__in=['Ожидается', 'Завершено', 'Отменено'])
+                queryset = queryset.filter(status__in=['Ожидается', 'Завершено', 'Отклонено'])
             elif notstatus == 'Ожидается':
-                queryset = queryset.filter(status__in=['Подтверждено', 'Завершено', 'Отменено'])
+                queryset = queryset.filter(status__in=['Подтверждено', 'Завершено', 'Отклонено'])
             elif notstatus == 'Завершено':
-                queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Отменено'])
-            elif notstatus == 'Отменено':
+                queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Отклонено'])
+            elif notstatus == 'Отклонено':
                 queryset = queryset.filter(status__in=['Подтверждено', 'Ожидается', 'Завершено'])
 
         if orderby is not None:
