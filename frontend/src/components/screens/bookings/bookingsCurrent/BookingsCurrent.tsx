@@ -26,25 +26,23 @@ const BookingsCurrent = async () => {
 
   return (
     <Suspense fallback={<Loader />}>
-      <div>
-        <ul className={styles.wrapper}>
-          {bookings.map((booking) => {
-            return (
-              <li className={styles.item} key={booking.id}>
-                <BookingsCurrentCard
-                  id={booking.id}
-                  date={booking.booking_date}
-                  time={booking.booking_time}
-                  peopleCount={booking.count_people}
-                  phone={booking.user_phone}
-                  name={booking.user_fullname}
-                  wishes={booking.wishes}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <ul className={styles.wrapper}>
+        {bookings.map((booking) => {
+          return (
+            <li className={styles.item} key={booking.id}>
+              <BookingsCurrentCard
+                id={booking.id}
+                date={booking.booking_date}
+                time={booking.booking_time}
+                peopleCount={booking.count_people}
+                phone={booking.user_phone}
+                name={booking.user_fullname}
+                wishes={booking.wishes}
+              />
+            </li>
+          );
+        })}
+      </ul>
     </Suspense>
   );
 };

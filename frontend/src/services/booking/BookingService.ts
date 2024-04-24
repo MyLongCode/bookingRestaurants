@@ -23,7 +23,9 @@ export default class BookingService {
         `/restaurant/${id}/booking/?${query ? `${query}&` : ""}page=${page}`,
         `restaurant bookings ${id}`,
       )
-      .then((data) => {
+      .then(async (data) => {
+        await revalidateUserBookings();
+        await revalidateRestaurantBookings(id);
         data.results.reverse();
         return data;
       });
@@ -35,8 +37,9 @@ export default class BookingService {
   ): Promise<Booking> {
     return await axiosAuth
       .post<Booking>(`/restaurant/${restaurantId}/booking/`, data)
-      .then((res) => {
-        revalidateUserBookings();
+      .then(async (res) => {
+        await revalidateUserBookings();
+        await revalidateRestaurantBookings(restaurantId);
         return res.data;
       });
   }

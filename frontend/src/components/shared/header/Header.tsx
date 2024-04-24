@@ -24,18 +24,20 @@ const Header = async ({}: HeaderProps) => {
         </HeaderNav>
       ) : (
         <HeaderNav>
-          {role === "manager" && (
-            <HeaderNavLink
-              href={"/dashboard/restaurant"}
-              text={"Заведение"}
-              additionalActive={"/restaurants/restaurant"}
-            />
-          )}
+          <HeaderNavLink
+            href={"/dashboard/restaurant"}
+            text={"Заведение"}
+            additionalActive={"/restaurants/restaurant"}
+          />
           <HeaderNavLink href={"/dashboard/bookings"} text={"Брони"} />
           {role === "manager" && (
             <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
           )}
-          <HeaderNavLink href={"/dashboard/statistics"} text={"Статистика"} disabled />
+          <HeaderNavLink
+            href={"/dashboard/statistics"}
+            text={"Статистика"}
+            disabled
+          />
         </HeaderNav>
       )}
       {session?.user && (
