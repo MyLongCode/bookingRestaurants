@@ -18,13 +18,11 @@ const BookingsPage = async () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.history}>
-        <BookingsHistoryTable
-        />
+        <BookingsHistoryTable />
       </section>
       <section className={styles.current}>
         <h2>Текущие заявки</h2>
-        <BookingsCurrent
-        />
+        <BookingsCurrent />
       </section>
     </div>
   );

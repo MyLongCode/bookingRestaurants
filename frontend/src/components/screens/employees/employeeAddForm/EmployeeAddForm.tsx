@@ -71,7 +71,10 @@ const EmployeeAddForm = () => {
             placeholder={"Пароль"}
             {...register("password")}
           />
-          <InputError error={errors.password?.message} className={styles.error} />
+          <InputError
+            error={errors.password?.message}
+            className={styles.error}
+          />
         </div>
       </div>
       <Button

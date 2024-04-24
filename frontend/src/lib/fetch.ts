@@ -4,6 +4,7 @@ const getFetch = async (input: string, tag: string) => {
   return await fetch(`${process.env.API_URL}${input}`, {
     method: "get",
     next: { tags: [tag] },
+    cache: "force-cache",
   }).then((res) => res.json());
 };
 

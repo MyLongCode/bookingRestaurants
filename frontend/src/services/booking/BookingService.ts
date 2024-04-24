@@ -1,7 +1,10 @@
 import { Booking } from "@/models/bookings/booking.type";
 import { axiosAuth } from "@/lib/axios";
 import fetch from "@/lib/fetch";
-import { revalidateBookings, revalidateUserBookings } from "@/lib/actions";
+import {
+  revalidateRestaurantBookings,
+  revalidateUserBookings,
+} from "@/lib/actions";
 import { RestaurantBooking } from "@/models/bookings/restaurant-booking.type";
 import { Page } from "@/models/page.type";
 
@@ -18,7 +21,7 @@ export default class BookingService {
     return await fetch
       .get(
         `/restaurant/${id}/booking/?${query ? `${query}&` : ""}page=${page}`,
-        "restaurant bookings",
+        `restaurant bookings ${id}`,
       )
       .then((data) => {
         data.results.reverse();
@@ -40,14 +43,16 @@ export default class BookingService {
 
   public static async accept(id: number | string): Promise<Booking> {
     return await axiosAuth.patch(`/booking/${id}/accept/`).then(async (res) => {
-      await revalidateBookings();
+      await revalidateUserBookings();
+      await revalidateRestaurantBookings(id);
       return res.data;
     });
   }
 
   public static async reject(id: number | string): Promise<Booking> {
     return await axiosAuth.patch(`/booking/${id}/reject/`).then(async (res) => {
-      await revalidateBookings();
+      await revalidateUserBookings();
+      await revalidateRestaurantBookings(id);
       return res.data;
     });
   }

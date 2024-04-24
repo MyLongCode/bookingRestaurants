@@ -22,11 +22,6 @@ export async function revalidateUserBookings() {
   revalidateTag("user bookings");
 }
 
-export async function revalidateRestaurantBookings() {
-  revalidateTag("restaurant bookings");
-}
-
-export async function revalidateBookings() {
-  await revalidateUserBookings();
-  await revalidateRestaurantBookings();
+export async function revalidateRestaurantBookings(id: number | string) {
+  revalidateTag(`restaurant bookings ${id}`);
 }

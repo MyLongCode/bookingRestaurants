@@ -8,28 +8,30 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useBookings from "@/hooks/dashboard/bookings/useBookings";
 import { queryClient } from "@/app/providers";
+import Loader from "@/components/shared/loader/Loader";
+
+let lastPage: string;
 
 const BookingsHistoryTable = () => {
   const [pages, setPages] = useState<number[]>([]);
   const { data: session } = useSession();
   const page = useSearchParams().get("page");
   const pathname = usePathname();
-  const { data: bookings } = useBookings(
+  const { data: bookings, isSuccess } = useBookings(
     Number(page || 1),
     session?.user.currentRestaurant,
-    "notstatus=Ожидается"
+    "notstatus=Ожидается",
   );
 
   useEffect(() => {
     if (!bookings) return;
 
-    if (bookings) {
+    if (page && page !== lastPage) {
       queryClient.invalidateQueries({
         queryKey: [
           `restaurant bookings notstatus=Ожидается ${session?.user?.currentRestaurant}`,
         ],
       });
-      console.log(bookings.next);
     }
 
     for (let i = 0; i < bookings.count / 9; i++) {
@@ -38,8 +40,11 @@ const BookingsHistoryTable = () => {
 
     return () => {
       setPages([]);
+      lastPage = page || "1";
     };
   }, [bookings, page, session?.user?.currentRestaurant]);
+
+  if (!isSuccess) return <Loader />;
 
   if (!session?.user?.currentRestaurant) return null;
 

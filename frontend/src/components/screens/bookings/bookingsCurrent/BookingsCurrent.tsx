@@ -3,6 +3,9 @@ import styles from "./bookingsCurrent.module.scss";
 import BookingService from "@/services/booking/BookingService";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Suspense } from "react";
+import Loading from "@/app/loading";
+import Loader from "@/components/shared/loader/Loader";
 
 const BookingsCurrent = async () => {
   const session = await getServerSession(authOptions);
@@ -22,25 +25,27 @@ const BookingsCurrent = async () => {
   }
 
   return (
-    <div>
-      <ul className={styles.wrapper}>
-        {bookings.map((booking) => {
-          return (
-            <li className={styles.item} key={booking.id}>
-              <BookingsCurrentCard
-                id={booking.id}
-                date={booking.booking_date}
-                time={booking.booking_time}
-                peopleCount={booking.count_people}
-                phone={booking.user_phone}
-                name={booking.user_fullname}
-                wishes={booking.wishes}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <Suspense fallback={<Loader />}>
+      <div>
+        <ul className={styles.wrapper}>
+          {bookings.map((booking) => {
+            return (
+              <li className={styles.item} key={booking.id}>
+                <BookingsCurrentCard
+                  id={booking.id}
+                  date={booking.booking_date}
+                  time={booking.booking_time}
+                  peopleCount={booking.count_people}
+                  phone={booking.user_phone}
+                  name={booking.user_fullname}
+                  wishes={booking.wishes}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </Suspense>
   );
 };
 

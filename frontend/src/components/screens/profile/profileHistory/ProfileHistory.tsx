@@ -18,7 +18,6 @@ const ProfileHistory = async () => {
 
   return (
     <section className={styles.wrapper}>
-      <h2>История бронирования</h2>
       <Table columns={["Заведение", "Дата", "Статус"]}>
         {bookings.results.map((booking) => {
           return (
