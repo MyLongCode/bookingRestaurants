@@ -26,3 +26,9 @@
     color: $text-color-underline;
   }
 }
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: $text-color-transparent-4;
+}

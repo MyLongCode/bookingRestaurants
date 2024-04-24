@@ -9,12 +9,14 @@ import { clsx } from "clsx";
 type HeaderNavLinkProps = React.ComponentProps<typeof Link> & {
   text: string;
   additionalActive?: string;
+  disabled?: boolean;
 };
 
 const HeaderNavLink = ({
   text,
   href,
   additionalActive,
+  disabled,
   ...props
 }: HeaderNavLinkProps) => {
   const route = usePathname();
@@ -26,6 +28,7 @@ const HeaderNavLink = ({
           (route === href ||
             (additionalActive && route.startsWith(additionalActive))) &&
             styles.active,
+          disabled && styles.disabled,
         )}
         href={href}
         {...props}

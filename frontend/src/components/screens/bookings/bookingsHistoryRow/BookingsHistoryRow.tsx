@@ -9,6 +9,7 @@ type BookingsHistoryRowProps = {
   dateTime: string;
   table: number | string;
   status: "Завершено" | "Подтверждено" | "Отклонено" | "Ожидается";
+  className?: string;
 };
 
 const BookingsHistoryRow = ({
@@ -19,9 +20,10 @@ const BookingsHistoryRow = ({
   dateTime,
   status,
   table,
+  className,
 }: BookingsHistoryRowProps) => {
   return (
-    <tr className={styles.wrapper}>
+    <tr className={clsx(styles.wrapper, className)}>
       <th scope={"row"} className={styles.guest}>
         <h3>{guestName}</h3>
         <a type={"tel"} href={guestPhone} className={styles.phone}>

@@ -19,7 +19,7 @@ const ProfileHistory = async () => {
   return (
     <section className={styles.wrapper}>
       <Table columns={["Заведение", "Дата", "Статус"]}>
-        {bookings.results.map((booking) => {
+        {bookings.results.map((booking, index) => {
           return (
             <HistoryTableRow
               key={booking.id}
@@ -28,6 +28,7 @@ const ProfileHistory = async () => {
               date={booking.booking_date}
               dateTime={booking.booking_time}
               status={booking.status}
+              className={styles[`booking-${index}`]}
             />
           );
         })}

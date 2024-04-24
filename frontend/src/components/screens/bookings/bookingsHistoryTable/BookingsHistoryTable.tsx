@@ -57,7 +57,7 @@ const BookingsHistoryTable = () => {
       <Table
         columns={["Гость", "Кол-во гостей", "Дата", "Номер стола", "Бронь"]}
       >
-        {bookings?.results.map((booking) => {
+        {bookings?.results.map((booking, index) => {
           return (
             <BookingsHistoryRow
               key={booking.id}
@@ -68,6 +68,7 @@ const BookingsHistoryTable = () => {
               dateTime={booking.booking_time}
               table={1}
               status={booking.status}
+              className={styles[`booking-${index}`]}
             />
           );
         })}

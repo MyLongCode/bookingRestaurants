@@ -35,7 +35,7 @@ const Header = async ({}: HeaderProps) => {
           {role === "manager" && (
             <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
           )}
-          <HeaderNavLink href={"/dashboard/statistics"} text={"Статистика"} />
+          <HeaderNavLink href={"/dashboard/statistics"} text={"Статистика"} disabled />
         </HeaderNav>
       )}
       {session?.user && (
