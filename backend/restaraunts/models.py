@@ -43,6 +43,7 @@ class Restaurant(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=255)
     phone = models.CharField(max_length=50)
+    rating = models.FloatField(null=True)
     site = models.CharField(max_length=255)
     schedule = JSONField(schema=ITEMS_SCHEMA)
     capacityOnTable = models.IntegerField(default=10)
