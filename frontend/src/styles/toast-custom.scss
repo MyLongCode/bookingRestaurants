@@ -1,0 +1,21 @@
+@mixin toast {
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-toast-container {
+  font-size: 1rem;
+
+  .app-toast_success {
+    border: 3px solid #00F100;
+    @include toast;
+  }
+  .app-toast_error {
+    border: 3px solid #ff004d;
+    @include toast;
+  }
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./profileHistory.module.scss";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -12,15 +11,15 @@ const ProfileHistory = async () => {
   if (!session?.user) return;
 
   const bookings = await BookingService.getByUser(session?.user.id);
-  bookings.reverse();
+  bookings.results.reverse();
 
-  if (bookings.length === 0) return <p className={styles.empty}>Нет записей</p>;
+  if (bookings.results.length === 0)
+    return <p className={styles.empty}>Нет записей</p>;
 
   return (
     <section className={styles.wrapper}>
-      <h2>История бронирования</h2>
       <Table columns={["Заведение", "Дата", "Статус"]}>
-        {bookings.map((booking) => {
+        {bookings.results.map((booking, index) => {
           return (
             <HistoryTableRow
               key={booking.id}
@@ -29,6 +28,7 @@ const ProfileHistory = async () => {
               date={booking.booking_date}
               dateTime={booking.booking_time}
               status={booking.status}
+              className={styles[`booking-${index}`]}
             />
           );
         })}

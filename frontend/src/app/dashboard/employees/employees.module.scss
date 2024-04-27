@@ -1,0 +1,27 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  display: flex;
+  margin-top: 100px;
+  margin-inline: 16%;
+}
+
+.employeesSection {
+  flex: 2;
+}
+
+.createEmployeeSection {
+  flex: 3;
+
+  > h2 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: $text-color-accent;
+    margin-bottom: 10px;
+  }
+
+  > p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+  }
+}

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import "./globals.scss";
 import { ReactNode } from "react";
 import { clsx } from "clsx";
 import { comfortaa, montserrat } from "@/styles/fonts";
 import Header from "@/components/shared/header/Header";
-import Avatar from "@/components/shared/avatar/Avatar";
-import { YMaps } from "@pbe/react-yandex-maps";
 import Footer from "@/components/shared/footer/Footer";
-import {SessionProvider, signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { CustomProviders } from "@/app/providers";
 import localFont from "next/font/local";
-import {getServerSession} from "next-auth";
-import {authOptions} from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { Toaster } from "react-hot-toast";
+import "./globals.scss";
+import "@/styles/toast-custom.scss";
 
 export const metadata: Metadata = {
   title: "Restaurants booking",
@@ -40,6 +40,18 @@ export default async function RootLayout({
         <Header />
         <CustomProviders>{children}</CustomProviders>
         <div id={"portal"} />
+        <Toaster
+          position={"bottom-right"}
+          containerClassName={"app-toast-container"}
+          toastOptions={{
+            success: {
+              className: "app-toast_success",
+            },
+            error: {
+              className: "app-toast_error",
+            },
+          }}
+        />
         <Footer />
       </body>
     </html>

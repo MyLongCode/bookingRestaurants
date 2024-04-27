@@ -1,0 +1,71 @@
+@import "@/styles/variables/variables";
+
+.wrapper {
+  &:nth-child(odd) {
+    background-color: rgba(82, 82, 82, 0.4);
+  }
+
+  td {
+    &:last-child {
+      border-bottom-right-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+  }
+
+  th {
+    padding-left: 20px;
+    border-bottom-left-radius: 16px;
+    border-top-left-radius: 16px;
+  }
+
+  td, th {
+    padding-block: 20px;
+  }
+}
+
+.phone {
+  font-size: 1rem;
+  font-style: normal;
+  color: $text-color-accent;
+  font-weight: normal;
+}
+
+.date {
+  display: flex;
+  gap: 10px;
+  white-space: nowrap;
+
+  span {
+    color: $text-color-accent;
+  }
+
+  @container table (width < 600px) {
+    flex-direction: column;
+  }
+
+}
+
+.guest {
+  text-align: left;
+}
+
+.table, .guests {
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.Завершено {
+  color: #0094FF;
+}
+
+.Ожидается {
+  color: #FFF200;
+}
+
+.Подтверждено {
+  color: $text-color-accent;
+}
+
+.Отклонено {
+  color: #D9430B;
+}

@@ -7,7 +7,8 @@ type HistoryTableRowProps = {
   restaurantAddress: string;
   date: string;
   dateTime: string;
-  status: "Завершено" | "Ожидается" | "Подтверждено" | "Отменено";
+  status: "Завершено" | "Ожидается" | "Подтверждено" | "Отклонено";
+  className?: string;
 };
 
 const HistoryTableRow = ({
@@ -16,9 +17,10 @@ const HistoryTableRow = ({
   status,
   date,
   dateTime,
+  className,
 }: HistoryTableRowProps) => {
   return (
-    <tr className={styles.wrapper}>
+    <tr className={clsx(styles.wrapper, className)}>
       <th scope={"row"} className={styles.info}>
         <h3>{restaurantName}</h3>
         <address className={styles.address}>{restaurantAddress}</address>

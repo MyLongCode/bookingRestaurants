@@ -1,0 +1,21 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  margin-top: 80px;
+  gap: 40px;
+  margin-inline: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.empty {
+  font-size: 1.25rem;
+}

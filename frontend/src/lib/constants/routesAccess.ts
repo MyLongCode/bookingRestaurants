@@ -7,5 +7,10 @@ export const RoutesAccess = {
     "/dashboard/restaurant",
     "/dashboard/employees",
   ],
+  employee: [
+    ...authorizedRoutes,
+    "/dashboard/restaurant",
+    "/dashboard/bookings",
+  ],
   user: [...authorizedRoutes],
 };
