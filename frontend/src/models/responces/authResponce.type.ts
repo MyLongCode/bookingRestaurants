@@ -1,4 +1,4 @@
-import { User } from "@/models/user.type";
+import { User } from "@/models/user/user.type";
 
 export type AuthResponse = {
   user_data: User;
