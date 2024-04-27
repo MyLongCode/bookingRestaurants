@@ -1,10 +1,15 @@
-import { User } from "@/models/user.type";
 import axios, { axiosAuth } from "@/lib/axios";
 import { Restaurant } from "@/models/restaurant/restaurant.type";
+import { User } from "next-auth";
+import { UserRegister } from "@/models/user/user-register.type";
 
 export default class UserService {
   public static async getById(id: string | number): Promise<User> {
     return await axiosAuth.get<User>(`/user/${id}/`).then((res) => res.data);
+  }
+
+  public static async create(data: UserRegister): Promise<User> {
+    return await axios.post("/user/", data).then((res) => res.data);
   }
 
   public static async refresh(token: string): Promise<{ access: string }> {

@@ -13,8 +13,12 @@
   margin-top: 60px;
 }
 
-.input {
+.inputContainer {
   margin-bottom: 20px;
+
+  input {
+    margin-bottom: 5px;
+  }
 }
 
 .checkbox {

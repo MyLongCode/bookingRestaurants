@@ -9,6 +9,10 @@ export default withAuth(
     if (!user || !RoutesAccess[user?.role].includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL("/", req.url));
     }
+
+    if (user.role === "manager" && !user.currentRestaurant) {
+      return NextResponse.redirect(new URL("/restaurants", req.url));
+    }
   },
   {
     callbacks: {

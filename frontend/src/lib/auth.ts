@@ -49,7 +49,7 @@ export const authOptions: AuthOptions = {
         } else if (user.role === "manager") {
           const restaurant = await UserService.getRestaurant(user.id);
 
-          currentRestaurant = restaurant.id;
+          currentRestaurant = restaurant ? restaurant.id : undefined;
         }
 
         return {
