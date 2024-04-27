@@ -24,11 +24,14 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         tags = self.request.query_params.get('tag')
-
+        orderby = self.request.query_params.get('orderby')
         if tags is not None:
             tags_ids = Tag.objects.filter(name__in=tags.split(';')).values_list('id', flat=True)
             self.queryset = self.queryset.filter(
-                id__in=RestaurantTags.objects.filter(id__in=tags_ids).values_list('restaurant', flat=True))
+                id__in=RestaurantTags.objects.filter(tag__in=tags_ids).values_list('restaurant', flat=True))
+        if orderby is not None:
+            if orderby == 'rating':
+                self.queryset = self.queryset.order_by('-rating')
 
         return self.queryset
 
@@ -222,7 +225,7 @@ class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
 
     def get_queryset(self):
         queryset = Booking.objects.all()
-        return queryset
+        return queryset.order_by(f'-id')
 
     def create(self, request, restaurant_pk=None):
         booking = self.serializer_class(data=request.data, context={"restaurant_pk": restaurant_pk, "status": "Ожидается"})
@@ -283,7 +286,7 @@ class UserBookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
 
     def get_queryset(self):
         queryset = Booking.objects.all()
-        return queryset
+        return queryset.order_by(f'-id')
 
     def list(self, request, user_pk=None):
         try:
