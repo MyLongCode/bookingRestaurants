@@ -365,6 +365,18 @@ class EmployeeViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
         serializer = EmployeeSerializer(employee, context={"request": request})
         return Response(serializer.data)
 
+    def destroy(self, request, restaurant_pk=None, pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant)
+        employee = get_object_or_404(queryset, pk=pk)
+        serializer = EmployeeSerializer(employee, context={"request": request})
+        employee.user.delete()
+        employee.delete()
+        return Response(serializer.data)
+
 
 class BookingAcceptViewSet(mixins.UpdateModelMixin, GenericViewSet):
     queryset = Booking.objects.all()
