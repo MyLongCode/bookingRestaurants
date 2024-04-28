@@ -15,6 +15,7 @@ import deleteQuery from "@/lib/helpers/deleteQuery";
 import EmployeeService from "@/services/employees/EmployeeService";
 import { useSession } from "next-auth/react";
 import BookingService from "@/services/booking/BookingService";
+import toast from "react-hot-toast";
 
 type ObjectType =
   | "menu"
@@ -61,6 +62,7 @@ const DeleteModal = () => {
     } else if (type === "booking") {
       await BookingService.delete(deleteId);
     }
+    toast.success("Удаление успешно");
     close();
   };
 
