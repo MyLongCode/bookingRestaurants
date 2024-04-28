@@ -1,8 +1,33 @@
 import { NewEmployee } from "@/models/employees/newEmployee.model";
 import fetch from "@/lib/fetch";
+import { Employee } from "@/models/employees/employee.model";
+import { axiosAuth } from "@/lib/axios";
+import { revalidateRestaurantEmployees } from "@/lib/actions";
 
 export default class EmployeeService {
+  public static async getAllByRestaurant(
+    id: string | number,
+  ): Promise<Employee[]> {
+    return await fetch.get(`/restaurant/${id}/employee/`, `employees ${id}`);
+  }
+
   public static async create(id: string | number, data: { user: NewEmployee }) {
-    return await fetch.post(`/restaurant/${id}/employee/`, `employees`, data);
+    return await fetch.post(
+      `/restaurant/${id}/employee/`,
+      `employees ${id}`,
+      data,
+    );
+  }
+
+  public static async delete(
+    restaurantId: string | number,
+    id: string | number,
+  ) {
+    return await axiosAuth
+      .delete(`/restaurant/${restaurantId}/employee/${id}`)
+      .then((res) => {
+        revalidateRestaurantEmployees(id);
+        return res.data;
+      });
   }
 }

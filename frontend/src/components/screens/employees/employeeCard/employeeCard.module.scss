@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.name {
+  font-size: 1.5rem;
+  max-width: 25rem;
+}
+
+.email {
+  font-size: 1rem;
+}
+
+.role {
+  font-size: 1.25rem;
+  color: #00F100;
+  margin-left: auto;
+}
+
+.topContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}

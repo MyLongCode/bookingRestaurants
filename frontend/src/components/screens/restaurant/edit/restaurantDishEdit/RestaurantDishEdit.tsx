@@ -110,7 +110,7 @@ const RestaurantDishEdit = ({
           type={"button"}
           iconSrc={"/icons/Exit.svg"}
           className={styles.delete}
-          href={`?${params.toString()}&state=delete&type=dish&dishId=${id}`}
+          href={`?${params.toString()}&state=delete&type=dish&deleteId=${id}`}
         />
       )}
       <form

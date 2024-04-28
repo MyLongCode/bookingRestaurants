@@ -3,8 +3,19 @@ import styles from "./profile.module.scss";
 import ProfilePersonal from "@/screens/profile/profilePersonal/ProfilePersonal";
 import ProfileHistory from "@/screens/profile/profileHistory/ProfileHistory";
 import Loader from "@/components/shared/loader/Loader";
+import DeleteModal from "@/components/shared/deleteModal/DeleteModal";
 
-const ProfilePage = () => {
+type ProfilePageSearchParams = {
+  state?: string | string[];
+};
+
+type ProfilePageProps = {
+  searchParams: ProfilePageSearchParams;
+};
+
+const ProfilePage = ({ searchParams }: ProfilePageProps) => {
+  const state = searchParams.state;
+
   return (
     <div className={styles.wrapper}>
       <ProfilePersonal />
@@ -13,13 +24,15 @@ const ProfilePage = () => {
         <Suspense
           fallback={
             <span className={styles.loader}>
-            <Loader/>
-          </span>
+              <Loader />
+            </span>
           }
         >
-          <ProfileHistory/>
+          <ProfileHistory />
         </Suspense>
       </div>
+
+      {state?.includes("delete") && <DeleteModal />}
     </div>
   );
 };

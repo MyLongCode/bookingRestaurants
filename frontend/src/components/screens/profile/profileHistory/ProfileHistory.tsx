@@ -23,6 +23,7 @@ const ProfileHistory = async () => {
           return (
             <HistoryTableRow
               key={booking.id}
+              id={booking.id}
               restaurantName={booking.restaurant_name}
               restaurantAddress={booking.restaurant_address}
               date={booking.booking_date}

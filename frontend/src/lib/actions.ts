@@ -25,3 +25,7 @@ export async function revalidateUserBookings() {
 export async function revalidateRestaurantBookings(id: number | string) {
   revalidateTag(`restaurant bookings ${id}`);
 }
+
+export async function revalidateRestaurantEmployees(id: number | string) {
+  revalidateTag(`employees ${id}`);
+}
