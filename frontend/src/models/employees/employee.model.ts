@@ -1,5 +1,9 @@
 export type Employee = {
-  id: number,
-  name: string,
-  email: string,
-}
+  id: number;
+  user: {
+    email: string;
+    full_name: string;
+  };
+  restaurant: number;
+  is_active: boolean;
+};

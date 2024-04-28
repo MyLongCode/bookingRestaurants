@@ -12,43 +12,57 @@ import MenuService from "@/services/restaurant/MenuService";
 import { revalidateMenus, revalidatePhotos } from "@/lib/actions";
 import PhotoService from "@/services/restaurant/PhotoService";
 import deleteQuery from "@/lib/helpers/deleteQuery";
+import EmployeeService from "@/services/employees/EmployeeService";
+import { useSession } from "next-auth/react";
+import BookingService from "@/services/booking/BookingService";
+import toast from "react-hot-toast";
 
-type ObjectType = "menu" | "dish" | "category" | "photo";
+type ObjectType =
+  | "menu"
+  | "dish"
+  | "category"
+  | "photo"
+  | "employee"
+  | "booking";
 
 enum TypeTitle {
   "menu" = "меню",
   "dish" = "блюдо",
   "category" = "категорию",
   "photo" = "фото",
+  "employee" = "сотрудника",
+  "booking" = "запись бронирования",
 }
 
 const DeleteModal = () => {
   const searchParams = useSearchParams();
   const type: ObjectType = searchParams.get("type") as ObjectType;
-  const categoryId = searchParams.get("categoryId");
-  const dishId = searchParams.get("dishId");
-  const menuId = searchParams.get("menuId");
-  const photoId = searchParams.get("photoId");
+  const deleteId = searchParams.get("deleteId");
+  const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
   const handleApprove = async () => {
-    if (type === "category" && categoryId) {
-      await CategoryService.delete(categoryId);
-    }
-    if (type === "dish" && dishId) {
-      await DishesService.delete(dishId);
+    if (!deleteId) return;
+
+    if (type === "category") {
+      await CategoryService.delete(deleteId);
+    } else if (type === "dish") {
+      await DishesService.delete(deleteId);
       await queryClient.invalidateQueries({
         queryKey: [`restaurant dishes ${searchParams.get("id")}`],
       });
-    }
-    if (type === "menu" && menuId) {
-      await MenuService.delete(menuId);
+    } else if (type === "menu") {
+      await MenuService.delete(deleteId);
       await revalidateMenus();
+    } else if (type === "photo") {
+      await PhotoService.delete(deleteId);
+    } else if (type === "employee" && session?.user?.currentRestaurant) {
+      await EmployeeService.delete(session.user.currentRestaurant, deleteId);
+    } else if (type === "booking") {
+      await BookingService.delete(deleteId);
     }
-    if (type === "photo" && photoId) {
-      await PhotoService.delete(photoId);
-    }
+    toast.success("Удаление успешно");
     close();
   };
 
@@ -62,16 +76,7 @@ const DeleteModal = () => {
         key: "type",
       },
       {
-        key: "dishId",
-      },
-      {
-        key: "categoryId",
-      },
-      {
-        key: "menuId",
-      },
-      {
-        key: "photoId",
+        key: "deleteId",
       },
     ]);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });

@@ -37,7 +37,7 @@ const RestaurantMenu = ({
               type={"button"}
               iconSrc={"/icons/Exit.svg"}
               className={styles.delete}
-              href={`?${params.toString()}&state=delete&type=menu&menuId=${id}`}
+              href={`?${params.toString()}&state=delete&type=menu&deleteId=${id}`}
             />
           </>
         )}

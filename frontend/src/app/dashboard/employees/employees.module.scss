@@ -3,15 +3,17 @@
 .wrapper {
   display: flex;
   margin-top: 100px;
-  margin-inline: 16%;
+  margin-inline: 10%;
+  gap: 160px;
 }
 
 .employeesSection {
-  flex: 2;
+  flex: 3;
 }
 
 .createEmployeeSection {
-  flex: 3;
+  margin-top: 80px;
+  flex: 4;
 
   > h2 {
     font-size: 1.875rem;

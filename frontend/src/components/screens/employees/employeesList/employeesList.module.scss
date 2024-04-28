@@ -1,0 +1,18 @@
+.wrapper {
+  background: linear-gradient(transparent, rgba(0, 241, 0, 0.4));
+  border-radius: 0 0 30px 30px;
+  padding: 120px 50px 50px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title {
+  font-size: 1.875rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #00F100;
+}

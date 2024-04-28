@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./historyTableRow.module.scss";
 import { clsx } from "clsx";
+import Button from "@/components/shared/controls/button/Button";
 
 type HistoryTableRowProps = {
+  id: string | number;
   restaurantName: string;
   restaurantAddress: string;
   date: string;
@@ -12,6 +14,7 @@ type HistoryTableRowProps = {
 };
 
 const HistoryTableRow = ({
+  id,
   restaurantName,
   restaurantAddress,
   status,
@@ -33,6 +36,15 @@ const HistoryTableRow = ({
       <td>
         <p className={clsx(styles.status, styles[status])}>
           {status.toLowerCase()}
+          {status === "Ожидается" ||
+            (status === "Подтверждено" && (
+              <Button
+                btnType={"link"}
+                btnStyle={"icon"}
+                iconSrc={"/icons/Delete.svg"}
+                href={`?state=delete&type=booking&deleteId=${id}`}
+              />
+            ))}
         </p>
       </td>
     </tr>

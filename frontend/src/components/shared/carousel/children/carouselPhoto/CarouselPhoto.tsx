@@ -23,7 +23,7 @@ const CarouselPhoto = ({ editable, id, title, image }: CarouselPhotoProps) => {
             btnType={"link"}
             btnStyle={"icon"}
             iconSrc={"/icons/Exit.svg"}
-            href={`?state=delete&type=photo&photoId=${id}`}
+            href={`?state=delete&type=photo&deleteId=${id}`}
           />
         </div>
       )}

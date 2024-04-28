@@ -44,6 +44,14 @@ export default class BookingService {
       });
   }
 
+  public static async delete(id: number | string) {
+    return await axiosAuth.delete(`/booking/${id}/`).then(async (res) => {
+      await revalidateUserBookings();
+      await revalidateRestaurantBookings(id);
+      return res.data;
+    });
+  }
+
   public static async accept(id: number | string): Promise<Booking> {
     return await axiosAuth.patch(`/booking/${id}/accept/`).then(async (res) => {
       await revalidateUserBookings();

@@ -50,6 +50,14 @@
   text-align: left;
 }
 
+.Завершено, .Ожидается, .Отклонено, .Подтверждено {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  margin-left: 5px;
+  padding-right: 20px;
+}
+
 .Завершено {
   color: #0094FF;
 }
