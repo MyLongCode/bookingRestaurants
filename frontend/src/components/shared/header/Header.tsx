@@ -24,11 +24,13 @@ const Header = async ({}: HeaderProps) => {
         </HeaderNav>
       ) : (
         <HeaderNav>
+          <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
           <HeaderNavLink
             href={"/dashboard/restaurant"}
             text={"Заведение"}
             additionalActive={"/restaurants/restaurant"}
           />
+
           <HeaderNavLink href={"/dashboard/bookings"} text={"Брони"} />
           {role === "manager" && (
             <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
