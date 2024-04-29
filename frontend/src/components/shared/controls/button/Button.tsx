@@ -21,6 +21,7 @@ type ButtonProps = Partial<React.ComponentProps<"button">> &
     font?: ButtonFont;
     fontSize?: ButtonFontSize;
     children?: ReactNode;
+    padding?: "default" | "no";
   };
 
 const Button = ({
@@ -34,6 +35,7 @@ const Button = ({
   iconPosition,
   color,
   className,
+  padding,
   ...props
 }: ButtonProps) => {
   const cls = clsx(
@@ -46,6 +48,7 @@ const Button = ({
       [styles.iconStyle]: btnStyle === "icon",
       [styles.small]: fontSize === "small",
       [styles.gray]: color === "gray",
+      [styles.padding]: padding !== "no",
     },
     className,
   );

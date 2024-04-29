@@ -65,6 +65,7 @@ const RestaurantPage = async ({
         title={restaurant.name}
         description={restaurant.description}
         editable={editable}
+        rating={restaurant.rating || 0}
       />
       <section className={styles.carousel}>
         {role === "manager" && (

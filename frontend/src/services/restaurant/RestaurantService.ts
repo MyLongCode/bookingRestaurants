@@ -6,8 +6,13 @@ import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
 import { revalidateRestaurant, revalidateRestaurantTags } from "@/lib/actions";
 import fetch from "@/lib/fetch";
 import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
+import { Page } from "@/models/page.type";
 
 export default class RestaurantService {
+  public static async getAll(): Promise<Page<Restaurant>> {
+    return await fetch.get(`/restaurant/`, "restaurant");
+  }
+
   public static async getById(id: string | number): Promise<Restaurant> {
     return await fetch.get(`/restaurant/${id}/`, "restaurant");
   }

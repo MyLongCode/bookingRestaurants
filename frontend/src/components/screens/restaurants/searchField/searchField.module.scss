@@ -1,0 +1,25 @@
+.wrapper {
+  position: relative;
+  display: flex;
+}
+
+.img {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input {
+  border: 1px solid #00F100;
+  border-radius: 50px;
+  width: 100%;
+
+  input {
+    border: unset;
+    padding-right: 75px;
+    font-family: Comfortaa, sans-serif;
+    padding-block: 15px;
+    font-size: 1.25rem;
+  }
+}

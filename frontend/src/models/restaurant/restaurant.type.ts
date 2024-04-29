@@ -11,4 +11,5 @@ export type Restaurant = {
   site: string;
   schedule: ScheduleDay[];
   capacityOnTable: number;
+  rating: number;
 };
