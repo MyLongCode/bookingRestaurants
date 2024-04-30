@@ -5,4 +5,8 @@ export type RestaurantTags = {
   ["Тип кухни"]: RestaurantTag[];
   ["Парковка"]: RestaurantTag[];
   ["Пищевые ограничения"]: RestaurantTag[];
+  ["Особенности"]: RestaurantTag[];
+  ["Событие"]: RestaurantTag[];
+  ["Средний счет"]: RestaurantTag[];
+  [a: string]: RestaurantTag[];
 };

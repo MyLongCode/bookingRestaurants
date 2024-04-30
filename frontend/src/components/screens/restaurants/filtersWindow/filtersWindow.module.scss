@@ -1,0 +1,53 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  position: absolute;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(50px);
+  min-height: 800px;
+  height: fit-content;
+  inset: 0;
+  top: -50px;
+  inset-inline: 10%;
+  border-radius: 30px;
+  padding: 50px;
+  z-index: 100;
+}
+
+.selectContainer {
+  height: 320px;
+}
+
+.groupTitle {
+  font-size: 1.75rem;
+  color: #00F100;
+}
+
+.select {
+  :global(div.dropdown-content) {
+    background: none;
+
+    scrollbar-color: #00F100 rgba(0, 0, 0, 0.05);
+  }
+
+  :global(div.dropdown-heading) {
+    display: none;
+  }
+
+  :global(div.select-item) {
+    --rmsc-selected: transparent;
+  }
+
+  * > svg {
+    display: none;
+  }
+}
+
+.findBtn {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  padding-inline: 80px;
+}

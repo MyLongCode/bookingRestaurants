@@ -1,9 +1,5 @@
 import { z } from "zod";
-
-const tagSchema = z.object({
-  id: z.string().or(z.number()),
-  name: z.string(),
-});
+import { tagSchema } from "@/lib/zod/tagSchema";
 
 export const restaurantInfoEditSchema = z.object({
   cuisine: z

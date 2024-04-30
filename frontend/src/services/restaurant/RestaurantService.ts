@@ -9,8 +9,14 @@ import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
 import { Page } from "@/models/page.type";
 
 export default class RestaurantService {
-  public static async getAll(): Promise<Page<Restaurant>> {
-    return await fetch.get(`/restaurant/`, "restaurant");
+  public static async getAll(tags?: string): Promise<Page<Restaurant>> {
+    return await axiosAuth
+      .get(`/restaurant/`, {
+        params: {
+          tag: tags,
+        },
+      })
+      .then((res) => res.data);
   }
 
   public static async getById(id: string | number): Promise<Restaurant> {

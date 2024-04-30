@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { MultiSelect, Option } from "react-multi-select-component";
 import "./multipleSelect.scss";
 
-type MultipleSelectProps = {
+type MultipleSelectProps = Partial<React.ComponentProps<typeof MultiSelect>> & {
   label: string;
   options?: Option[];
   handleChange?: (value: Option[]) => void;
   defaultValue?: Option[];
+  className?: string;
 };
 
 const MultipleSelect = ({
@@ -16,6 +17,8 @@ const MultipleSelect = ({
   options,
   handleChange,
   defaultValue,
+  className,
+  ...props
 }: MultipleSelectProps) => {
   const [selected, setSelected] = useState<Option[]>(defaultValue || []);
 
@@ -28,6 +31,7 @@ const MultipleSelect = ({
 
   return (
     <MultiSelect
+      {...props}
       options={options}
       hasSelectAll={false}
       overrideStrings={{
@@ -36,6 +40,7 @@ const MultipleSelect = ({
         allItemsAreSelected: "Выбраны все варианты",
         noOptions: "Нет доступных вариантов",
       }}
+      className={className}
       value={selected}
       labelledBy={label}
       onChange={(value: Option[]) => {

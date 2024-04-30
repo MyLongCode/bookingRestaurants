@@ -3,3 +3,9 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 60px;
 }
+
+.fullList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 60px;
+}

@@ -5,6 +5,7 @@ const useTags = () => {
   const { data, isSuccess, error } = useQuery({
     queryKey: ["tags"],
     queryFn: async () => await TagService.getAll(),
+    staleTime: 3600,
   });
 
   return { data, isSuccess, error };

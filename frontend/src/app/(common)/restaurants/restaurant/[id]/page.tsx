@@ -68,7 +68,7 @@ const RestaurantPage = async ({
         rating={restaurant.rating || 0}
       />
       <section className={styles.carousel}>
-        {role === "manager" && (
+        {editable && (
           <Button
             btnType={"link"}
             btnStyle={"flat"}
