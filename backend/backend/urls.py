@@ -13,7 +13,8 @@ from restaraunts.views import (
     DishItemViewSet, PhotoViewSet, PhotoListViewSet, CategoryViewSet, DishListViewSet,
     RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
     RestaurantTagsPATCHViewSet, UserBookingViewSet, BookingStatusViewSet, BookingViewSet, EmployeeViewSet,
-    BookingAcceptViewSet, BookingRejectViewSet, UserRestaurantViewSet, BookingRetrieveDeleteViewSet, ReviewsViewSet
+    BookingAcceptViewSet, BookingRejectViewSet, UserRestaurantViewSet, BookingRetrieveDeleteViewSet, ReviewsViewSet,
+    ReviewsRetrieveDeleteViewSet
 )
 from rest_framework_nested import routers
 
@@ -53,6 +54,8 @@ urlpatterns = [
                   path(r'', include(dishes_router.urls)),
                   path(r'', include(restaurant_user_router.urls)),
                   path('restaurant/<int:pk>/reviews/', ReviewsViewSet.as_view({'get': 'list', 'post': 'create'})),
+                  path('reviews/<int:pk>/', ReviewsRetrieveDeleteViewSet.as_view({'get': 'retrieve',
+                                                                                 'delete': 'destroy'})),
                   path('booking/<int:pk>/', BookingRetrieveDeleteViewSet.as_view({'get': 'retrieve',
                                                                                  'delete': 'destroy'})),
                   path('booking/<int:pk>/status/', BookingStatusViewSet.as_view({'patch': 'partial_update',

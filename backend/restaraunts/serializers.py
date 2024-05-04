@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from accounts.models import User
 from accounts.serializers import UserSerializer
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee, Reviews)
-from rest_framework import serializers
+    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee, Reviews, ReviewPhotos)
+from rest_framework import serializers, renderers
 
 from restaraunts.models import RestaurantTags
 import rest_framework
@@ -28,7 +28,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'address', 'owner', 'description', 'phone', 'site',
+        fields = ['id', 'name', 'rating', 'reviews_count', 'address', 'owner', 'description', 'phone', 'site',
                   'schedule', 'capacityOnTable', 'logo', 'preview']
 
 
@@ -208,6 +208,30 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class ReviewsSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(method_name='get_image_list')
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(allow_empty_file=False, use_url=False),
+        write_only=True, required=False
+    )
+    user_name = serializers.SerializerMethodField(method_name='get_user_name', read_only=True)
+
+    def create(self, validated_data):
+        uploaded_images = validated_data.pop("uploaded_images", [])
+        review = Reviews.objects.create(**validated_data)
+
+        for image in uploaded_images:
+            ReviewPhotos.objects.create(product=review, image=image)
+
+        return review
+
+    def get_image_list(self, obj):
+        images = ReviewPhotos.objects.filter(review=obj.id)
+        return images
+
+    def get_user_name(self, obj):
+        return obj.user.full_name
+
+
     class Meta:
         model = Reviews
-        fields = ['id', 'user', 'restaurant', 'rating', 'text', 'photo', 'time']
+        fields = ['id', 'user', 'user_name', 'restaurant', 'rating', 'text', 'time', 'images', 'uploaded_images']
