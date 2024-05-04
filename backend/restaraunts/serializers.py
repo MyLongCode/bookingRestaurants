@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from accounts.models import User
 from accounts.serializers import UserSerializer
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee)
+    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee, Reviews)
 from rest_framework import serializers
 
 from restaraunts.models import RestaurantTags
@@ -206,3 +206,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'restaurant', 'is_active']
         read_only_fields = ['restaurant']
 
+
+class ReviewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reviews
+        fields = ['id', 'user', 'restaurant', 'rating', 'text', 'photo', 'time']
