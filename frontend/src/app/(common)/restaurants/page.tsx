@@ -7,7 +7,7 @@ import RestaurantsList from "@/screens/restaurants/restaurantsList/RestaurantsLi
 import FiltersWindow from "@/screens/restaurants/filtersWindow/FiltersWindow";
 import useRestaurants from "@/hooks/restaurants/useRestaurants";
 import Loader from "@/components/shared/loader/Loader";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -20,14 +20,16 @@ const RestaurantsPage = () => {
     data: restaurants,
     isSuccess,
     refetch,
-  } = useRestaurants(searchParams.get("tag") || undefined);
+  } = useRestaurants(
+    searchParams.get("tag") || undefined,
+    searchParams.get("name") || undefined,
+  );
+  const restaurantsRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = (value: string) => {
     const tag = searchParams.get("tag");
-    router.push(
-      `${pathname}?${tag ? `tag=${tag}` : ""}${tag ? `&name=${value}` : `name=${value}`}`,
-      { scroll: false },
-    );
+    router.push(`${pathname}?name=${value}`, { scroll: false });
+    restaurantsRef?.current?.scrollIntoView({ behavior: "smooth" });
     refetch();
   };
 
@@ -65,15 +67,15 @@ const RestaurantsPage = () => {
         <Image src={"/img/Burger.png"} alt={""} width={500} height={500} />
         <Image src={"/img/Cocktail.png"} alt={""} width={500} height={500} />
         <Image src={"/img/Cheesecake.png"} alt={""} width={500} height={500} />
-        <AnimatePresence>{isFilterOpen && <FiltersWindow />}</AnimatePresence>
+        <AnimatePresence>{isFilterOpen && <FiltersWindow scrollRef={restaurantsRef} />}</AnimatePresence>
       </section>
       {searchParams.size === 0 ? (
-        <section className={styles.popular}>
+        <section className={styles.popular} ref={restaurantsRef}>
           <h3>Популярные заведения</h3>
           <RestaurantsList restaurants={restaurants.results} />
         </section>
       ) : (
-        <section className={styles.filteredSection}>
+        <section className={styles.filteredSection} ref={restaurantsRef}>
           <h3>
             {restaurants.results.length === 0
               ? "Ничего не нашлось по вашему запросу"

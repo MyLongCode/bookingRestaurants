@@ -9,13 +9,16 @@ import {
 import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
 import { clsx } from "clsx";
 import Button from "@/components/shared/controls/button/Button";
-import { useEffect, useState } from "react";
-import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
+import { RefObject, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RestaurantTag } from "@/models/restaurant/restaurantTag.type";
 
-const FiltersWindow = () => {
+type FiltersWindowProps = {
+  scrollRef: RefObject<HTMLDivElement>;
+};
+
+const FiltersWindow = ({ scrollRef }: FiltersWindowProps) => {
   const { data: tags, isSuccess } = useTags();
   const [filters, setFilters] = useState<string[]>([]);
   const router = useRouter();
@@ -28,6 +31,8 @@ const FiltersWindow = () => {
     } else {
       router.push(pathname, { scroll: false });
     }
+
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleTagsChange = (values: RestaurantTag[], group: string) => {

@@ -9,11 +9,15 @@ import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
 import { Page } from "@/models/page.type";
 
 export default class RestaurantService {
-  public static async getAll(tags?: string): Promise<Page<Restaurant>> {
+  public static async getAll(
+    tags?: string,
+    name?: string,
+  ): Promise<Page<Restaurant>> {
     return await axiosAuth
       .get(`/restaurant/`, {
         params: {
           tag: tags,
+          name: name,
         },
       })
       .then((res) => res.data);
