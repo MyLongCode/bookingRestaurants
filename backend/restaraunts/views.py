@@ -7,12 +7,13 @@ from restaraunts.serializers import (
     RestaurantSerializer, PhotoSerializer, MenuSerializer,
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
-    CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer
+    CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer,
+    ReviewsSerializer
 )
 
 from rest_framework import mixins, pagination, status
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee)
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee, Reviews)
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -447,7 +448,6 @@ class BookingRejectViewSet(mixins.UpdateModelMixin, GenericViewSet):
         data['status'] = 'Отклонено'
         return self.update(data, *args, **kwargs)
 
-
 class UserRestaurantViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
     permission_classes = []
@@ -475,6 +475,34 @@ class UserRestaurantViewSet(viewsets.ViewSet):
             return Response(data)
         else:
             return Response(f"нет привязанного ресторана")
+
+
+class BookingRetrieveDeleteViewSet(viewsets.ViewSet):
+    serializer_class = BookingSerializer
+    queryset = Booking.objects.all()
+    permission_classes = []
+
+    def retrieve(self, request, pk=None):
+        booking = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(booking)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        booking = get_object_or_404(self.queryset, pk=pk)
+        serializer = EmployeeSerializer(booking, context={"request": request})
+        booking.delete()
+        return Response(serializer.data)
+
+
+class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
+    serializer_class = ReviewsSerializer
+    queryset = Reviews.objects.all()
+    permission_classes = []
+
+    def retrieve(self, request, pk=None):
+        booking = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(booking)
+        return Response(serializer.data)
 
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)

@@ -13,7 +13,7 @@ from restaraunts.views import (
     DishItemViewSet, PhotoViewSet, PhotoListViewSet, CategoryViewSet, DishListViewSet,
     RestaurantListViewSet, RestaurantTagsListViewSet, RestaurantTagsPUTViewSet,
     RestaurantTagsPATCHViewSet, UserBookingViewSet, BookingStatusViewSet, BookingViewSet, EmployeeViewSet,
-    BookingAcceptViewSet, BookingRejectViewSet, UserRestaurantViewSet
+    BookingAcceptViewSet, BookingRejectViewSet, UserRestaurantViewSet, BookingRetrieveDeleteViewSet, ReviewsViewSet
 )
 from rest_framework_nested import routers
 
@@ -37,6 +37,7 @@ restaurant_router.register(r'tag-put', RestaurantTagsPUTViewSet, basename='tagPU
 restaurant_router.register(r'tag-patch', RestaurantTagsPATCHViewSet, basename='tagPATCH')
 restaurant_router.register(r'booking', BookingViewSet, basename='booking')
 restaurant_router.register(r'employee', EmployeeViewSet, basename='employee')
+restaurant_router.register(r'reviews', ReviewsViewSet, basename='reviews')
 
 dishes_router = routers.NestedSimpleRouter(router, r'category', lookup='category')
 dishes_router.register(r'dishes', DishListViewSet, basename='dishes')
@@ -45,11 +46,15 @@ restaurant_user_router = routers.NestedSimpleRouter(router, r'user', lookup='use
 restaurant_user_router.register(r'restaurant', RestaurantListViewSet, basename='restaurant')
 restaurant_user_router.register(r'booking', UserBookingViewSet, basename='booking')
 
+
 urlpatterns = [
                   path(r'', include(router.urls)),
                   path(r'', include(restaurant_router.urls)),
                   path(r'', include(dishes_router.urls)),
                   path(r'', include(restaurant_user_router.urls)),
+                  path('restaurant/<int:pk>/reviews/', ReviewsViewSet.as_view({'get': 'list', 'post': 'create'})),
+                  path('booking/<int:pk>/', BookingRetrieveDeleteViewSet.as_view({'get': 'retrieve',
+                                                                                 'delete': 'destroy'})),
                   path('booking/<int:pk>/status/', BookingStatusViewSet.as_view({'patch': 'partial_update',
                                                                                  'get': 'retrieve',
                                                                                  'put': 'update'})),
