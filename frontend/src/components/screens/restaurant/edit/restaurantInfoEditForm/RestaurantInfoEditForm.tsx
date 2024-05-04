@@ -21,24 +21,10 @@ import useRestaurant from "@/hooks/restaurant/useRestaurant";
 import useRestaurantTags from "@/hooks/restaurant/useRestaurantTags";
 import RestaurantTagsDto from "@/models/restaurant/restaurantTagsDto";
 import WorkingHoursEdit from "@/restaurant/edit/workingHoursEdit/WorkingHoursEdit";
-
-const makeOptionsFromTags = (tags?: RestaurantTag[]) => {
-  return (
-    tags?.map((tag) => ({
-      label: tag.name,
-      value: tag.id,
-    })) || []
-  );
-};
-
-const makeTagsFromOptions = (options?: Option[]) => {
-  return (
-    options?.map((option) => ({
-      id: option.value,
-      name: option.label,
-    })) || []
-  );
-};
+import {
+  makeOptionsFromTags,
+  makeTagsFromOptions,
+} from "@/lib/helpers/tagsConverter";
 
 const RestaurantInfoEditForm = () => {
   const [cuisineTags, setCuisineTags] = useState<RestaurantTag[]>([]);

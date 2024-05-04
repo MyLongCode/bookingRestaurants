@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./restaurantHero.module.scss";
 import Rating from "@/components/shared/raiting/Rating";
 import Button from "@/components/shared/controls/button/Button";
+import rating from "@/components/shared/raiting/Rating";
 
 type RestaurantHeroProps = {
   imgSrc: string;
@@ -10,6 +11,7 @@ type RestaurantHeroProps = {
   title: string;
   description: string;
   editable?: boolean;
+  rating: number;
 };
 
 const RestaurantHero = ({
@@ -18,6 +20,7 @@ const RestaurantHero = ({
   description,
   title,
   editable,
+  rating,
 }: RestaurantHeroProps) => {
   return (
     <section className={styles.wrapper}>
@@ -42,7 +45,12 @@ const RestaurantHero = ({
           />
         </div>
         <div className={styles.info__wrapper}>
-          <Rating className={styles.rating} value={3.56} withNumber withText />
+          <Rating
+            className={styles.rating}
+            value={rating}
+            withNumber
+            withText
+          />
           <div className={styles.info__text}>
             <h2 className={styles.title}>{title}</h2>
             <p>{description}</p>
@@ -50,7 +58,12 @@ const RestaurantHero = ({
         </div>
       </div>
       <div className={styles.btns}>
-        <Button btnType={"link"} btnStyle={"filled"} fontSize={"small"} href={"?state=booking"}>
+        <Button
+          btnType={"link"}
+          btnStyle={"filled"}
+          fontSize={"small"}
+          href={"?state=booking"}
+        >
           Забронировать столик
         </Button>
         {editable && (

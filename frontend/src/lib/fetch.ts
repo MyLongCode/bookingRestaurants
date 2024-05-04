@@ -1,9 +1,10 @@
 const customFetch = () => {};
 
-const getFetch = async (input: string, tag: string) => {
+const getFetch = async (input: string, tag: string, cache?: RequestCache) => {
   return await fetch(`${process.env.API_URL}${input}`, {
     method: "get",
     next: { tags: [tag] },
+    cache: cache,
   }).then((res) => res.json());
 };
 
