@@ -9,6 +9,7 @@ import Button from "@/components/shared/controls/button/Button";
 import useRestaurantTags from "@/hooks/restaurant/useRestaurantTags";
 import { is } from "immutable";
 import Loader from "@/components/shared/loader/Loader";
+import Rating from "@/components/shared/raiting/Rating";
 
 type FullRestaurantCardProps = {
   title: string;
@@ -36,7 +37,9 @@ const FullRestaurantCard = ({
       </div>
       <div className={styles.infoContainer}>
         <p className={styles.title}>{title}</p>
-        {rating && <p className={styles.rating}>Рейтинг: {rating}</p>}
+        <div className={styles.rating}>
+          <span>Рейтинг:</span> <Rating value={rating || 0} /> <span>{rating || 0}</span>
+        </div>
         <address className={styles.address}>{address}</address>
         <p className={styles.tags}>
           Кухня: {tags["Тип кухни"].map((tag) => tag.name).join(", ")}

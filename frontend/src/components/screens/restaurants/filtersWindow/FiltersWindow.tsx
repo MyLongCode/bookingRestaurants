@@ -9,21 +9,47 @@ import {
 import MultipleSelect from "@/components/shared/controls/multipleSelect/MultipleSelect";
 import { clsx } from "clsx";
 import Button from "@/components/shared/controls/button/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RestaurantTags } from "@/models/restaurant/restaurantTags.type";
 import { motion } from "framer-motion";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { RestaurantTag } from "@/models/restaurant/restaurantTag.type";
 
-type FiltersWindowProps = {};
-
-const FiltersWindow = ({ ...props }: FiltersWindowProps) => {
+const FiltersWindow = () => {
   const { data: tags, isSuccess } = useTags();
-  const [selectedTags, setSelectedTags] = useState<RestaurantTags>(
-    {} as RestaurantTags,
-  );
+  const [filters, setFilters] = useState<string[]>([]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const handleFind = () => {
-    console.log(selectedTags);
+  const handleFind = async () => {
+    if (filters.length > 0) {
+      router.push(`?tag=${filters.join(";")}`, { scroll: false });
+    } else {
+      router.push(pathname, { scroll: false });
+    }
   };
+
+  const handleTagsChange = (values: RestaurantTag[], group: string) => {
+    if (!tags) return;
+
+    const t = values.map((v) => v.name);
+
+    setFilters((prev) => [
+      ...prev.filter(
+        (p) =>
+          !tags[group]
+            .map((tag) => tag.name)
+            .filter((tag) => !t.includes(tag))
+            .includes(p) && !t.includes(p),
+      ),
+      ...t,
+    ]);
+  };
+
+  useEffect(() => {
+    setFilters(searchParams.get("tag")?.split(";") || []);
+  }, [searchParams]);
 
   if (!tags || !isSuccess) return <Loader />;
 
@@ -60,11 +86,11 @@ const FiltersWindow = ({ ...props }: FiltersWindowProps) => {
               isOpen={true}
               label={group}
               options={options}
+              defaultValue={options.filter((item) =>
+                searchParams.get("tag")?.split(";")?.includes(item.label),
+              )}
               handleChange={(value) => {
-                setSelectedTags((prev) => {
-                  prev[group] = makeTagsFromOptions(value);
-                  return prev;
-                });
+                handleTagsChange(makeTagsFromOptions(value), group);
               }}
             />
           </div>

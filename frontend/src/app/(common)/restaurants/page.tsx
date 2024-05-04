@@ -7,16 +7,34 @@ import RestaurantsList from "@/screens/restaurants/restaurantsList/RestaurantsLi
 import FiltersWindow from "@/screens/restaurants/filtersWindow/FiltersWindow";
 import useRestaurants from "@/hooks/restaurants/useRestaurants";
 import Loader from "@/components/shared/loader/Loader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const RestaurantsPage = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { data: restaurants, isSuccess } = useRestaurants(
-    searchParams.get("tag") || "",
-  );
+  const {
+    data: restaurants,
+    isSuccess,
+    refetch,
+  } = useRestaurants(searchParams.get("tag") || undefined);
+
+  const handleSearch = (value: string) => {
+    const tag = searchParams.get("tag");
+    router.push(
+      `${pathname}?${tag ? `tag=${tag}` : ""}${tag ? `&name=${value}` : `name=${value}`}`,
+      { scroll: false },
+    );
+    refetch();
+  };
+
+  useEffect(() => {
+    refetch();
+    setIsFilterOpen(false);
+  }, [searchParams]);
 
   if (!isSuccess || !restaurants) return <Loader />;
 
@@ -25,7 +43,7 @@ const RestaurantsPage = () => {
       <section>
         <div className={styles.topContainer}>
           <h2 className={styles.title}>Рестораны</h2>
-          <SearchField className={styles.search} />
+          <SearchField className={styles.search} onSearch={handleSearch} />
           <Button
             btnType={"button"}
             type={"button"}

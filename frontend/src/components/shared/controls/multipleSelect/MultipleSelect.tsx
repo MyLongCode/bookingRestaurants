@@ -25,7 +25,7 @@ const MultipleSelect = ({
   useEffect(() => {
     if (!defaultValue) return;
     setSelected(defaultValue);
-  }, [defaultValue]);
+  }, []);
 
   if (!options) return null;
 
