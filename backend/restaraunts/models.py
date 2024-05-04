@@ -1,9 +1,7 @@
-from datetime import datetime
-
 from django.db import models
 from accounts.models import User
 from django_jsonform.models.fields import JSONField
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Restaurant(models.Model):
     ITEMS_SCHEMA = {
@@ -44,6 +42,8 @@ class Restaurant(models.Model):
     description = models.CharField(max_length=255)
     phone = models.CharField(max_length=50)
     rating = models.FloatField(null=True)
+    reviews_count = models.IntegerField(default=0)
+
     site = models.CharField(max_length=255)
     schedule = JSONField(schema=ITEMS_SCHEMA, null=True, blank=True)
     capacityOnTable = models.IntegerField(default=10)
@@ -97,7 +97,7 @@ class FavoriteRestaurant(models.Model):
 
 
 class Booking(models.Model):
-    date = models.DateTimeField(auto_now=True, )
+    date = models.DateTimeField(auto_now=True)
     booking_date = models.DateField(null=False, blank=False)
     booking_time = models.TimeField(null=False, blank=False)
     count_people = models.IntegerField()
@@ -108,12 +108,18 @@ class Booking(models.Model):
 
 
 class Reviews(models.Model):
-    rating = models.FloatField()
+    rating = models.IntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
     text = models.TextField(null=True, blank=True)
-    photo = models.ImageField(upload_to='images/reviews/', null=True)
     time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_user')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews_restaurant')
+
+
+class ReviewPhotos(models.Model):
+    review = models.ForeignKey(Reviews, on_delete=models.CASCADE, related_name='review_image')
+    photo = models.ImageField(upload_to='images/reviews/')
 
 
 class Employee(models.Model):

@@ -496,12 +496,55 @@ class BookingRetrieveDeleteViewSet(viewsets.ViewSet):
 
 class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
     serializer_class = ReviewsSerializer
+
+    permission_classes = []
+
+    def get_queryset(self):
+        queryset = Reviews.objects.all()
+        return queryset
+
+    def create(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        review = self.serializer_class(data=request.data, context={"restaurant": restaurant})
+        if review.is_valid(raise_exception=True):
+            review.save()
+            if restaurant.rating is not None:
+                rating = (restaurant.rating * restaurant.reviews_count + review.validated_data['rating']) / (restaurant.reviews_count + 1)
+            else:
+                rating = review.validated_data['rating']
+            restaurant.rating = rating
+            restaurant.reviews_count += 1
+            restaurant.save()
+            return Response(review.data)
+        return Response('error')
+
+    def list(self, request, restaurant_pk=None):
+        try:
+            restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
+        except Restaurant.DoesNotExist:
+            return Response(f"restaurant {restaurant_pk} does not exist")
+        queryset = self.get_queryset().filter(restaurant=restaurant_pk)
+        serializer = self.serializer_class(queryset, many=True, context={"request": request})
+        return Response(serializer.data)
+
+
+class ReviewsRetrieveDeleteViewSet(viewsets.ViewSet):
+    serializer_class = ReviewsSerializer
     queryset = Reviews.objects.all()
     permission_classes = []
 
     def retrieve(self, request, pk=None):
-        booking = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.serializer_class(booking)
+        review = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(review)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        review = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(review, context={"request": request})
+        review.delete()
         return Response(serializer.data)
 
 
