@@ -121,6 +121,9 @@ class ReviewPhotos(models.Model):
     review = models.ForeignKey(Reviews, on_delete=models.CASCADE, related_name='review_image')
     photo = models.ImageField(upload_to='images/reviews/')
 
+    def __str__(self):
+        return str(self.photo)
+
 
 class Employee(models.Model):
     user = models.OneToOneField(on_delete=models.CASCADE, to=User)

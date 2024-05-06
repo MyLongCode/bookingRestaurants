@@ -207,12 +207,21 @@ class EmployeeSerializer(serializers.ModelSerializer):
         read_only_fields = ['restaurant']
 
 
+class ReviewPhotosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewPhotos
+        fields = ['id', 'review', 'photo']
+
+
 class ReviewsSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(method_name='get_image_list')
+    #uploaded_images = serializers.ListField(
+    #    child=serializers.ImageField(allow_empty_file=False, use_url=False),
+    #    write_only=True, required=False
+    #)
     uploaded_images = serializers.ListField(
-        child=serializers.ImageField(allow_empty_file=False, use_url=False),
-        write_only=True, required=False
-    )
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True)
     user_name = serializers.SerializerMethodField(method_name='get_user_name', read_only=True)
     user_reviews = serializers.SerializerMethodField(method_name='get_user_reviews', read_only=True)
 
@@ -222,15 +231,19 @@ class ReviewsSerializer(serializers.ModelSerializer):
         uploaded_images = validated_data.pop("uploaded_images", [])
         review = Reviews.objects.create(**validated_data)
         for image in uploaded_images:
-            ReviewPhotos.objects.create(product=review, image=image)
+            ReviewPhotos.objects.create(review=review, photo=image)
 
         return review
 
     def get_image_list(self, obj):
-        images = ReviewPhotos.objects.filter(review=obj.id)
+        print(self.context['request'].get_full_path())
+        print(self.context['request'].META['HTTP_HOST'])
+        print(self.context['request'])
+        images = ['http://' + self.context['request'].META['HTTP_HOST'] + '/media/' + str(i) for i in ReviewPhotos.objects.filter(review=obj.id)]
         return images
 
     def get_user_name(self, obj):
+        print(obj)
         return obj.user.full_name
 
     def get_user_reviews(self, obj):
