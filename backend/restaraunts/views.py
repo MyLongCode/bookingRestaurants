@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.viewsets import GenericViewSet
 
 from accounts.models import User
@@ -448,6 +449,7 @@ class BookingRejectViewSet(mixins.UpdateModelMixin, GenericViewSet):
         data['status'] = 'Отклонено'
         return self.update(data, *args, **kwargs)
 
+
 class UserRestaurantViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
     permission_classes = []
@@ -496,7 +498,7 @@ class BookingRetrieveDeleteViewSet(viewsets.ViewSet):
 
 class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
     serializer_class = ReviewsSerializer
-
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = []
 
     def get_queryset(self):
@@ -508,7 +510,10 @@ class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
         except Restaurant.DoesNotExist:
             return Response(f"restaurant {restaurant_pk} does not exist")
-        review = self.serializer_class(data=request.data, context={"restaurant": restaurant})
+
+        review = self.serializer_class(data=request.data, context={"restaurant": restaurant, "request": request})
+        print(request.data)
+
         if review.is_valid(raise_exception=True):
             review.save()
             user = User.objects.get(pk=review.validated_data['user'].id)
@@ -521,10 +526,15 @@ class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             restaurant.rating = rating
             restaurant.reviews_count += 1
             restaurant.save()
+            print(review.data)
+            #str_photo = [str(i) for i in review.data['uploaded_images']]
+            #review.data['uploaded_images'] = str_photo
+
             return Response(review.data)
         return Response('error')
 
     def list(self, request, restaurant_pk=None):
+
         try:
             restaurant = Restaurant.objects.all().get(pk=restaurant_pk)
         except Restaurant.DoesNotExist:
