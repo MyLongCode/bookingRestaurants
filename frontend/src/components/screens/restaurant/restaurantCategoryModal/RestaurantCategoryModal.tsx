@@ -3,9 +3,9 @@
 import React from "react";
 import Modal from "@/components/shared/modal/Modal";
 import RestaurantDishes from "@/screens/restaurant/restaurantDishes/RestaurantDishes";
-import { RestaurantPageSearchParams } from "@/app/(manager)/restaurant/page";
 import useDishes from "@/hooks/restaurant/useDishes";
 import useCategory from "@/hooks/restaurant/useCategory";
+import {RestaurantPageSearchParams} from "@/app/(common)/restaurants/restaurant/[id]/page";
 
 type RestaurantCategoryModalProps = {
   searchParams: RestaurantPageSearchParams;

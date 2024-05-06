@@ -29,3 +29,7 @@ export async function revalidateRestaurantBookings(id: number | string) {
 export async function revalidateRestaurantEmployees(id: number | string) {
   revalidateTag(`employees ${id}`);
 }
+
+export async function revalidateRestaurantReviews(id: number | string) {
+  revalidateTag(`restaurant ${id} reviews`);
+}

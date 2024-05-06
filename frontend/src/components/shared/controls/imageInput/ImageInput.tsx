@@ -1,15 +1,16 @@
 import React, { forwardRef, useId } from "react";
 import Image from "next/image";
 import styles from "./imageInput.module.scss";
+import {clsx} from "clsx";
 
-type ImageInputProps = React.ComponentProps<"input"> & {};
+type ImageInputProps = React.ComponentProps<"input"> & { isSelected?: boolean };
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
-  (props, ref) => {
+  ({ isSelected, className, ...props }, ref) => {
     const id = useId();
 
     return (
-      <div className={styles.imageInputWrapper}>
+      <div className={clsx(styles.imageInputWrapper, className)}>
         <input
           type="file"
           id={`input__file${id}`}
@@ -26,7 +27,9 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
             width={25}
             height={25}
           />
-          <span className={styles.imageInputBtnText}>Добавьте фото</span>
+          <span className={styles.imageInputBtnText}>
+            {isSelected ? "Изменить фото" : "Добавить фото"}
+          </span>
         </label>
       </div>
     );

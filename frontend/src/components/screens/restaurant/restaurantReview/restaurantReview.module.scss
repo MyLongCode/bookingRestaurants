@@ -1,0 +1,66 @@
+.wrapper {
+  position: relative;
+  border: 2px solid #00F100;
+  border-radius: 30px;
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.userInfo {
+  flex: 1;
+  border-right: 2px solid #00F100;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  gap: 5px;
+}
+
+.review {
+  flex: 3;
+  padding-left: 30px;
+  padding-block: 15px;
+}
+
+.reviewInfo {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  font-size: 1.25rem;
+  margin-right: 50px;
+}
+
+.userName {
+  text-align: center;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100px;
+  height: 60px;
+}
+
+.userAvatarWrapper {
+  position: relative;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #61a447;
+}
+
+.userAvatar {
+  &[src=""] {
+    display: none;
+  }
+}
+
+.removeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

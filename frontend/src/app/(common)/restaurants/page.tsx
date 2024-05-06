@@ -67,7 +67,9 @@ const RestaurantsPage = () => {
         <Image src={"/img/Burger.png"} alt={""} width={500} height={500} />
         <Image src={"/img/Cocktail.png"} alt={""} width={500} height={500} />
         <Image src={"/img/Cheesecake.png"} alt={""} width={500} height={500} />
-        <AnimatePresence>{isFilterOpen && <FiltersWindow scrollRef={restaurantsRef} />}</AnimatePresence>
+        <AnimatePresence>
+          {isFilterOpen && <FiltersWindow scrollRef={restaurantsRef} />}
+        </AnimatePresence>
       </section>
       {searchParams.size === 0 ? (
         <section className={styles.popular} ref={restaurantsRef}>
