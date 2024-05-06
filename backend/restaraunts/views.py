@@ -511,6 +511,9 @@ class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
         review = self.serializer_class(data=request.data, context={"restaurant": restaurant})
         if review.is_valid(raise_exception=True):
             review.save()
+            user = User.objects.get(pk=review.validated_data['user'].id)
+            user.reviews_count += 1
+            user.save()
             if restaurant.rating is not None:
                 rating = (restaurant.rating * restaurant.reviews_count + review.validated_data['rating']) / (restaurant.reviews_count + 1)
             else:
