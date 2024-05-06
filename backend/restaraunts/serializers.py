@@ -216,6 +216,8 @@ class ReviewsSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField(method_name='get_user_name', read_only=True)
 
     def create(self, validated_data):
+        restaurant = self.context['restaurant']
+        validated_data['restaurant'] = restaurant
         uploaded_images = validated_data.pop("uploaded_images", [])
         review = Reviews.objects.create(**validated_data)
 
@@ -235,3 +237,4 @@ class ReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviews
         fields = ['id', 'user', 'user_name', 'restaurant', 'rating', 'text', 'time', 'images', 'uploaded_images']
+        read_only_fields = ['restaurant']
