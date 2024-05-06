@@ -512,7 +512,6 @@ class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             return Response(f"restaurant {restaurant_pk} does not exist")
 
         review = self.serializer_class(data=request.data, context={"restaurant": restaurant, "request": request})
-        print(request.data)
 
         if review.is_valid(raise_exception=True):
             review.save()
@@ -526,10 +525,6 @@ class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
             restaurant.rating = rating
             restaurant.reviews_count += 1
             restaurant.save()
-            print(review.data)
-            #str_photo = [str(i) for i in review.data['uploaded_images']]
-            #review.data['uploaded_images'] = str_photo
-
             return Response(review.data)
         return Response('error')
 
@@ -551,7 +546,7 @@ class ReviewsRetrieveDeleteViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         review = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.serializer_class(review)
+        serializer = self.serializer_class(review, context={"request": request})
         return Response(serializer.data)
 
     def destroy(self, request, pk=None):

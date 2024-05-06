@@ -215,10 +215,6 @@ class ReviewPhotosSerializer(serializers.ModelSerializer):
 
 class ReviewsSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(method_name='get_image_list')
-    #uploaded_images = serializers.ListField(
-    #    child=serializers.ImageField(allow_empty_file=False, use_url=False),
-    #    write_only=True, required=False
-    #)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True)
@@ -236,14 +232,10 @@ class ReviewsSerializer(serializers.ModelSerializer):
         return review
 
     def get_image_list(self, obj):
-        print(self.context['request'].get_full_path())
-        print(self.context['request'].META['HTTP_HOST'])
-        print(self.context['request'])
         images = ['http://' + self.context['request'].META['HTTP_HOST'] + '/media/' + str(i) for i in ReviewPhotos.objects.filter(review=obj.id)]
         return images
 
     def get_user_name(self, obj):
-        print(obj)
         return obj.user.full_name
 
     def get_user_reviews(self, obj):
