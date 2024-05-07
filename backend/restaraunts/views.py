@@ -553,6 +553,15 @@ class ReviewsRetrieveDeleteViewSet(viewsets.ViewSet):
         review = get_object_or_404(self.queryset, pk=pk)
         serializer = self.serializer_class(review, context={"request": request})
         review.delete()
+
+        user = User.objects.get(pk=review.user.id)
+        user.reviews_count -= 1
+        user.save()
+
+        restaurant = Restaurant.objects.get(pk=review.restaurant.id)
+        restaurant.reviews_count -= 1
+        restaurant.save()
+
         return Response(serializer.data)
 
 
