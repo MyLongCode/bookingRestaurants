@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useMemo, useState } from "react";
+import React, { forwardRef, useEffect, useMemo, useState } from "react";
 import Button from "@/components/shared/controls/button/Button";
 import styles from "./ratingControl.module.scss";
 import { clsx } from "clsx";
@@ -54,11 +54,7 @@ const RatingControl = forwardRef<HTMLInputElement, RatingControlProps>(
             />
           );
         })}
-        <input
-          className={styles.input}
-          ref={ref}
-          {...props}
-        />
+        <input className={styles.input} ref={ref} {...props} />
       </div>
     );
   },

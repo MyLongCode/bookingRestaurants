@@ -46,8 +46,19 @@
   flex-direction: column;
 }
 
-.imgWrapper {
+.imgInpWrapper {
   margin-top: 10px;
+}
+
+.imgWrapper {
+  position: relative;
+  width: 100px;
+  height: 60px;
+  margin-bottom: 5px;
+
+  image {
+    object-fit: contain;
+  }
 }
 
 .imgInput {

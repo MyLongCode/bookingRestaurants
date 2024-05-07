@@ -13,13 +13,16 @@ import { useState } from "react";
 import RatingControl from "@/components/shared/controls/ratingControl/RatingControl";
 import ReviewService from "@/services/restaurant/ReviewService";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
 type RestaurantNewReviewProps = { restaurantId: string };
 
 const restaurantNewReviewSchema = z
   .object({
     text: z.string().optional(),
-    image: fileType.or(z.string()),
+    image: fileType
+      .or(z.string())
+      .transform((v: File | string) => (typeof v === "string" ? null : v)),
     rating: z.string(),
   })
   .refine((value) => value.rating !== "0", "Необходимо поставить оценку");
@@ -42,7 +45,7 @@ const RestaurantNewReview = ({ restaurantId }: RestaurantNewReviewProps) => {
     resolver: zodResolver(restaurantNewReviewSchema),
     defaultValues: {
       rating: "0",
-      image: "",
+      image: null,
       text: "",
     },
   });
@@ -54,7 +57,7 @@ const RestaurantNewReview = ({ restaurantId }: RestaurantNewReviewProps) => {
       user: session.user.id,
       rating: data.rating,
       text: data.text || "",
-      images: [data.image],
+      uploaded_images: data.image,
     });
 
     setSelectedImage(null);
@@ -94,10 +97,8 @@ const RestaurantNewReview = ({ restaurantId }: RestaurantNewReviewProps) => {
           className={styles.input}
           {...register("text")}
         />
-        <div className={styles.imgWrapper}>
-          {selectedImage && (
-            <Image src={selectedImage} alt={""} width={100} height={60} />
-          )}
+        <div className={styles.imgInpWrapper}>
+          {selectedImage && <div className={styles.imgWrapper}><Image src={selectedImage} alt={""} fill /></div>}
           <ImageInput
             className={styles.imgInput}
             isSelected={!!selectedImage}

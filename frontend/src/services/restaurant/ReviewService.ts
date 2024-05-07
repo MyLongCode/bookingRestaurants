@@ -2,7 +2,10 @@ import fetch from "@/lib/fetch";
 import { Review } from "@/models/restaurant/review.type";
 import axios from "@/lib/axios";
 import { ReviewDto } from "@/models/restaurant/reviewDto.type";
-import {revalidateRestaurant, revalidateRestaurantReviews} from "@/lib/actions";
+import {
+  revalidateRestaurant,
+  revalidateRestaurantReviews,
+} from "@/lib/actions";
 
 export default class ReviewService {
   public static async getAll(id: string | number): Promise<Review[]> {
@@ -24,5 +27,12 @@ export default class ReviewService {
         revalidateRestaurant();
         return res.data;
       });
+  }
+
+  public static async delete(id: string | number) {
+    return await axios.delete<Review>(`/reviews/${id}/`).then(({ data }) => {
+      revalidateRestaurantReviews(data.restaurant);
+      revalidateRestaurant();
+    });
   }
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Rating from "@/components/shared/raiting/Rating";
 import styles from "./restaurantReview.module.scss";
 import Button from "@/components/shared/controls/button/Button";
+import { declOfNum } from "@/lib/helpers/declination";
 
 type RestaurantReviewProps = Omit<Review, "user"> & { editable?: boolean };
 
@@ -25,7 +26,10 @@ const RestaurantReview = ({
           {/*<Image src={""} alt={""} fill className={styles.userAvatar} />*/}
         </div>
         <p className={styles.userName}>{user_name}</p>
-        <p className={styles.userReviewsCount}>{user_reviews} отзывов</p>
+        <p className={styles.userReviewsCount}>
+          {user_reviews}{" "}
+          {declOfNum(user_reviews, ["отзыв", "отзыва", "отзывов"])}
+        </p>
       </div>
       <div className={styles.review}>
         <div className={styles.reviewInfo}>
@@ -49,11 +53,12 @@ const RestaurantReview = ({
       </div>
       {editable && (
         <Button
-          btnType={"button"}
+          btnType={"link"}
           btnStyle={"icon"}
           padding={"no"}
           iconSrc={"/icons/Delete.svg"}
           className={styles.removeBtn}
+          href={`?state=delete&type=review&deleteId=${id}`}
         />
       )}
     </div>
