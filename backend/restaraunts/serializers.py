@@ -217,7 +217,7 @@ class ReviewsSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(method_name='get_image_list')
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True)
+        write_only=True, required=False)
     user_name = serializers.SerializerMethodField(method_name='get_user_name', read_only=True)
     user_reviews = serializers.SerializerMethodField(method_name='get_user_reviews', read_only=True)
 

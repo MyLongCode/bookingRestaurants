@@ -559,6 +559,7 @@ class ReviewsRetrieveDeleteViewSet(viewsets.ViewSet):
         user.save()
 
         restaurant = Restaurant.objects.get(pk=review.restaurant.id)
+        restaurant.rating = (restaurant.rating * restaurant.reviews_count - review.rating) / (restaurant.reviews_count - 1)
         restaurant.reviews_count -= 1
         restaurant.save()
 
