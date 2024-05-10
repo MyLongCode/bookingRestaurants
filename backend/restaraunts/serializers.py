@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from accounts.models import User
 from accounts.serializers import UserSerializer
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee, Reviews, ReviewPhotos)
+    Restaurant, Photo, Menu, TagGroup, Tag, Category, DishItem, Booking, Employee, Reviews, ReviewPhotos,
+    FavoriteRestaurant)
 from rest_framework import serializers, renderers
 
 from restaraunts.models import RestaurantTags
@@ -246,3 +247,20 @@ class ReviewsSerializer(serializers.ModelSerializer):
         model = Reviews
         fields = ['id', 'user', 'user_name', 'user_reviews', 'restaurant', 'rating', 'text', 'time', 'images', 'uploaded_images']
         read_only_fields = ['restaurant', 'user_reviews']
+
+
+class FavoriteRestaurantSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        user = self.context['user']
+        validated_data['user'] = user
+        favorite = FavoriteRestaurant.objects.create(**validated_data)
+
+        return favorite
+
+
+    class Meta:
+        model = FavoriteRestaurant
+        fields = ['id', 'user', 'restaurant']
+        read_only_fields = ['user']
+
+

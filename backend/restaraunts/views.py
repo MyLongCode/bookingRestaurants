@@ -9,12 +9,13 @@ from restaraunts.serializers import (
     TagSerializer, TagGroupSerializer, RestaurantTagsSerializer,
     NestedCategorySerializer, DishItemSerializer, MenuListSerializer,
     CategorySerializer, BookingSerializer, BookingStatusSerializer, UserBookingSerializer, EmployeeSerializer,
-    ReviewsSerializer
+    ReviewsSerializer, FavoriteRestaurantSerializer
 )
 
 from rest_framework import mixins, pagination, status
 from restaraunts.models import (
-    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee, Reviews)
+    Restaurant, Photo, Menu, TagGroup, Category, DishItem, RestaurantTags, Tag, Booking, Employee, Reviews,
+    FavoriteRestaurant)
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -563,6 +564,36 @@ class ReviewsRetrieveDeleteViewSet(viewsets.ViewSet):
         restaurant.reviews_count -= 1
         restaurant.save()
 
+        return Response(serializer.data)
+
+
+class FavoriteRestaurantViewSet(GenericViewSet):
+    queryset = FavoriteRestaurant.objects.all()
+    serializer_class = FavoriteRestaurantSerializer
+    permission_classes = []
+
+    def list(self, request, user_pk=None):
+        user = get_object_or_404(User.objects.all(), pk=user_pk)
+        queryset = Restaurant.objects.all().filter(pk__in=FavoriteRestaurant.objects.all().filter(user=user_pk).values_list('restaurant', flat=True))
+        serializer = RestaurantSerializer(queryset, many=True, context={"request": request, "user": user})
+        return Response(serializer.data)
+
+    def create(self, request, user_pk=None):
+        user = get_object_or_404(User.objects.all(), pk=user_pk)
+        check = FavoriteRestaurant.objects.all().filter(user=user_pk).filter(restaurant=request.data['restaurant'])
+        if check.count() > 0:
+            return Response('Already Favorited', status=404)
+        serializer = self.serializer_class(data=request.data, context={"request": request, "user": user})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        return Response('error')
+
+    def destroy(self, request, user_pk=None, pk=None):
+        queryset = FavoriteRestaurant.objects.all().filter(user=user_pk)
+        favourite = get_object_or_404(queryset, restaurant=pk)
+        serializer = self.serializer_class(favourite, context={"request": request})
+        favourite.delete()
         return Response(serializer.data)
 
 
