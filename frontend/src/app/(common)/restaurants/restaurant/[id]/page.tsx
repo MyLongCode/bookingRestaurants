@@ -124,13 +124,13 @@ const RestaurantPage = async ({
           {state && state.includes("categoryEdit") && (
             <RestaurantCategoryEditModal />
           )}
-          {state && state.includes("delete") && <DeleteModal />}
           {state && state.includes("dishesEdit") && (
             <RestaurantDishesEditModal />
           )}
           {state && state.includes("photoEdit") && <PhotoEditModal />}
         </>
       )}
+      {state && state.includes("delete") && <DeleteModal />}
     </main>
   );
 };

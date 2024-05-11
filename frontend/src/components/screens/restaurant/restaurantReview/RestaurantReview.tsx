@@ -4,10 +4,12 @@ import Rating from "@/components/shared/raiting/Rating";
 import styles from "./restaurantReview.module.scss";
 import Button from "@/components/shared/controls/button/Button";
 import { declOfNum } from "@/lib/helpers/declination";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-type RestaurantReviewProps = Omit<Review, "user"> & { editable?: boolean };
+type RestaurantReviewProps = Review & { editable?: boolean };
 
-const RestaurantReview = ({
+const RestaurantReview = async ({
   id,
   rating,
   text,
@@ -16,8 +18,10 @@ const RestaurantReview = ({
   editable,
   images,
   user_reviews,
+  user,
 }: RestaurantReviewProps) => {
   const date = new Date(time);
+  const session = await getServerSession(authOptions);
 
   return (
     <div className={styles.wrapper}>
@@ -51,7 +55,7 @@ const RestaurantReview = ({
             })}
         </ul>
       </div>
-      {editable && (
+      {(editable || session?.user?.id === user.toString()) && (
         <Button
           btnType={"link"}
           btnStyle={"icon"}

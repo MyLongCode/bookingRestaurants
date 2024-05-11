@@ -13,7 +13,6 @@ import { useState } from "react";
 import RatingControl from "@/components/shared/controls/ratingControl/RatingControl";
 import ReviewService from "@/services/restaurant/ReviewService";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
 
 type RestaurantNewReviewProps = { restaurantId: string };
 

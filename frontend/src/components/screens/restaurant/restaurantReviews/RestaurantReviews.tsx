@@ -23,6 +23,7 @@ const RestaurantReviews = ({
             <li key={review.id}>
               <RestaurantReview
                 id={review.id}
+                user={review.user}
                 user_name={review.user_name}
                 text={review.text}
                 time={review.time}
