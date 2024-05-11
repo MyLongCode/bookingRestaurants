@@ -16,6 +16,7 @@ import EmployeeService from "@/services/employees/EmployeeService";
 import { useSession } from "next-auth/react";
 import BookingService from "@/services/booking/BookingService";
 import toast from "react-hot-toast";
+import ReviewService from "@/services/restaurant/ReviewService";
 
 type ObjectType =
   | "menu"
@@ -23,7 +24,8 @@ type ObjectType =
   | "category"
   | "photo"
   | "employee"
-  | "booking";
+  | "booking"
+  | "review";
 
 enum TypeTitle {
   "menu" = "меню",
@@ -32,6 +34,7 @@ enum TypeTitle {
   "photo" = "фото",
   "employee" = "сотрудника",
   "booking" = "запись бронирования",
+  "review" = "отзыв",
 }
 
 const DeleteModal = () => {
@@ -61,6 +64,8 @@ const DeleteModal = () => {
       await EmployeeService.delete(session.user.currentRestaurant, deleteId);
     } else if (type === "booking") {
       await BookingService.delete(deleteId);
+    } else if (type === "review") {
+      await ReviewService.delete(deleteId);
     }
     toast.success("Удаление успешно");
     close();

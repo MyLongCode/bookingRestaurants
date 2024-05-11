@@ -19,6 +19,8 @@ import DeleteModal from "@/components/shared/deleteModal/DeleteModal";
 import RestaurantDishesEditModal from "@/restaurant/edit/restaurantDishesEditModal/RestaurantDishesEditModal";
 import PhotoEditModal from "@/components/shared/carousel/children/photoEditModal/PhotoEditModal";
 import styles from "./restaurantPage.module.scss";
+import RestaurantReviews from "@/components/screens/restaurant/restaurantReviews/RestaurantReviews";
+import ReviewService from "@/services/restaurant/ReviewService";
 
 export type RestaurantPageSearchParams = {
   categoryId?: string;
@@ -50,6 +52,7 @@ const RestaurantPage = async ({
   const photos = await RestaurantService.getPhotos(id);
   const menus = await RestaurantService.getMenus(id);
   const tags = await RestaurantService.getTags(id);
+  const reviews = await ReviewService.getAll(id);
 
   const session = await getServerSession(authOptions);
   const role = session?.user.role;
@@ -97,7 +100,13 @@ const RestaurantPage = async ({
       <section className={styles.menus}>
         <RestaurantMenus menus={menus} editable={editable} />
       </section>
-      <section></section>
+      <section className={styles.reviews}>
+        <RestaurantReviews
+          restaurantId={id}
+          reviews={reviews}
+          editable={editable}
+        />
+      </section>
 
       {state && state.includes("category") && (
         <RestaurantCategoryModal searchParams={searchParams} />
@@ -115,13 +124,13 @@ const RestaurantPage = async ({
           {state && state.includes("categoryEdit") && (
             <RestaurantCategoryEditModal />
           )}
-          {state && state.includes("delete") && <DeleteModal />}
           {state && state.includes("dishesEdit") && (
             <RestaurantDishesEditModal />
           )}
           {state && state.includes("photoEdit") && <PhotoEditModal />}
         </>
       )}
+      {state && state.includes("delete") && <DeleteModal />}
     </main>
   );
 };
