@@ -1,0 +1,22 @@
+.wrapper {
+  margin-inline: 10%;
+  margin-top: 5rem;
+
+  > h2 {
+    margin-left: 3rem;
+    font-size: 2.5rem;
+    color: #00F100;
+    margin-bottom: 8rem;
+  }
+
+  &:not(&:has(ul)) {
+    > h2 {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.empty {
+  font-size: 1.5rem;
+  margin-left: 3rem;
+}
