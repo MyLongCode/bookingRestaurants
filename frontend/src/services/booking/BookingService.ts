@@ -7,10 +7,20 @@ import {
 } from "@/lib/actions";
 import { RestaurantBooking } from "@/models/bookings/restaurant-booking.type";
 import { Page } from "@/models/page.type";
+import {Restaurant} from "@/models/restaurant/restaurant.type";
 
 export default class BookingService {
-  public static async getByUser(id: string | number): Promise<Page<Booking>> {
-    return await fetch.get(`/user/${id}/booking/`, "user bookings");
+  public static async getByUser(
+    id: string | number,
+    page: number,
+  ): Promise<Page<Booking>> {
+    return await fetch
+      .get(`/user/${id}/booking/?page=${page}`, "user bookings")
+      .then(async (data: Page<Booking>) => {
+        await revalidateUserBookings();
+        data.results.reverse();
+        return data;
+      });
   }
 
   public static async getByRestaurant(
@@ -23,7 +33,7 @@ export default class BookingService {
         `/restaurant/${id}/booking/?${query ? `${query}&` : ""}page=${page}`,
         `restaurant bookings ${id}`,
       )
-      .then(async (data) => {
+      .then(async (data: Page<RestaurantBooking>) => {
         await revalidateUserBookings();
         await revalidateRestaurantBookings(id);
         data.results.reverse();
