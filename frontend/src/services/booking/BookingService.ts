@@ -7,7 +7,7 @@ import {
 } from "@/lib/actions";
 import { RestaurantBooking } from "@/models/bookings/restaurant-booking.type";
 import { Page } from "@/models/page.type";
-import {Restaurant} from "@/models/restaurant/restaurant.type";
+import { Restaurant } from "@/models/restaurant/restaurant.type";
 
 export default class BookingService {
   public static async getByUser(
@@ -18,7 +18,6 @@ export default class BookingService {
       .get(`/user/${id}/booking/?page=${page}`, "user bookings")
       .then(async (data: Page<Booking>) => {
         await revalidateUserBookings();
-        data.results.reverse();
         return data;
       });
   }
@@ -36,7 +35,6 @@ export default class BookingService {
       .then(async (data: Page<RestaurantBooking>) => {
         await revalidateUserBookings();
         await revalidateRestaurantBookings(id);
-        data.results.reverse();
         return data;
       });
   }

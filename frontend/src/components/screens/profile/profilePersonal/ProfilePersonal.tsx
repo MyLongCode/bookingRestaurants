@@ -4,6 +4,7 @@ import Button from "@/components/shared/controls/button/Button";
 import Input from "@/components/shared/controls/input/Input";
 import styles from "./profilePersonal.module.scss";
 import ProfileInput from "@/screens/profile/profilePersonal/components/profileInput/ProfileInput";
+import LogoutButton from "@/screens/profile/profilePersonal/components/logoutButton/LogoutButton";
 
 const ProfilePersonal = () => {
   return (
@@ -27,6 +28,7 @@ const ProfilePersonal = () => {
         <ProfileInput variant={"birthday"} />
         <ProfileInput variant={"phone"} />
       </div>
+      <LogoutButton />
     </section>
   );
 };
