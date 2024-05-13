@@ -1,9 +1,11 @@
 .wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  cursor: pointer;
 }
 
 .logoContainer {
@@ -21,4 +23,20 @@
 .title {
   font-size: 2.5rem;
   text-align: center;
+}
+
+.favoriteBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: 2px solid #00F100;
+  padding: 10px;
+  border-radius: 50%;
+  transition-duration: 0.2s;
+  z-index: 1;
+
+  &:hover {
+    border-color: #00dc80;
+    border-radius: 40%;
+  }
 }

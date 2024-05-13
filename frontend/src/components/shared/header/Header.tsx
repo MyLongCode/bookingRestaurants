@@ -19,7 +19,7 @@ const Header = async ({}: HeaderProps) => {
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
           {session?.user && (
-            <HeaderNavLink href={"/favourites"} text={"Избранное"} />
+            <HeaderNavLink href={"/favorite"} text={"Избранное"} />
           )}
         </HeaderNav>
       ) : (

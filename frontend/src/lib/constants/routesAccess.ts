@@ -12,5 +12,5 @@ export const RoutesAccess = {
     "/dashboard/restaurant",
     "/dashboard/bookings",
   ],
-  user: [...authorizedRoutes],
+  user: [...authorizedRoutes, "/favorite"],
 };

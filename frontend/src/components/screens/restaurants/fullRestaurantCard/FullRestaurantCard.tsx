@@ -10,6 +10,12 @@ import useRestaurantTags from "@/hooks/restaurant/useRestaurantTags";
 import { is } from "immutable";
 import Loader from "@/components/shared/loader/Loader";
 import Rating from "@/components/shared/raiting/Rating";
+import { useSession } from "next-auth/react";
+import useFavorite from "@/hooks/user/useFavorite";
+import { useMemo } from "react";
+import FavoriteService from "@/services/user/FavoriteService";
+import toast from "react-hot-toast";
+import {queryClient} from "@/app/providers";
 
 type FullRestaurantCardProps = {
   title: string;
@@ -27,6 +33,29 @@ const FullRestaurantCard = ({
   address,
 }: FullRestaurantCardProps) => {
   const { data: tags, isSuccess } = useRestaurantTags(id);
+  const { data: session } = useSession();
+  const { data: favorite } = useFavorite();
+  const isFavorite = useMemo(
+    () => favorite?.some((fav) => fav.id === id),
+    [favorite, id],
+  );
+
+  const handleClick = async () => {
+    if (!session?.user?.id) return;
+
+    if (favorite && isFavorite) {
+      await FavoriteService.remove(session.user.id, id);
+
+      toast.success(`${title} был убран из избранного`);
+    } else {
+      await FavoriteService.add(session.user.id, id);
+      toast.success(`${title} был добавлен в избранное`);
+    }
+
+    await queryClient.invalidateQueries({
+      queryKey: ["favorite"],
+    });
+  };
 
   if (!isSuccess || !tags) return <Loader />;
 
@@ -36,9 +65,27 @@ const FullRestaurantCard = ({
         <Image className={styles.logo} src={logo} alt={""} fill sizes={"1"} />
       </div>
       <div className={styles.infoContainer}>
-        <p className={styles.title}>{title}</p>
-        <div className={styles.rating}>
-          <span>Рейтинг:</span> <Rating value={rating || 0} /> <span>{rating || 0}</span>
+        <div className={styles.infoTopContainer}>
+          <p className={styles.title}>{title}</p>
+          <Button
+            className={styles.favoriteBtn}
+            btnType={"button"}
+            btnStyle={"icon"}
+            padding={"no"}
+            iconSrc={
+              isFavorite ? "/icons/HearthFilled.svg" : "/icons/Hearth.svg"
+            }
+            onClick={async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              await handleClick();
+            }}
+          />
+          <div className={styles.rating}>
+            <span>Рейтинг:</span>{" "}
+            <Rating className={styles.ratingStars} value={rating || 0} />{" "}
+            <span>{rating?.toPrecision(2) || 0}</span>
+          </div>
         </div>
         <address className={styles.address}>{address}</address>
         <p className={styles.tags}>
