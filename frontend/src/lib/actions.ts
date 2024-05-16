@@ -14,6 +14,10 @@ export async function revalidateMenus() {
   revalidateTag("restaurant menu");
 }
 
+export async function revalidateFavorite() {
+  revalidateTag("favorite");
+}
+
 export async function revalidateRestaurantTags() {
   revalidateTag("restaurant tags");
 }

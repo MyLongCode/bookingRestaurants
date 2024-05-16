@@ -6,11 +6,13 @@ export const RoutesAccess = {
     "/dashboard/bookings",
     "/dashboard/restaurant",
     "/dashboard/employees",
+    "/favorite",
   ],
   employee: [
     ...authorizedRoutes,
     "/dashboard/restaurant",
     "/dashboard/bookings",
+    "/favorite",
   ],
   user: [...authorizedRoutes, "/favorite"],
 };
