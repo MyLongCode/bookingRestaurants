@@ -1,6 +1,6 @@
 export type UserRegister = {
   full_name: string;
   email: string;
-  role: "user" | "manager" | "employee";
+  role: "user" | "owner" | "employee";
   password: string;
 };

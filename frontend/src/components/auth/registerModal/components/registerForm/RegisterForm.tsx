@@ -9,6 +9,7 @@ import Checkbox from "@/components/shared/controls/checkbox/Checkbox";
 import InputError from "@/components/shared/inputError/InputError";
 import UserService from "@/services/user/UserService";
 import { signIn } from "next-auth/react";
+import RestaurantService from "@/services/restaurant/RestaurantService";
 
 const registerSchema = z
   .object({
@@ -43,8 +44,24 @@ const RegisterForm = () => {
       email: data.email,
       full_name: data.full_name,
       password: data.password,
-      role: data.isManager ? "manager" : "user",
-    }).then(async () => {
+      role: data.isManager ? "owner" : "user",
+    }).then(async (res) => {
+      if (data.isManager) {
+        await RestaurantService.create({
+          address: "Не указан",
+          capacityOnTable: 10,
+          description: "Подзаголовок, цитата, что-то в этом духе",
+          logo: null,
+          name: "Название ресторана",
+          phone: "Не указан",
+          preview: null,
+          rating: 0,
+          site: "Не указан",
+          schedule: [],
+          owner: Number(res.id),
+          reviews_count: 0,
+        });
+      }
       await signIn("credentials", {
         email: data.email,
         password: data.password,

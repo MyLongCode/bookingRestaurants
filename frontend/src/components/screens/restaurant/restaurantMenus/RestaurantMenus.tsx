@@ -29,17 +29,23 @@ const RestaurantMenus = ({ menus, editable }: RestaurantMenusProps) => {
           </Button>
         )}
       </div>
-      {menus.map((menu) => {
-        return (
-          <RestaurantMenu
-            key={menu.id}
-            id={menu.id}
-            name={menu.name}
-            category={menu.category}
-            editable={editable}
-          />
-        );
-      })}
+      {menus.length > 0 ? (
+        <div className={styles.menus}>
+          {menus.map((menu) => {
+            return (
+              <RestaurantMenu
+                key={menu.id}
+                id={menu.id}
+                name={menu.name}
+                category={menu.category}
+                editable={editable}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <p className={styles.empty}>Добавьте меню для редактирования</p>
+      )}
     </div>
   );
 };

@@ -42,6 +42,12 @@
 
 .preview {
   object-fit: cover;
+
+  &[src=""] {
+    transform: scale(2);
+    background-color: gray;
+    opacity: 0.3;
+  }
 }
 
 .logoContainer {
@@ -58,6 +64,10 @@
   object-fit: contain;
   aspect-ratio: 1 / 1;
   min-width: 120px;
+  &[src=""] {
+    transform: scale(2);
+    background-color: white;
+  }
 }
 
 .btns {

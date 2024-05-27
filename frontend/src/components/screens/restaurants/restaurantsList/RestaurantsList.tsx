@@ -16,23 +16,25 @@ const RestaurantsList = ({ restaurants, variant }: RestaurantsListProps) => {
     <ul className={clsx(variant === "full" ? styles.fullList : styles.list)}>
       {restaurants.map((restaurant) => {
         return (
-          <li key={restaurant.id}>
-            {variant === "full" ? (
-              <FullRestaurantCard
-                id={restaurant.id}
-                title={restaurant.name}
-                logo={restaurant.logo}
-                rating={restaurant.rating}
-                address={restaurant.address}
-              />
-            ) : (
-              <RestaurantCard
-                id={restaurant.id}
-                title={restaurant.name}
-                logo={restaurant.logo}
-              />
-            )}
-          </li>
+          restaurant.logo && (
+            <li key={restaurant.id}>
+              {variant === "full" ? (
+                <FullRestaurantCard
+                  id={restaurant.id}
+                  title={restaurant.name}
+                  logo={restaurant.logo}
+                  rating={restaurant.rating}
+                  address={restaurant.address}
+                />
+              ) : (
+                <RestaurantCard
+                  id={restaurant.id}
+                  title={restaurant.name}
+                  logo={restaurant.logo}
+                />
+              )}
+            </li>
+          )
         );
       })}
     </ul>

@@ -5,9 +5,9 @@ export type Restaurant = {
   name: string;
   address: string;
   description: string;
-  logo: string;
+  logo: string | null;
   phone: string;
-  preview: string;
+  preview: string | null;
   site: string;
   schedule: ScheduleDay[];
   capacityOnTable: number;

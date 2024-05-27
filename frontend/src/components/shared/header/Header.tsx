@@ -14,7 +14,7 @@ const Header = async ({}: HeaderProps) => {
   const role = session?.user?.role;
   return (
     <header className={styles.wrapper}>
-      {role !== "manager" && role !== "employee" ? (
+      {role !== "owner" && role !== "employee" ? (
         <HeaderNav>
           <HeaderNavLink href={"/"} text={"Главная"} />
           <HeaderNavLink href={"/restaurants"} text={"Рестораны"} />
@@ -32,7 +32,7 @@ const Header = async ({}: HeaderProps) => {
           />
 
           <HeaderNavLink href={"/dashboard/bookings"} text={"Брони"} />
-          {role === "manager" && (
+          {role === "owner" && (
             <HeaderNavLink href={"/dashboard/employees"} text={"Сотрудники"} />
           )}
           <HeaderNavLink href={"/favorite"} text={"Избранное"} />

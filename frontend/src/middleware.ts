@@ -10,7 +10,7 @@ export default withAuth(
       return NextResponse.redirect(new URL("/", req.url));
     }
 
-    if (user.role === "manager" && !user.currentRestaurant) {
+    if (user.role === "owner" && !user.currentRestaurant) {
       return NextResponse.redirect(new URL("/restaurants", req.url));
     }
   },

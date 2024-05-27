@@ -58,13 +58,13 @@ const RestaurantPage = async ({
   const role = session?.user.role;
 
   const editable =
-    role === "manager" && Number(id) === session?.user?.currentRestaurant;
+    role === "owner" && Number(id) === session?.user?.currentRestaurant;
 
   return (
     <main className={clsx(styles.wrapper)}>
       <RestaurantHero
-        imgSrc={restaurant.preview}
-        logoSrc={restaurant.logo}
+        imgSrc={restaurant.preview ?? ""}
+        logoSrc={restaurant.logo ?? ""}
         title={restaurant.name}
         description={restaurant.description}
         editable={editable}

@@ -12,6 +12,11 @@
   box-sizing: border-box;
 }
 
+html, body {
+  min-width: 100vw;
+  color-scheme: dark;
+}
+
 body {
   background-color: $bg-color;
   background-image: url("/Background.png");
@@ -27,7 +32,7 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-comfortaa);
+  font-family: var(--font-comfortaa), sans-serif;
 }
 
 ul {

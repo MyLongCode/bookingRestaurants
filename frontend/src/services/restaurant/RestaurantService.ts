@@ -39,6 +39,12 @@ export default class RestaurantService {
     return await fetch.get(`/restaurant/${id}/tag/`, "restaurant tags");
   }
 
+  public static async create(
+    data: Omit<Restaurant, "id"> & { owner: number; reviews_count: number },
+  ): Promise<Restaurant> {
+    return await axiosAuth.post(`/restaurant/`, data);
+  }
+
   public static async patchProfile(
     id: string | number,
     data: Partial<Restaurant>,

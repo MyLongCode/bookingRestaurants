@@ -1,7 +1,7 @@
 const authorizedRoutes = ["/profile"];
 
 export const RoutesAccess = {
-  manager: [
+  owner: [
     ...authorizedRoutes,
     "/dashboard/bookings",
     "/dashboard/restaurant",

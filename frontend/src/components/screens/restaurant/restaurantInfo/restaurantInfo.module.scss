@@ -7,6 +7,7 @@
   justify-content: center;
   color: $text-color-accent;
   text-decoration: none;
+  margin-inline: 7dvw;
 
   a {
     color: $text-color-main;
@@ -35,6 +36,7 @@
   border: 2px solid $restaurant-info-border-color;
   border-radius: 30px;
   padding: 32px;
+  flex: 3;
 }
 
 .text {
@@ -97,4 +99,5 @@
   border: 2px solid $restaurant-info-border-color;
   border-radius: 30px;
   padding: 32px;
+  flex: 2;
 }

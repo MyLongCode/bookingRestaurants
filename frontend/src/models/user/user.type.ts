@@ -3,7 +3,7 @@ export type User = {
   full_name: string;
   email: string;
   avatar: string;
-  role: "user" | "manager" | "employee";
+  role: "user" | "owner" | "employee";
   birth_date: string;
   phone_number: string;
 };
