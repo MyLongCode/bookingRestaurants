@@ -40,7 +40,6 @@ const Header = async ({}: HeaderProps) => {
       )}
       {session?.user && (
         <>
-          <HeaderNotifications />
           <Avatar />
         </>
       )}

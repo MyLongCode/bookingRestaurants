@@ -28,7 +28,6 @@ const ProfilePersonal = () => {
         <ProfileInput variant={"birthday"} />
         <ProfileInput variant={"phone"} />
       </div>
-      <LogoutButton />
     </section>
   );
 };
